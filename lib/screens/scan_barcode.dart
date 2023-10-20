@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:qr_quill/shared/constants.dart';
 
-class CreateQRCode extends StatefulWidget {
-  const CreateQRCode({super.key});
+class ScanBarcode extends StatefulWidget {
+  const ScanBarcode({super.key});
 
-  static const String id = 'create_qrrcode';
+  static const String id = 'scan_barcode';
 
   @override
-  State<CreateQRCode> createState() => _CreateQRCodeState();
+  State<ScanBarcode> createState() => _ScanBarcodeState();
 }
 
-class _CreateQRCodeState extends State<CreateQRCode> {
+class _ScanBarcodeState extends State<ScanBarcode> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(

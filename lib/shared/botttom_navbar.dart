@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:qr_quill/screens/create.dart';
+import 'package:qr_quill/screens/create_barcode.dart';
 import 'package:qr_quill/screens/create_qrcode.dart';
-import 'package:qr_quill/screens/settings.dart';
+import 'package:qr_quill/screens/scan_barcode.dart';
 import 'package:qr_quill/screens/scan_qrcode.dart';
+import 'package:qr_quill/screens/settings.dart';
+import 'package:qr_quill/screens/scan.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/custom_appbar.dart';
 
@@ -33,9 +37,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
       inactiveColorPrimary: kPrimaryColor.withOpacity(0.5),
       inactiveColorSecondary: kPrimaryColor.withOpacity(0.5),
       textStyle: kNavbarTextStyle,
-      routeAndNavigatorSettings:  const RouteAndNavigatorSettings(
-        initialRoute: CreateQRCode.id,
-        routes: {}
+      routeAndNavigatorSettings: RouteAndNavigatorSettings(
+        initialRoute: Create.id,
+        routes: {
+          CreateQRCode.id:(context) => const CreateQRCode(),
+          CreateBarcode.id:(context) => const CreateBarcode(),
+        }
       )
     ),
 
@@ -48,9 +55,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
       inactiveColorPrimary: kPrimaryColor.withOpacity(0.5),
       inactiveColorSecondary: kPrimaryColor.withOpacity(0.5),
       textStyle: kNavbarTextStyle,
-      routeAndNavigatorSettings:  const RouteAndNavigatorSettings(
-        initialRoute: ScanQRCode.id,
-        routes: {}
+      routeAndNavigatorSettings: RouteAndNavigatorSettings(
+        initialRoute: Scan.id,
+        routes: {
+          ScanQRCode.id:(context) => const ScanQRCode(),
+          ScanBarcode.id:(context) => const ScanBarcode(),
+        }
       )
     ),
 
@@ -75,8 +85,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   // screens
   List<Widget> _screens() => [
-    const CreateQRCode(),
-    const ScanQRCode(),
+    const Create(),
+    const Scan(),
     const Settings(),
   ];
 
