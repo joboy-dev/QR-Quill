@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:qr_quill/screens/settings.dart';
 import 'package:qr_quill/shared/botttom_navbar.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/navigator.dart';
