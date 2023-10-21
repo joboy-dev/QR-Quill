@@ -11,12 +11,14 @@ class DialogText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final theme = context.watch<ThemeSwitch>().isDarkMode;
+
     return Column(
       children: [
         Text(
           text,
           style: kNormalTextStyle.copyWith(
-            color: kTertiaryColor,
+            color: kFontTheme(context),
             fontSize: 20.0,
           ),
         ),

@@ -72,9 +72,9 @@ class _GetStartedState extends State<GetStarted> with SingleTickerProviderStateM
                               const SizedBox(height: 20.0),
                           
                               Text(
-                                'A quick and effective way to scan and create qr codes and barcodes.', 
+                                'A quick and effective way to scan create, and share qr codes and barcodes.', 
                                 style: kNormalTextStyle.copyWith(
-                                  color: kTertiaryColor,
+                                  color: kFontTheme(context),
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.bold,
                                 ),

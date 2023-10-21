@@ -9,14 +9,14 @@ import 'package:qr_quill/wrapper.dart';
 
 import '../../shared/dialog_text.dart';
 
-class EraseDataDialog extends StatefulWidget {
-  const EraseDataDialog({super.key});
+class ConfirmPinaDialog extends StatefulWidget {
+  const ConfirmPinaDialog({super.key});
 
   @override
-  State<EraseDataDialog> createState() => _EraseDataDialogState();
+  State<ConfirmPinaDialog> createState() => _ConfirmPinaDialogState();
 }
 
-class _EraseDataDialogState extends State<EraseDataDialog> {
+class _ConfirmPinaDialogState extends State<ConfirmPinaDialog> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -28,7 +28,7 @@ class _EraseDataDialogState extends State<EraseDataDialog> {
         ),
 
         const DialogText(
-          text: 'This is an irreversible process and all your data will be lost forever. Are you sure you want to do this?',
+          text: 'This is an irreversible process. Are you sure you want to do this?',
         ),
 
         DoubleButton(

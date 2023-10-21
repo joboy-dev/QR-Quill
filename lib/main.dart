@@ -37,7 +37,6 @@ class QRQuill extends StatelessWidget {
             useMaterial3: true,
             scaffoldBackgroundColor: kBgColorDark
           ),
-          // themeMode: theme.isDarkMode ? ThemeMode.dark : ThemeMode.light,
           themeMode: context.read<ThemeSwitch>().isDarkMode ? ThemeMode.dark : ThemeMode.light,
           debugShowCheckedModeBanner: false,
           initialRoute: Splash.id,

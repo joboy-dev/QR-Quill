@@ -45,7 +45,8 @@ class _SettingsState extends State<Settings> {
                             ? Icons.brightness_high_rounded
                             : Icons.nightlight,
                         iconColor: kSecondaryColor,
-                        textColor: theme ? kTertiaryColor: kPrimaryColor,
+                        // textColor: theme ? kTertiaryColor: kPrimaryColor,
+                        textColor: kFontTheme(context),
                         onPressed: () {},
                       ),
                     ),
@@ -75,7 +76,8 @@ class _SettingsState extends State<Settings> {
                   text: 'Change Pin', 
                   icon: Icons.lock, 
                   iconColor: kSecondaryColor,
-                  textColor:  theme ? kTertiaryColor: kPrimaryColor,
+                  // textColor:  theme ? kTertiaryColor: kPrimaryColor,
+                  textColor:  kFontTheme(context),
                   onPressed: () {},
                 ),
                 const SettingsDivider(),
@@ -118,7 +120,7 @@ class _SettingsState extends State<Settings> {
                       Text(
                         'Developed by Joboy-Dev.', 
                         style: kNormalTextStyle.copyWith(
-                          color: kTertiaryColor,
+                          color: kFontTheme(context),
                           fontSize: 15.0,
                           fontWeight: FontWeight.bold,
                         ),
