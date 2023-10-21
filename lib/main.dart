@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qr_quill/screens/auth/create_pin.dart';
+import 'package:qr_quill/screens/auth/login.dart';
 import 'package:qr_quill/screens/splash.dart';
 import 'package:qr_quill/services/provider/theme_switch.dart';
 import 'package:qr_quill/shared/botttom_navbar.dart';
@@ -39,6 +41,8 @@ class QRQuill extends StatelessWidget {
           initialRoute: Splash.id,
           routes: {
             Splash.id:(context) => const Splash(),
+            CreatePin.id:(context) => const CreatePin(),
+            Login.id:(context) => const Login(),
             BottomNavBar.id:(context) => const BottomNavBar()
           },
         );

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:qr_quill/screens/create_barcode.dart';
+import 'package:qr_quill/screens/create_qrcode.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/custom_appbar.dart';
+import 'package:qr_quill/shared/navigator.dart';
 
 class Create extends StatefulWidget {
   const Create({super.key});
@@ -30,7 +33,9 @@ class _CreateState extends State<Create> {
                   Expanded(
                     child: ColumnButtonIcon(
                       buttonText: 'Create QR Code',
-                      onPressed: () {},
+                      onPressed: () {
+                        navigatorPushNamed(context, CreateQRCode.id);
+                      },
                       buttonColor: kSecondaryColor,
                       icon: Icons.qr_code_2_rounded
                     ),
@@ -41,7 +46,9 @@ class _CreateState extends State<Create> {
                   Expanded(
                     child: ColumnButtonIcon(
                       buttonText: 'Create Bar Code',
-                      onPressed: () {},
+                      onPressed: () {
+                        navigatorPushNamed(context, CreateBarcode.id);
+                      },
                       buttonColor: kSecondaryColor,
                       icon: FontAwesomeIcons.barcode,
                     ),

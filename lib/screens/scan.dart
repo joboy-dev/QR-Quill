@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:qr_quill/screens/scan_barcode.dart';
+import 'package:qr_quill/screens/scan_qrcode.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/custom_appbar.dart';
+import 'package:qr_quill/shared/navigator.dart';
 
 class Scan extends StatefulWidget {
   const Scan({super.key});
@@ -30,7 +33,9 @@ class _ScanState extends State<Scan> {
                   Expanded(
                     child: ColumnButtonIcon(
                       buttonText: 'Scan QR Code',
-                      onPressed: () {},
+                      onPressed: () {
+                        navigatorPushNamed(context, ScanQRCode.id);
+                      },
                       buttonColor: kSecondaryColor,
                       icon: Icons.qr_code_scanner_rounded
                     ),
@@ -41,7 +46,9 @@ class _ScanState extends State<Scan> {
                   Expanded(
                     child: ColumnButtonIcon(
                       buttonText: 'Scan Bar Code',
-                      onPressed: () {},
+                      onPressed: () {
+                        navigatorPushNamed(context, ScanBarcode.id);
+                      },
                       buttonColor: kSecondaryColor,
                       icon: Icons.barcode_reader,
                     ),
