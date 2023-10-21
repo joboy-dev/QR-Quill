@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:qr_quill/screens/dialog_screens/erase_data.dart';
 import 'package:qr_quill/services/provider/theme_switch.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
+import 'package:qr_quill/shared/dialog.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -18,11 +20,9 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
-    // final switchTheme = Provider.of<ThemeSwitch>(context);
-    // bool theme = switchTheme.isDarkMode;
-
     // read contents of the provider
     final switchTheme = context.read<ThemeSwitch>();
+
     // watch darkmode value in provider
     bool theme = context.watch<ThemeSwitch>().isDarkMode;
     
@@ -43,9 +43,9 @@ class _SettingsState extends State<Settings> {
                             : 'Dark theme',
                         icon: theme
                             ? Icons.brightness_high_rounded
-                            : FontAwesomeIcons.moon,
+                            : Icons.nightlight,
                         iconColor: kSecondaryColor,
-                        fontSize: 22.0,
+                        textColor: theme ? kTertiaryColor: kPrimaryColor,
                         onPressed: () {},
                       ),
                     ),
@@ -66,14 +66,89 @@ class _SettingsState extends State<Settings> {
                           });
                         },
                       ),
-                    )
+                    ),
                   ],
+                ),
+                const SettingsDivider(),
+
+                IconTextButton(
+                  text: 'Change Pin', 
+                  icon: Icons.lock, 
+                  iconColor: kSecondaryColor,
+                  textColor:  theme ? kTertiaryColor: kPrimaryColor,
+                  onPressed: () {},
+                ),
+                const SettingsDivider(),
+
+                IconTextButton(
+                  text: 'Erase all data', 
+                  icon: FontAwesomeIcons.trash, 
+                  iconColor: kRedColor, 
+                  textColor: kRedColor,
+                  fontWeight: FontWeight.normal,
+                  onPressed: () {
+                    showDialogBox(context: context, screen: const EraseDataDialog());
+                  },
+                ),
+                const SettingsDivider(),
+
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      const Image(
+                        image: AssetImage('assets/images/logo.png'),
+                        height: 100,
+                        width: 100,
+                      ),
+                  
+                      const SizedBox(height: 10.0),
+                  
+                      Text(
+                        'QR Quill', 
+                        style: kNormalTextStyle.copyWith(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+
+                      const SizedBox(height: 10.0),
+                  
+                      Text(
+                        'Developed by Joboy-Dev.', 
+                        style: kNormalTextStyle.copyWith(
+                          color: kTertiaryColor,
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class SettingsDivider extends StatelessWidget {
+  const SettingsDivider({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 5.0),
+        Divider(color: kTertiaryColor),
+        const SizedBox(height: 10.0),
+      ],
     );
   }
 }

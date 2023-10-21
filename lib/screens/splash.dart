@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qr_quill/shared/botttom_navbar.dart';
+import 'package:qr_quill/screens/get_started.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/navigator.dart';
 
@@ -20,15 +20,15 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     // Initialize animation controller
-    controller = AnimationController(vsync: this, duration: kAnimationDuration2);
+    controller = AnimationController(vsync: this, duration: kAnimationDuration5);
 
     // Initialize animation
-    animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
+    animation = CurvedAnimation(parent: controller, curve: Curves.elasticOut);
 
     controller.forward();
     animation.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        navigatorPushReplacementNamed(context, BottomNavBar.id);
+        navigatorPushReplacementNamed(context, GetStarted.id);
       }
     });
 
