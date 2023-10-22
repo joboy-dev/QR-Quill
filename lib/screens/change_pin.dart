@@ -69,7 +69,7 @@ class _ChangePinState extends State<ChangePin> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            Icons.lock_rounded,
+                            Icons.lock_outline_rounded,
                             size: 200.0,
                             color: kSecondaryColor,
                           ),

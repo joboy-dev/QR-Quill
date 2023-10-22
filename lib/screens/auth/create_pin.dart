@@ -33,9 +33,9 @@ class _CreatePinState extends State<CreatePin> {
   Widget build(BuildContext context) {
     final pinStore = context.read<PinStorage>();
 
-    savePin(String pincode) {
+    savePin() {
       // check if pin is empty
-      if (pincode.isEmpty) {
+      if (pin.isEmpty) {
         setState(() {
           loading = false;
         });
@@ -43,7 +43,7 @@ class _CreatePinState extends State<CreatePin> {
       }
       else {
         // save pin to flutter secure storage
-        pinStore.setPin(pincode);
+        pinStore.setPin(pin);
         showSnackbar(context, 'Pin has been set.');
       }
     }
@@ -56,21 +56,18 @@ class _CreatePinState extends State<CreatePin> {
           pin = pincode;
           loading = true;
         });
-
         await Future.delayed(kAnimationDuration1);
 
         setState(() {
           loading = false;
         });
-
         showDialogBox(
           context: context, 
           screen: ConfirmPinDialog(
             pin: pincode,
             navFunction: () {
-              // save pin
-              savePin(pin);
-
+              // run function to save actual pin entered by user
+              savePin();
               // remove dialog box
               navigatorPop(context);
               // navigate to login screen
@@ -102,7 +99,7 @@ class _CreatePinState extends State<CreatePin> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            Icons.lock_rounded,
+                            Icons.lock_outline_rounded,
                             size: 200.0,
                             color: kSecondaryColor,
                           ),

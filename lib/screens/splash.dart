@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:qr_quill/screens/get_started.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/navigator.dart';
 import 'package:qr_quill/wrapper.dart';
@@ -30,7 +29,6 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
     animation.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         navigatorPushReplacementNamed(context, Wrapper.id);
-        // navigatorPushReplacementNamed(context, GetStarted.id);
       }
     });
 

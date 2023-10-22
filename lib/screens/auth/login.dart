@@ -4,11 +4,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qr_quill/screens/dialog_screens/confirm_pin.dart';
 import 'package:qr_quill/services/provider/pin_storage.dart';
 import 'package:qr_quill/shared/botttom_navbar.dart';
 import 'package:qr_quill/shared/constants.dart';
-import 'package:qr_quill/shared/dialog.dart';
 import 'package:qr_quill/shared/loader.dart';
 import 'package:qr_quill/shared/navigator.dart';
 import 'package:qr_quill/shared/snackbar.dart';
@@ -33,15 +31,15 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     final pinStore = context.read<PinStorage>();
 
-    checkPin(String pincode) async {
-      if (pincode != pinStore.pin) {
+    checkPin() async {
+      if (pin != pinStore.pin) {
         showSnackbar(context, 'Pin is incorrect. Try again.');
       } else {
         setState(() {
           pinCorrect = true;
         });
-        await Future.delayed(kAnimationDuration2);
         showSnackbar(context, 'Pin is correct. Welcome.');
+        await Future.delayed(kAnimationDuration2);
         navigatorPushReplacementNamed(context, BottomNavBar.id);
       }
     }
@@ -59,7 +57,8 @@ class _LoginState extends State<Login> {
           loading = false;
         });
 
-        checkPin(pin);
+        // run function to check actual pin entered by user
+        checkPin();
       } else {
         
       }
@@ -79,10 +78,18 @@ class _LoginState extends State<Login> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
-                            pinCorrect ? Icons.lock_open_rounded : Icons.lock_rounded, // change icon if pin entered is correct
-                            size: 200.0,
-                            color: kSecondaryColor,
+                          AnimatedContainer(
+                            duration: kAnimationDuration2,
+                            child: pinCorrect ? Icon(
+                              Icons.lock_open_rounded,
+                              size: 200.0,
+                              color: kSecondaryColor,
+                            ) :
+                            Icon(
+                              Icons.lock_outline_rounded,
+                              size: 200.0,
+                              color: kSecondaryColor,
+                            ),
                           ),
             
                           const SizedBox(height: 20.0),

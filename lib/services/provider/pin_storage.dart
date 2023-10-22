@@ -24,6 +24,7 @@ class PinStorage extends ChangeNotifier{
   void clearPin() async {
     // delete prin from storage
     await storage.delete(key: key);
+    
     // reset pin in provider
     _pin = null;
     notifyListeners();
