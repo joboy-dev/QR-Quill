@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:qr_quill/screens/auth/login.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/dialog_header.dart';
