@@ -4,6 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class PinStorage extends ChangeNotifier{
+  // run loadPin function as the class is instantiated
+  PinStorage() {
+    loadPin();
+  }
+  
   String? _pin ;
   String get pin => _pin!;
 
@@ -34,11 +39,6 @@ class PinStorage extends ChangeNotifier{
     _pin = await storage.read(key: key);
     print('Loading pin: $_pin');
     return _pin;
-  }
-
-  // run loadPin function as the class is instantiated
-  PinStorage() {
-    loadPin();
   }
 
 }

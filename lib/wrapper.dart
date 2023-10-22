@@ -33,6 +33,6 @@ class _WrapperState extends State<Wrapper> {
   
   @override
   Widget build(BuildContext context) {
-    return _pin == null ? const GetStarted() : const Login();
+    return _pin != null ? const Login() : const GetStarted();
   }
 }
