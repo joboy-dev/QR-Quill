@@ -44,7 +44,7 @@ class _CreatePinState extends State<CreatePin> {
       else {
         // save pin to flutter secure storage
         pinStore.setPin(pin);
-        showSnackbar(context, 'Pin has been set.');
+        showSnackbar(context, 'Pin has been set to $pin.');
       }
     }
 

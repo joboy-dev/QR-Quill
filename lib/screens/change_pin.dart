@@ -3,12 +3,12 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:qr_quill/screens/dialog_screens/confirm_pin.dart';
-import 'package:qr_quill/shared/botttom_navbar.dart';
+import 'package:provider/provider.dart';
+import 'package:qr_quill/services/provider/pin_storage.dart';
 import 'package:qr_quill/shared/constants.dart';
-import 'package:qr_quill/shared/dialog.dart';
 import 'package:qr_quill/shared/loader.dart';
 import 'package:qr_quill/shared/navigator.dart';
+import 'package:qr_quill/shared/snackbar.dart';
 import 'package:qr_quill/shared/textfield.dart';
 
 class ChangePin extends StatefulWidget {
@@ -25,34 +25,44 @@ class _ChangePinState extends State<ChangePin> {
   String pin = '';
   bool loading = false;
 
-  validateForm(String pincode) async {
-    if (_formKey.currentState!.validate()) {
-      log(pincode);
-      setState(() {
-        pin = pincode;
-        loading = true;
-      });
-      await Future.delayed(kAnimationDuration1);
-      showDialogBox(
-        context: context, 
-        screen: ConfirmPinDialog(
-          pin: pincode,
-          navFunction: () {
-            // navigatorPop(context);
-            navigatorPushReplacementNamed(context, BottomNavBar.id);
-          },
-        )
-      );
-      setState(() {
-        loading = false;
-      });
-    } else {
-      
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
+    final pinStore = context.read<PinStorage>();
+
+    savePin() {
+      // check if pin is empty
+      if (pin.isEmpty) {
+        setState(() {
+          loading = false;
+        });
+        showSnackbar(context, 'Pin cannot be empty. Enter your pin.');
+      }
+      else {
+        // save pin to flutter secure storage
+        pinStore.setPin(pin);
+        showSnackbar(context, 'Pin has been set to $pin.');
+      }
+    }
+
+    validateForm(String pincode) async {
+      if (_formKey.currentState!.validate()) {
+        log(pincode);
+        setState(() {
+          pin = pincode;
+          loading = true;
+        });
+        await Future.delayed(kAnimationDuration2);
+        setState(() {
+          loading = false;
+        });
+        savePin();
+        navigatorPop(context);
+      } else {
+        
+      }
+    }
+
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(

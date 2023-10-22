@@ -3,7 +3,6 @@ import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/dialog_header.dart';
 import 'package:qr_quill/shared/dialog_text.dart';
-import 'package:qr_quill/shared/navigator.dart';
 
 class ConfirmPinDialog extends StatefulWidget {
   const ConfirmPinDialog({super.key, required this.pin, required this.navFunction});
