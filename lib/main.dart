@@ -4,6 +4,7 @@ import 'package:qr_quill/screens/auth/create_pin.dart';
 import 'package:qr_quill/screens/auth/login.dart';
 import 'package:qr_quill/screens/splash.dart';
 import 'package:qr_quill/screens/get_started.dart';
+import 'package:qr_quill/services/provider/pin_storage.dart';
 import 'package:qr_quill/services/provider/theme_switch.dart';
 import 'package:qr_quill/shared/botttom_navbar.dart';
 import 'package:qr_quill/shared/constants.dart';
@@ -14,6 +15,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeSwitch()),
+        ChangeNotifierProvider(create: (_) => PinStorage()),
       ],
       child: const QRQuill(),
     ),

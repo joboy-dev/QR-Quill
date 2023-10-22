@@ -1,44 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:qr_quill/screens/get_started.dart';
+import 'package:qr_quill/screens/auth/login.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/dialog_header.dart';
+import 'package:qr_quill/shared/dialog_text.dart';
 import 'package:qr_quill/shared/navigator.dart';
-import 'package:qr_quill/wrapper.dart';
 
-import '../../shared/dialog_text.dart';
+class ConfirmPinDialog extends StatefulWidget {
+  const ConfirmPinDialog({super.key, required this.pin, required this.navFunction});
 
-class ConfirmPinaDialog extends StatefulWidget {
-  const ConfirmPinaDialog({super.key});
+  final String pin;
+  final Function() navFunction;
 
   @override
-  State<ConfirmPinaDialog> createState() => _ConfirmPinaDialogState();
+  State<ConfirmPinDialog> createState() => _ConfirmPinDialogState();
 }
 
-class _ConfirmPinaDialogState extends State<ConfirmPinaDialog> {
+class _ConfirmPinDialogState extends State<ConfirmPinDialog> {
+  
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const DialogHeader(
-          headerText: 'Erase Data', 
-          mainColor: kRedColor,
-          icon: FontAwesomeIcons.trash,
+        DialogHeader(
+          headerText: 'Confirm Pin', 
+          mainColor: kSecondaryColor,
+          icon: Icons.lock_rounded,
         ),
 
-        const DialogText(
-          text: 'This is an irreversible process. Are you sure you want to do this?',
+        DialogText(
+          text: '${widget.pin} will be your pin. Are you sure?',
         ),
 
         DoubleButton(
           inactiveButton: false, 
           button2Text: 'Yes', 
           button2Color: kSecondaryColor, 
-          button2onPressed: () {
-            navigatorPushReplacementNamed(context, GetStarted.id);
-            // navigatorPushReplacementNamed(context, Wrapper.id);
-          }
+          button2onPressed: widget.navFunction,
         )
       ],
     );

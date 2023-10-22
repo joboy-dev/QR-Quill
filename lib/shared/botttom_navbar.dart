@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:qr_quill/screens/change_pin.dart';
 import 'package:qr_quill/screens/create.dart';
 import 'package:qr_quill/screens/create_barcode.dart';
 import 'package:qr_quill/screens/create_qrcode.dart';
@@ -73,6 +74,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
       inactiveColorPrimary: kPrimaryColor.withOpacity(0.5),
       inactiveColorSecondary: kPrimaryColor.withOpacity(0.5),
       textStyle: kNavbarTextStyle,
+      routeAndNavigatorSettings: RouteAndNavigatorSettings(
+        initialRoute: Settings.id,
+        routes: {
+          ChangePin.id:(context) => const ChangePin(),
+        }
+      )
     ),
   ];
 
@@ -107,6 +114,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         ),
         navBarHeight: MediaQuery.of(context).size.height * 0.085,
         navBarStyle: NavBarStyle.style11,
+        hideNavigationBarWhenKeyboardShows: true,
         onItemSelected: (value) {
           setState(() {
             _index = value;

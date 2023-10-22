@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_quill/screens/get_started.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/navigator.dart';
+import 'package:qr_quill/wrapper.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -28,7 +29,8 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
     controller.forward();
     animation.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        navigatorPushReplacementNamed(context, GetStarted.id);
+        navigatorPushReplacementNamed(context, Wrapper.id);
+        // navigatorPushReplacementNamed(context, GetStarted.id);
       }
     });
 

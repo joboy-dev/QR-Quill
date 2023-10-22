@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:qr_quill/screens/get_started.dart';
+import 'package:qr_quill/services/provider/pin_storage.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/dialog_header.dart';
 import 'package:qr_quill/shared/navigator.dart';
+import 'package:qr_quill/shared/snackbar.dart';
 import 'package:qr_quill/wrapper.dart';
 
 import '../../shared/dialog_text.dart';
@@ -36,8 +38,10 @@ class _EraseDataDialogState extends State<EraseDataDialog> {
           button2Text: 'Yes', 
           button2Color: kSecondaryColor, 
           button2onPressed: () {
-            navigatorPushReplacementNamed(context, GetStarted.id);
-            // navigatorPushReplacementNamed(context, Wrapper.id);
+            // navigatorPushReplacementNamed(context, GetStarted.id);
+            PinStorage().clearPin();
+            navigatorPushReplacementNamed(context, Wrapper.id);
+            showSnackbar(context, 'All data cleared.');
           }
         )
       ],

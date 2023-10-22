@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:qr_quill/screens/change_pin.dart';
 import 'package:qr_quill/screens/dialog_screens/erase_data.dart';
 import 'package:qr_quill/services/provider/theme_switch.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/dialog.dart';
+import 'package:qr_quill/shared/navigator.dart';
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -78,7 +80,9 @@ class _SettingsState extends State<Settings> {
                   iconColor: kSecondaryColor,
                   // textColor:  theme ? kTertiaryColor: kPrimaryColor,
                   textColor:  kFontTheme(context),
-                  onPressed: () {},
+                  onPressed: () {
+                    navigatorPushNamed(context, ChangePin.id);
+                  },
                 ),
                 const SettingsDivider(),
 
