@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:qr_quill/screens/auth/login.dart';
+import 'package:qr_quill/screens/auth/verify_pin.dart';
 import 'package:qr_quill/screens/get_started.dart';
 import 'package:qr_quill/services/provider/pin_storage.dart';
 
@@ -34,6 +34,6 @@ class _WrapperState extends State<Wrapper> {
   @override
   Widget build(BuildContext context) {
     print('Wrapper: $_pin');
-    return _pin != null ? const Login() : const GetStarted();
+    return _pin != null ? const VerifyPin() : const GetStarted();
   }
 }

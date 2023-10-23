@@ -74,7 +74,7 @@ class _ChangePinState extends State<ChangePin> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.6,
+                      height: kHeightWidth(context).height * 0.6,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -89,7 +89,7 @@ class _ChangePinState extends State<ChangePin> {
                           Text(
                             'Change Your Pin', 
                             style: kNormalTextStyle.copyWith(
-                              fontSize: 35.0,
+                              fontSize: 25.0,
                               fontWeight: FontWeight.bold,
                             ),
                           ),

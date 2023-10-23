@@ -15,6 +15,11 @@ Color kFontTheme(BuildContext context) {
   return theme ? kTertiaryColor : kPrimaryColor;
 }
 
+// RESPONSIVENESS
+kHeightWidth(BuildContext context) {
+  return MediaQuery.of(context).size;
+}
+
 const kAppPadding = EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0);
 
 // ANIMATION DURATION

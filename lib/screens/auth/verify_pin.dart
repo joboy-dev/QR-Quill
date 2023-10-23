@@ -4,9 +4,10 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qr_quill/screens/auth/verify_pin.dart';
-import 'package:qr_quill/screens/dialog_screens/confirm_pin.dart';
+import 'package:qr_quill/screens/dialog_screens/reset_pin_confirmation.dart';
 import 'package:qr_quill/services/provider/pin_storage.dart';
+import 'package:qr_quill/shared/botttom_navbar.dart';
+import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/dialog.dart';
 import 'package:qr_quill/shared/loader.dart';
@@ -14,75 +15,60 @@ import 'package:qr_quill/shared/navigator.dart';
 import 'package:qr_quill/shared/snackbar.dart';
 import 'package:qr_quill/shared/textfield.dart';
 
-class CreatePin extends StatefulWidget {
-  const CreatePin({super.key});
+class VerifyPin extends StatefulWidget {
+  const VerifyPin({super.key});
 
-  static const String id = 'create_oin';
+  static const String id = 'verify_pin';
 
   @override
-  State<CreatePin> createState() => _CreatePinState();
+  State<VerifyPin> createState() => _VerifyPinState();
 }
 
-class _CreatePinState extends State<CreatePin> {
+class _VerifyPinState extends State<VerifyPin> {
   final _formKey = GlobalKey<FormState>();
   String pin = '';
   bool loading = false;
-
+  bool pinCorrect = false;
 
   @override
   Widget build(BuildContext context) {
     final pinStore = context.read<PinStorage>();
 
-    savePin() {
-      // check if pin is empty
-      if (pin.isEmpty) {
+    checkPin() async {
+      if (pin != pinStore.pin) {
         setState(() {
-          loading = false;
+          pin = '';
         });
-        showSnackbar(context, 'Pin cannot be empty. Enter your pin.');
-      }
-      else {
-        // save pin to flutter secure storage
-        pinStore.setPin(pin);
-        showSnackbar(context, 'Pin has been set to $pin.');
+        showSnackbar(context, 'Pin is incorrect. Try again.');
+      } else {
+        setState(() {
+          pinCorrect = true;
+        });
+        showSnackbar(context, 'Pin is correct. Welcome.');
+        await Future.delayed(kAnimationDuration2);
+        navigatorPushReplacementNamed(context, BottomNavBar.id);
       }
     }
 
     validateForm(String pincode) async {
       if (_formKey.currentState!.validate()) {
         log(pincode);
-
         setState(() {
           pin = pincode;
           loading = true;
         });
-        await Future.delayed(kAnimationDuration1);
 
+        await Future.delayed(kAnimationDuration2);
         setState(() {
           loading = false;
         });
-        showDialogBox(
-          context: context, 
-          screen: ConfirmPinDialog(
-            pin: pincode,
-            navFunction: () {
-              // run function to save actual pin entered by user
-              savePin();
-              // remove dialog box
-              navigatorPop(context);
-              // navigate to login screen
-              navigatorPushReplacementNamed(context, VerifyPin.id);
-            },
-          )
-        );
+
+        // run function to check actual pin entered by user
+        checkPin();
       } else {
-        setState(() {
-          loading = false;
-        });
-        showSnackbar(context, 'There was an issue with validation .Try again.');
+        
       }
     }
-
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -94,24 +80,42 @@ class _CreatePinState extends State<CreatePin> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.8,
+                      height: kHeightWidth(context).height * 0.8,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
-                            Icons.lock_outline_rounded,
-                            size: 200.0,
-                            color: kSecondaryColor,
+                          AnimatedContainer(
+                            duration: kAnimationDuration2,
+                            child: pinCorrect ? Icon(
+                              Icons.lock_open_rounded,
+                              size: 200.0,
+                              color: kSecondaryColor,
+                            ) :
+                            Icon(
+                              Icons.lock_outline_rounded,
+                              size: 200.0,
+                              color: kSecondaryColor,
+                            ),
                           ),
             
                           const SizedBox(height: 20.0),
             
-                          Text(
-                            'Set Your Pin', 
+                          Text( 
+                            'Enter your Pin', 
                             style: kNormalTextStyle.copyWith(
                               fontSize: 25.0,
                               fontWeight: FontWeight.bold,
                             ),
+                          ),
+
+                          const SizedBox(height: 20.0),
+
+                          ButtonText(
+                            firstText: 'Can\'t remember your pin? ', 
+                            secondText: 'Reset Pin', 
+                            onTap: () {
+                              showDialogBox(context: context, screen: const ResetPinConfirmationDialog());
+                            },
                           ),
             
                           const SizedBox(height: 20.0),

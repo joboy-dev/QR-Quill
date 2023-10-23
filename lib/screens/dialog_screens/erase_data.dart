@@ -4,11 +4,10 @@ import 'package:qr_quill/services/provider/pin_storage.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/dialog_header.dart';
+import 'package:qr_quill/shared/dialog_text.dart';
 import 'package:qr_quill/shared/navigator.dart';
 import 'package:qr_quill/shared/snackbar.dart';
 import 'package:qr_quill/wrapper.dart';
-
-import '../../shared/dialog_text.dart';
 
 class EraseDataDialog extends StatefulWidget {
   const EraseDataDialog({super.key});

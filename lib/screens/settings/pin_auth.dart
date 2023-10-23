@@ -4,24 +4,27 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qr_quill/screens/dialog_screens/reset_pin_confirmation.dart';
+import 'package:qr_quill/screens/settings/change_pin.dart';
 import 'package:qr_quill/services/provider/pin_storage.dart';
-import 'package:qr_quill/shared/botttom_navbar.dart';
+import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
+import 'package:qr_quill/shared/dialog.dart';
 import 'package:qr_quill/shared/loader.dart';
 import 'package:qr_quill/shared/navigator.dart';
 import 'package:qr_quill/shared/snackbar.dart';
 import 'package:qr_quill/shared/textfield.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class PinAuth extends StatefulWidget {
+  const PinAuth({super.key});
 
-  static const String id = 'login';
+  static const String id = 'pin_auth';
 
   @override
-  State<Login> createState() => _LoginState();
+  State<PinAuth> createState() => _PinAuthState();
 }
 
-class _LoginState extends State<Login> {
+class _PinAuthState extends State<PinAuth> {
   final _formKey = GlobalKey<FormState>();
   String pin = '';
   bool loading = false;
@@ -33,14 +36,17 @@ class _LoginState extends State<Login> {
 
     checkPin() async {
       if (pin != pinStore.pin) {
+        setState(() {
+          pin = '';
+        });
         showSnackbar(context, 'Pin is incorrect. Try again.');
       } else {
         setState(() {
           pinCorrect = true;
         });
-        showSnackbar(context, 'Pin is correct. Welcome.');
+        showSnackbar(context, 'Pin is correct. Change your pin.');
         await Future.delayed(kAnimationDuration2);
-        navigatorPushReplacementNamed(context, BottomNavBar.id);
+        navigatorPushReplacementNamed(context, ChangePin.id);
       }
     }
 
@@ -74,7 +80,7 @@ class _LoginState extends State<Login> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.8,
+                      height: kHeightWidth(context).height * 0.7,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -95,11 +101,21 @@ class _LoginState extends State<Login> {
                           const SizedBox(height: 20.0),
             
                           Text( 
-                            'Enter Your Pin', 
+                            'Enter your Pin', 
                             style: kNormalTextStyle.copyWith(
-                              fontSize: 35.0,
+                              fontSize: 25.0,
                               fontWeight: FontWeight.bold,
                             ),
+                          ),
+
+                          const SizedBox(height: 20.0),
+
+                          ButtonText(
+                            firstText: 'Can\'t remember your pin? ', 
+                            secondText: 'Reset Pin', 
+                            onTap: () {
+                              showDialogBox(context: context, screen: const ResetPinConfirmationDialog());
+                            },
                           ),
             
                           const SizedBox(height: 20.0),

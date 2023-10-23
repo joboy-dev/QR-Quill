@@ -20,7 +20,7 @@ class DialogHeader extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: mainColor, size: 20.0),
+            Icon(icon, color: mainColor, size: 40.0),
             const SizedBox(width: 20.0),
             Text(
               headerText,

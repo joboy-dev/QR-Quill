@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import 'package:qr_quill/screens/change_pin.dart';
-import 'package:qr_quill/screens/create.dart';
-import 'package:qr_quill/screens/create_barcode.dart';
-import 'package:qr_quill/screens/create_qrcode.dart';
-import 'package:qr_quill/screens/scan_barcode.dart';
-import 'package:qr_quill/screens/scan_qrcode.dart';
-import 'package:qr_quill/screens/settings.dart';
-import 'package:qr_quill/screens/scan.dart';
+import 'package:qr_quill/screens/create/create.dart';
+import 'package:qr_quill/screens/create/create_barcode.dart';
+import 'package:qr_quill/screens/create/create_qrcode.dart';
+import 'package:qr_quill/screens/scan/scan.dart';
+import 'package:qr_quill/screens/scan/scan_barcode.dart';
+import 'package:qr_quill/screens/scan/scan_qrcode.dart';
+import 'package:qr_quill/screens/settings/change_pin.dart';
+import 'package:qr_quill/screens/settings/pin_auth.dart';
+import 'package:qr_quill/screens/settings/settings.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/custom_appbar.dart';
 
@@ -78,6 +79,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
         initialRoute: Settings.id,
         routes: {
           ChangePin.id:(context) => const ChangePin(),
+          PinAuth.id:(context) => const PinAuth(),
+          // VerifyPin.id:(context) => VerifyPin(
+          //   navigate: () {
+          //     navigatorPushReplacementNamed(context, ChangePin.id);
+          //   },
+          // ),
         }
       )
     ),
@@ -85,8 +92,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   // app bars
   List<CustomAppbar> _appbars() => [
-    const CustomAppbar(title: 'Create', icon: Icons.qr_code_2_rounded),
-    const CustomAppbar(title: 'Scan', icon: Icons.qr_code_scanner_rounded),
+    const CustomAppbar(title: 'Create QR and Barcode', icon: Icons.qr_code_2_rounded),
+    const CustomAppbar(title: 'Scan QR and Barcode', icon: Icons.qr_code_scanner_rounded),
     const CustomAppbar(title: 'Settings', icon: Icons.settings),
   ];
 
@@ -112,7 +119,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           duration: kAnimationDuration1,
           curve: Curves.fastOutSlowIn
         ),
-        navBarHeight: MediaQuery.of(context).size.height * 0.085,
+        navBarHeight: kHeightWidth(context).height * 0.085,
         navBarStyle: NavBarStyle.style11,
         hideNavigationBarWhenKeyboardShows: true,
         onItemSelected: (value) {

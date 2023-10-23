@@ -69,7 +69,7 @@ class ColumnButtonIcon extends StatelessWidget {
     return MaterialButton(
       onPressed: onPressed,
       minWidth: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.5,
+      height: kHeightWidth(context).height * 0.5,
       color: buttonColor,
       focusColor: buttonColor.withOpacity(0.5),
       elevation: 2.0,
@@ -81,7 +81,7 @@ class ColumnButtonIcon extends StatelessWidget {
       child: Column(
         children: [
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Icon(
               icon,
               size: 70.0,
@@ -193,6 +193,40 @@ class DoubleButton extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class ButtonText extends StatelessWidget {
+  const ButtonText({
+    super.key,
+    required this.firstText,
+    required this.secondText,
+    required this.onTap,
+  });
+
+  final String firstText, secondText;
+  final Function() onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: RichText(
+        text: TextSpan(
+          text: firstText,
+          style: kNormalTextStyle.copyWith(color: kFontTheme(context)),
+          children: [
+            TextSpan(
+              text: secondText,
+              style: kNormalTextStyle.copyWith(
+                color: kSecondaryColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

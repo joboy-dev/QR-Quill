@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:qr_quill/screens/change_pin.dart';
 import 'package:qr_quill/screens/dialog_screens/erase_data.dart';
+import 'package:qr_quill/screens/settings/pin_auth.dart';
 import 'package:qr_quill/services/provider/theme_switch.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
@@ -78,10 +78,10 @@ class _SettingsState extends State<Settings> {
                   text: 'Change Pin', 
                   icon: Icons.lock, 
                   iconColor: kSecondaryColor,
-                  // textColor:  theme ? kTertiaryColor: kPrimaryColor,
                   textColor:  kFontTheme(context),
                   onPressed: () {
-                    navigatorPushNamed(context, ChangePin.id);
+                    navigatorPushNamed(context, PinAuth.id);
+                    // navigatorPushNamed(context, VerifyPin.id);
                   },
                 ),
                 const SettingsDivider(),
@@ -99,7 +99,7 @@ class _SettingsState extends State<Settings> {
                 const SettingsDivider(),
 
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.5,
+                  height: kHeightWidth(context).height * 0.5,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [

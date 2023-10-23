@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_quill/screens/auth/create_pin.dart';
-import 'package:qr_quill/screens/auth/login.dart';
+import 'package:qr_quill/screens/auth/verify_pin.dart';
 import 'package:qr_quill/screens/splash.dart';
 import 'package:qr_quill/screens/get_started.dart';
 import 'package:qr_quill/services/provider/pin_storage.dart';
@@ -47,7 +47,7 @@ class QRQuill extends StatelessWidget {
             Wrapper.id:(context) => const Wrapper(),
             GetStarted.id:(context) => const GetStarted(),
             CreatePin.id:(context) => const CreatePin(),
-            Login.id:(context) => const Login(),
+            VerifyPin.id:(context) => const VerifyPin(),
             BottomNavBar.id:(context) => const BottomNavBar()
           },
         );

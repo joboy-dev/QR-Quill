@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:qr_quill/screens/create_barcode.dart';
-import 'package:qr_quill/screens/create_qrcode.dart';
+import 'package:qr_quill/screens/scan/scan_barcode.dart';
+import 'package:qr_quill/screens/scan/scan_qrcode.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/custom_appbar.dart';
 import 'package:qr_quill/shared/navigator.dart';
 
-class Create extends StatefulWidget {
-  const Create({super.key});
+class Scan extends StatefulWidget {
+  const Scan({super.key});
 
-  static const String id = 'create';
+  static const String id = 'scan';
 
   @override
-  State<Create> createState() => _CreateState();
+  State<Scan> createState() => _ScanState();
 }
 
-class _CreateState extends State<Create> {
+class _ScanState extends State<Scan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,12 +32,12 @@ class _CreateState extends State<Create> {
                 children: [
                   Expanded(
                     child: ColumnButtonIcon(
-                      buttonText: 'Create QR Code',
+                      buttonText: 'Scan QR Code',
                       onPressed: () {
-                        navigatorPushNamed(context, CreateQRCode.id);
+                        navigatorPushNamed(context, ScanQRCode.id);
                       },
                       buttonColor: kSecondaryColor,
-                      icon: Icons.qr_code_2_rounded
+                      icon: Icons.qr_code_scanner_rounded
                     ),
                   ),
 
@@ -45,12 +45,12 @@ class _CreateState extends State<Create> {
 
                   Expanded(
                     child: ColumnButtonIcon(
-                      buttonText: 'Create Bar Code',
+                      buttonText: 'Scan Bar Code',
                       onPressed: () {
-                        navigatorPushNamed(context, CreateBarcode.id);
+                        navigatorPushNamed(context, ScanBarcode.id);
                       },
                       buttonColor: kSecondaryColor,
-                      icon: FontAwesomeIcons.barcode,
+                      icon: Icons.barcode_reader,
                     ),
                   )
                 ]
@@ -60,16 +60,32 @@ class _CreateState extends State<Create> {
             const SizedBox(height: 30.0),
 
             Expanded(
-              flex: 2,
+              flex: 4,
               child: Column(
                 children: [
                   CustomAppbar(
-                    title: 'Created QR/Bar Codes',
-                    icon: FontAwesomeIcons.accessibleIcon,
+                    title: 'Scan History',
+                    icon: FontAwesomeIcons.clockRotateLeft,
                     titleColor: kSecondaryColor,
                     backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                     elevation: 0.0,
-                  )
+                  ),
+
+                  SizedBox(
+                    height: kHeightWidth(context).height * 0.52,
+                    child: Padding(
+                      padding: kAppPadding,
+                      child: ListView.builder(
+                        itemCount: 50,
+                        itemBuilder: (context, index) {
+                          return Text(
+                            'hi', 
+                            style: kNormalTextStyle,
+                          );
+                        },
+                      ),
+                    ),
+                  ),
                 ],
               )
             )
