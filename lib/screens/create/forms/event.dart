@@ -1,15 +1,22 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/textfield.dart';
 
 class EventForm extends StatefulWidget {
-  const EventForm({
-    super.key, 
+  EventForm({
+    super.key,
+    required this.eventTitle,
+    required this.eventLocation,
     this.startDate,
     this.endDate,
     this.startTime,
     this.endTime,
   });
+
+  String eventTitle;
+  String eventLocation;
 
   final String? startDate;
   final String? endDate;
@@ -30,7 +37,7 @@ class _EventFormState extends State<EventForm> with SingleTickerProviderStateMix
           textColor: kSecondaryColor,
           onChanged: (value) {
             setState(() {
-              // title = value!;
+              widget.eventTitle = value!;
             });
           }, 
           enabledBorderColor: kFontTheme(context), 
@@ -49,7 +56,7 @@ class _EventFormState extends State<EventForm> with SingleTickerProviderStateMix
           textColor: kSecondaryColor,
           onChanged: (value) {
             setState(() {
-              // title = value!;
+              widget.eventLocation = value!;
             });
           }, 
           enabledBorderColor: kFontTheme(context), 

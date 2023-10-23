@@ -27,6 +27,9 @@ class _CreateQRCodeState extends State<CreateQRCode> {
   String title = '';
   Category? selectedCategory;
 
+  // EVENT FORM
+  String eventTitle = '';
+  String eventLocation = '';
   String? startDate;
   String? endDate;
   String? startTime;
@@ -140,7 +143,14 @@ class _CreateQRCodeState extends State<CreateQRCode> {
                       if (selectedCategory?.name == 'Text') const TextForm(),
                       if (selectedCategory?.name == 'Email') const EmailForm(),
                       if (selectedCategory?.name == 'URL') const URLForm(),
-                      if (selectedCategory?.name == 'Event') EventForm(startDate: startDate, endDate: endDate, startTime: startTime, endTime: endTime),
+                      if (selectedCategory?.name == 'Event') EventForm(
+                        eventTitle: eventTitle, 
+                        eventLocation: eventLocation, 
+                        startDate: startDate, 
+                        endDate: endDate, startTime: 
+                        startTime, 
+                        endTime: endTime
+                      ),
                       
                       const SizedBox(height: 20.0),
 
