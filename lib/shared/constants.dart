@@ -5,9 +5,11 @@ import 'package:qr_quill/services/provider/theme_switch.dart';
 Color kBgColorDark = const Color.fromARGB(255, 26, 25, 25);
 Color kBgColorLight = const Color.fromARGB(255, 255, 247, 247);
 Color kPrimaryColor = const Color.fromARGB(255, 63, 63, 63);
-Color kSecondaryColor = const Color(0xffF7DC5F);
+// Color kSecondaryColor = const Color(0xffF7DC5F);
+Color kSecondaryColor = const Color.fromARGB(255, 192, 170, 73);
 Color kTertiaryColor = const Color.fromARGB(255, 196, 196, 196);
 const kRedColor = Color.fromARGB(255, 206, 15, 15);
+kScaffoldBgColor(BuildContext context) => Theme.of(context).scaffoldBackgroundColor;
 
 // THEME BASED FONT COLOR
 Color kFontTheme(BuildContext context) {

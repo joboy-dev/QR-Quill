@@ -18,10 +18,10 @@ class EventForm extends StatefulWidget {
   String eventTitle;
   String eventLocation;
 
-  final String? startDate;
-  final String? endDate;
-  final String? startTime;
-  final String? endTime;
+  DateTime? startDate;
+  DateTime? endDate;
+  TimeOfDay? startTime;
+  TimeOfDay? endTime;
 
   @override
   State<EventForm> createState() => _EventFormState();
@@ -71,21 +71,35 @@ class _EventFormState extends State<EventForm> with SingleTickerProviderStateMix
 
         Row(
           children: [
-             Expanded(
-               child: DatePickerField(
+            Expanded(
+               child: DateField(
+                hintText: 'Start Date',
                 iconColor: kSecondaryColor,
-                labelText: 'Start',
-                selectedDate: widget.startDate,
+                enabledBorderColor: kFontTheme(context), 
+                focusedBorderColor: kSecondaryColor, 
+                errorBorderColor: kRedColor, 
+                focusedErrorBorderColor: kRedColor, 
+                errorTextStyleColor: kRedColor,
+                onSaved: (date) {
+                  widget.startDate = date;
+                },
               ),
             ),
 
             const SizedBox(width: 10.0),
 
             Expanded(
-               child: TimePickerField(
+               child: TimeField(
+                hintText: 'Start Time',
                 iconColor: kSecondaryColor,
-                labelText: 'Time',
-                selectedTime: widget.startTime,
+                enabledBorderColor: kFontTheme(context), 
+                focusedBorderColor: kSecondaryColor, 
+                errorBorderColor: kRedColor, 
+                focusedErrorBorderColor: kRedColor, 
+                errorTextStyleColor: kRedColor,
+                onSaved: (time) {
+                  widget.startTime = time;
+                },
               ),
             ),
           ],
@@ -93,21 +107,35 @@ class _EventFormState extends State<EventForm> with SingleTickerProviderStateMix
 
         Row(
           children: [
-             Expanded(
-               child: DatePickerField(
+            Expanded(
+               child: DateField(
+                hintText: 'End Date',
                 iconColor: kSecondaryColor,
-                labelText: 'End',
-                selectedDate: widget.endDate,
+                enabledBorderColor: kFontTheme(context), 
+                focusedBorderColor: kSecondaryColor, 
+                errorBorderColor: kRedColor, 
+                focusedErrorBorderColor: kRedColor, 
+                errorTextStyleColor: kRedColor,
+                onSaved: (date) {
+                  widget.endDate = date;
+                },
               ),
             ),
 
             const SizedBox(width: 10.0),
 
             Expanded(
-               child: TimePickerField(
+               child: TimeField(
+                hintText: 'End Time',
                 iconColor: kSecondaryColor,
-                labelText: 'Time',
-                selectedTime: widget.endTime,
+                enabledBorderColor: kFontTheme(context), 
+                focusedBorderColor: kSecondaryColor, 
+                errorBorderColor: kRedColor, 
+                focusedErrorBorderColor: kRedColor, 
+                errorTextStyleColor: kRedColor,
+                onSaved: (time) {
+                  widget.endTime = time;
+                },
               ),
             ),
           ],

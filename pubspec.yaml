@@ -9,6 +9,7 @@ environment:
 
 dependencies:
   cupertino_icons: ^1.0.2
+  file_picker: ^6.0.0
   flutter:
     sdk: flutter
   flutter_animate: ^4.2.0+1
@@ -16,9 +17,12 @@ dependencies:
   flutter_secure_storage: ^9.0.0
   flutter_spinkit: ^5.1.0
   font_awesome_flutter: ^10.2.1
+  image_picker: ^1.0.4
   intl: ^0.18.1
   isar: ^3.1.0+1
   isar_flutter_libs: ^3.1.0+1
+  path_provider: ^2.1.1
+  # permission_handler: ^11.0.1
   persistent_bottom_nav_bar: ^5.0.2
   provider: ^6.0.5
   shared_preferences: ^2.2.2

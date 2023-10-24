@@ -1,9 +1,12 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:qr_quill/models/qrcode.dart';
+import 'package:qr_quill/models/qrcode_model.dart';
+import 'package:qr_quill/screens/create/forms/contact.dart';
 import 'package:qr_quill/screens/create/forms/email.dart';
 import 'package:qr_quill/screens/create/forms/event.dart';
+import 'package:qr_quill/screens/create/forms/file.dart';
+import 'package:qr_quill/screens/create/forms/image.dart';
 import 'package:qr_quill/screens/create/forms/text.dart';
 import 'package:qr_quill/screens/create/forms/url.dart';
 import 'package:qr_quill/screens/create/forms/wifi.dart';
@@ -21,6 +24,8 @@ class CreateQRCode extends StatefulWidget {
 }
 
 class _CreateQRCodeState extends State<CreateQRCode> {
+  double extraFieldsHeight = 0.0;
+
   final _formKey = GlobalKey<FormState>();
 
   String type = 'QR Code';
@@ -30,10 +35,10 @@ class _CreateQRCodeState extends State<CreateQRCode> {
   // EVENT FORM
   String eventTitle = '';
   String eventLocation = '';
-  String? startDate;
-  String? endDate;
-  String? startTime;
-  String? endTime;
+  DateTime? startDate;
+  DateTime? endDate;
+  TimeOfDay? startTime;
+  TimeOfDay? endTime;
 
   validateForm() {
     if (_formKey.currentState!.validate()) {
@@ -114,8 +119,8 @@ class _CreateQRCodeState extends State<CreateQRCode> {
                                 ),
                               ),
                             ],
-                          )
-                        )
+                          ),
+                        ),
                       )
                     .toList(),
                     enabledBorderColor: kFontTheme(context), 
@@ -129,40 +134,50 @@ class _CreateQRCodeState extends State<CreateQRCode> {
                       setState(() {
                         selectedCategory = value!;
                         print('Seledted Category: ${selectedCategory?.name}');
+                        extraFieldsHeight = value == null ? 0.0 : kHeightWidth(context).height * 0.6;
                       });
                     },
                   ),
                   
                   // CATEGORY SPECIFIC FORM FIELDS
-                  selectedCategory != null ? Column(
-                    children: [
-                      Divider(color: kTertiaryColor, thickness: 0.2),
-                      const SizedBox(height: 20.0),
-
-                      if (selectedCategory?.name == 'Wifi') const WifiForm(),
-                      if (selectedCategory?.name == 'Text') const TextForm(),
-                      if (selectedCategory?.name == 'Email') const EmailForm(),
-                      if (selectedCategory?.name == 'URL') const URLForm(),
-                      if (selectedCategory?.name == 'Event') EventForm(
-                        eventTitle: eventTitle, 
-                        eventLocation: eventLocation, 
-                        startDate: startDate, 
-                        endDate: endDate, startTime: 
-                        startTime, 
-                        endTime: endTime
-                      ),
-                      
-                      const SizedBox(height: 20.0),
-
-                      Button(
-                        buttonColor: kSecondaryColor,
-                        buttonText: 'Generate QR Code',
-                        onPressed: () {
-                          validateForm();
-                        },
-                        inactive: false,
-                      ),
-                    ],
+                  selectedCategory != null ? AnimatedContainer(
+                    duration: kAnimationDuration5,
+                    curve: Curves.easeIn,
+                    height: extraFieldsHeight,
+                    child: Column(
+                      children: [
+                        Divider(color: kTertiaryColor, thickness: 0.2),
+                        const SizedBox(height: 20.0),
+                  
+                        if (selectedCategory?.name == 'Wifi') const WifiForm(),
+                        if (selectedCategory?.name == 'Text') const TextForm(),
+                        if (selectedCategory?.name == 'Email') const EmailForm(),
+                        if (selectedCategory?.name == 'URL') const URLForm(),
+                        if (selectedCategory?.name == 'Contact') const ContactForm(),
+                        if (selectedCategory?.name == 'Image') const ImageUploadForm(),
+                        if (selectedCategory?.name == 'File') const FileUploadForm(),
+                        if (selectedCategory?.name == 'Event') EventForm(
+                          eventTitle: eventTitle, 
+                          eventLocation: eventLocation, 
+                          startDate: startDate, 
+                          endDate: endDate, startTime: 
+                          startTime, 
+                          endTime: endTime
+                        ),
+                        
+                        const SizedBox(height: 10.0),
+                  
+                        Button(
+                          buttonColor: kSecondaryColor,
+                          buttonText: 'Generate QR Code',
+                          onPressed: () {
+                            validateForm();
+                          },
+                          inactive: false,
+                        ),
+                        const SizedBox(height: 20.0),
+                      ],
+                    ),
                   ) : const SizedBox(height: 0),
                 ],
               ),

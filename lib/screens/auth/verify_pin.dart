@@ -44,8 +44,8 @@ class _VerifyPinState extends State<VerifyPin> {
         setState(() {
           pinCorrect = true;
         });
-        showSnackbar(context, 'Pin is correct. Welcome.');
         await Future.delayed(kAnimationDuration2);
+        showSnackbar(context, 'Welcome.');
         navigatorPushReplacementNamed(context, BottomNavBar.id);
       }
     }

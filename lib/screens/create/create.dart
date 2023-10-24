@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:qr_quill/screens/create/create_barcode.dart';
@@ -6,6 +8,14 @@ import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/custom_appbar.dart';
 import 'package:qr_quill/shared/navigator.dart';
+import 'package:qr_quill/shared/textfield.dart';
+
+enum FilterOption {QRCode, Barcode, None}
+const optionIcons = {
+  FilterOption.QRCode: FontAwesomeIcons.qrcode,
+  FilterOption.Barcode: FontAwesomeIcons.barcode,
+  FilterOption.None: null,
+};
 
 class Create extends StatefulWidget {
   const Create({super.key});
@@ -17,6 +27,8 @@ class Create extends StatefulWidget {
 }
 
 class _CreateState extends State<Create> {
+  FilterOption filterOption = FilterOption.None;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,10 +83,65 @@ class _CreateState extends State<Create> {
                     elevation: 0.0,
                   ),
 
+                  Form(
+                    child: Row(
+                      children: [
+                        const Expanded(flex: 1, child: SizedBox()),
+                        Expanded(
+                          flex: 3,
+                          child: DropDownFormField(
+                            value: filterOption,
+                            labelText: 'Filter by:',
+                            padding: const EdgeInsets.only(bottom: 0.0, left: 50.0),
+                            iconSize: 25.0,
+                            fontSize: 15.0,
+                            items: FilterOption.values
+                              .map(
+                                (option) => DropdownMenuItem(
+                                  value: option,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        option.name,
+                                        style: kNormalTextStyle,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                        child: Icon(
+                                          optionIcons[option],
+                                          size: 15.0,
+                                          color: kSecondaryColor,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            .toList(),
+                            prefixIcon: FontAwesomeIcons.filter,
+                            iconColor: kSecondaryColor,
+                            enabledBorderColor: Colors.transparent, 
+                            focusedBorderColor: Colors.transparent, 
+                            errorBorderColor: Colors.transparent, 
+                            focusedErrorBorderColor: Colors.transparent, 
+                            errorTextStyleColor: Colors.transparent, 
+                            onChanged: (value) {
+                              setState(() {
+                                filterOption = value;
+                              });
+                            },
+                          ),
+                        ),
+                        // const Expanded(flex: 1, child: SizedBox()),
+                      ],
+                    )
+                  ),
+
                   SizedBox(
-                    height: kHeightWidth(context).height * 0.52,
+                    height: kHeightWidth(context).height * 0.45,
                     child: Padding(
-                      padding: kAppPadding,
+                      padding: kAppPadding.copyWith(top: 0.0),
                       child: ListView.builder(
                         itemCount: 50,
                         itemBuilder: (context, index) {

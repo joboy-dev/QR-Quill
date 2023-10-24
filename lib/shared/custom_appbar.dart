@@ -27,7 +27,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
       elevation: elevation ?? 2.0,
       shadowColor: kFontTheme(context),
       surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
-      scrolledUnderElevation: 0.4,
+      scrolledUnderElevation: 0.0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5.0)
       ),
