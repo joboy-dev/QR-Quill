@@ -34,7 +34,8 @@ class _URLFormState extends State<URLForm> with SingleTickerProviderStateMixin {
     return Column(
       children: [
         URLTextField(
-          hintText: 'Enter URL',
+          hintText: 'URL',
+          initialValue: 'https://',
           textColor: kSecondaryColor,
           onChanged: (value) {
             setState(() {

@@ -103,7 +103,7 @@ class NormalTextField extends StatelessWidget {
           ),
           labelText: labelText ?? hintText,
           labelStyle: TextStyle(
-            color: kFontTheme(context),
+            color: kFontTheme(context).withOpacity(0.5),
             fontWeight: FontWeight.normal,
             fontSize: 17.0,
           ),
@@ -162,7 +162,8 @@ class URLTextField extends StatelessWidget {
     this.textColor,
     this.suffixIconOTap,
     this.labelText,
-    this.maxLines
+    this.maxLines,
+    this.icon,
   });
 
   final String? initialValue;
@@ -171,7 +172,7 @@ class URLTextField extends StatelessWidget {
   final bool? readonly;
   final int? maxLines;
   final Function(String? value) onChanged;
-  final String Function(String? value)? validator;
+  final String? Function(String? value)? validator;
   final Function()? suffixIconOTap;
   final Color enabledBorderColor;
   final Color? textColor;
@@ -183,6 +184,7 @@ class URLTextField extends StatelessWidget {
   final Color cursorColor;
   final double? fontSize;
   final TextInputType? textInputType;
+  final IconData? icon;
   // Function(String? newValue) onSaved;
 
   @override
@@ -191,7 +193,7 @@ class URLTextField extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 20.0),
       child: TextFormField(
         readOnly: readonly ?? false,
-        initialValue: 'https://',
+        initialValue: initialValue,
         style: kNormalTextStyle.copyWith(
           fontSize: fontSize ?? 17.0, 
           color: textColor ?? kFontTheme(context),
@@ -210,13 +212,13 @@ class URLTextField extends StatelessWidget {
           prefixIcon: Padding(
             padding: const EdgeInsets.only(right: 25.0, left: 15.0),
             child: Icon(
-              Icons.link,
+              icon ?? Icons.link,
               color: iconColor,
               size: 30.0,
             ),
           ),
           labelStyle: TextStyle(
-            color: kFontTheme(context),
+            color: kFontTheme(context).withOpacity(0.5),
             fontWeight: FontWeight.normal,
             fontSize: 17.0,
           ),
@@ -424,7 +426,7 @@ class TextareaTextField extends StatelessWidget {
           hintStyle: kNormalTextStyle.copyWith(color: kFontTheme(context).withOpacity(0.5)),
           labelText: 'Text',
           labelStyle: TextStyle(
-            color: kFontTheme(context),
+            color: kFontTheme(context).withOpacity(0.5),
             fontWeight: FontWeight.normal,
             fontSize: 17.0,
           ),
@@ -511,7 +513,7 @@ class EmailTextField extends StatelessWidget {
           hintStyle: kNormalTextStyle.copyWith(color: kFontTheme(context).withOpacity(0.5)),
           labelText: 'Email',
           labelStyle: TextStyle(
-            color: kFontTheme(context),
+            color: kFontTheme(context).withOpacity(0.5),
             fontWeight: FontWeight.normal,
             fontSize: 17.0,
           ),
@@ -606,7 +608,7 @@ class DateField extends StatelessWidget {
                 ),
               ),
               labelStyle: TextStyle(
-                color: kFontTheme(context),
+                color: kFontTheme(context).withOpacity(0.5),
                 fontWeight: FontWeight.normal,
                 fontSize: 10.0,
               ),
@@ -724,7 +726,7 @@ class TimeField extends StatelessWidget {
                 ),
               ),
               labelStyle: TextStyle(
-                color: kFontTheme(context),
+                color: kFontTheme(context).withOpacity(0.5),
                 fontWeight: FontWeight.normal,
                 fontSize: 10.0,
               ),

@@ -3,10 +3,12 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_quill/screens/dialog_screens/reset_pin_confirmation.dart';
 import 'package:qr_quill/screens/settings/change_pin.dart';
 import 'package:qr_quill/services/provider/pin_storage.dart';
+import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/dialog.dart';
@@ -46,7 +48,7 @@ class _PinAuthState extends State<PinAuth> {
         });
         showSnackbar(context, 'Pin is correct. Change your pin.');
         await Future.delayed(kAnimationDuration2);
-        navigatorPushReplacementNamed(context, ChangePin.id);
+        navigatorPushReplacement(context, const ChangePin());
       }
     }
 
@@ -145,7 +147,7 @@ class _PinAuthState extends State<PinAuth> {
                     //   inactive: false,
                     // ),
                   ],
-                ),
+                ).animate(effects: MyEffects.fadeSlide()),
               ),
             ),
           ),

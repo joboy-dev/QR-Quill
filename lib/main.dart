@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
-import 'package:qr_quill/screens/auth/create_pin.dart';
-import 'package:qr_quill/screens/auth/verify_pin.dart';
 import 'package:qr_quill/screens/splash.dart';
-import 'package:qr_quill/screens/get_started.dart';
 import 'package:qr_quill/services/provider/pin_storage.dart';
 import 'package:qr_quill/services/provider/theme_switch.dart';
-import 'package:qr_quill/shared/botttom_navbar.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/themes.dart';
-import 'package:qr_quill/wrapper.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,6 +28,8 @@ class QRQuill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Animate.restartOnHotReload = true;
+    
     return Consumer<ThemeSwitch>(
       builder: (context, theme, child) {
         return MaterialApp(
@@ -50,15 +48,7 @@ class QRQuill extends StatelessWidget {
           ),
           themeMode: context.read<ThemeSwitch>().isDarkMode ? ThemeMode.dark : ThemeMode.light,
           debugShowCheckedModeBanner: false,
-          initialRoute: Splash.id,
-          routes: {
-            Splash.id:(context) => const Splash(),
-            Wrapper.id:(context) => const Wrapper(),
-            GetStarted.id:(context) => const GetStarted(),
-            CreatePin.id:(context) => const CreatePin(),
-            VerifyPin.id:(context) => const VerifyPin(),
-            BottomNavBar.id:(context) => const BottomNavBar()
-          },
+          home: const Splash(),
           themeAnimationDuration: const Duration(milliseconds: 200),
           themeAnimationCurve: Curves.easeIn,
         );

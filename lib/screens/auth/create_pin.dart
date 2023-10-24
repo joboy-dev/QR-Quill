@@ -3,10 +3,12 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_quill/screens/auth/verify_pin.dart';
 import 'package:qr_quill/screens/dialog_screens/confirm_pin.dart';
 import 'package:qr_quill/services/provider/pin_storage.dart';
+import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/dialog.dart';
 import 'package:qr_quill/shared/loader.dart';
@@ -71,7 +73,7 @@ class _CreatePinState extends State<CreatePin> {
               // remove dialog box
               navigatorPop(context);
               // navigate to login screen
-              navigatorPushReplacementNamed(context, VerifyPin.id);
+              navigatorPushReplacement(context, const VerifyPin());
             },
           )
         );
@@ -141,7 +143,7 @@ class _CreatePinState extends State<CreatePin> {
                     //   inactive: false,
                     // ),
                   ],
-                ),
+                ).animate(effects: MyEffects.fadeSlide()),
               ),
             ),
           ),

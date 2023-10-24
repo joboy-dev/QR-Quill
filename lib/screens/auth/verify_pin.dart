@@ -3,9 +3,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_quill/screens/dialog_screens/reset_pin_confirmation.dart';
 import 'package:qr_quill/services/provider/pin_storage.dart';
+import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/botttom_navbar.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
@@ -24,7 +26,26 @@ class VerifyPin extends StatefulWidget {
   State<VerifyPin> createState() => _VerifyPinState();
 }
 
-class _VerifyPinState extends State<VerifyPin> {
+class _VerifyPinState extends State<VerifyPin> with SingleTickerProviderStateMixin {
+  late AnimationController controller;
+  late Animation<double> animation;
+
+  @override
+  void initState() {
+    controller = AnimationController(vsync: this, duration: kAnimationDuration1);
+    animation = Tween(begin: 0.0, end: 1.0).animate(controller);
+
+    controller.forward();
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   final _formKey = GlobalKey<FormState>();
   String pin = '';
   bool loading = false;
@@ -46,7 +67,7 @@ class _VerifyPinState extends State<VerifyPin> {
         });
         await Future.delayed(kAnimationDuration2);
         showSnackbar(context, 'Welcome.');
-        navigatorPushReplacementNamed(context, BottomNavBar.id);
+        navigatorPushReplacement(context, const BottomNavBar());
       }
     }
 
@@ -84,22 +105,23 @@ class _VerifyPinState extends State<VerifyPin> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          AnimatedContainer(
-                            duration: kAnimationDuration2,
-                            child: pinCorrect ? Icon(
-                              Icons.lock_open_rounded,
-                              size: 200.0,
-                              color: kSecondaryColor,
-                            ) :
-                            Icon(
-                              Icons.lock_outline_rounded,
-                              size: 200.0,
-                              color: kSecondaryColor,
-                            ),
+                          pinCorrect ? Icon(
+                            Icons.lock_outline_rounded,
+                            size: 200.0,
+                            color: kSecondaryColor,
+                          ).animate().swap(duration: kAnimationDuration1, builder: (_, __) => Icon(
+                            Icons.lock_open_rounded,
+                            size: 200.0,
+                            color: kSecondaryColor,
+                          ),)
+                          : Icon(
+                            Icons.lock_outline_rounded,
+                            size: 200.0,
+                            color: kSecondaryColor,
                           ),
-            
+                          
                           const SizedBox(height: 20.0),
-            
+                          
                           Text( 
                             'Enter your Pin', 
                             style: kNormalTextStyle.copyWith(
@@ -107,9 +129,9 @@ class _VerifyPinState extends State<VerifyPin> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-
+                
                           const SizedBox(height: 20.0),
-
+                
                           ButtonText(
                             firstText: 'Can\'t remember your pin? ', 
                             secondText: 'Reset Pin', 
@@ -117,9 +139,9 @@ class _VerifyPinState extends State<VerifyPin> {
                               showDialogBox(context: context, screen: const ResetPinConfirmationDialog());
                             },
                           ),
-            
+                          
                           const SizedBox(height: 20.0),
-            
+                          
                           PinField(
                             onChange: (value) {
                               setState(() {
@@ -133,19 +155,10 @@ class _VerifyPinState extends State<VerifyPin> {
                         ],
                       ),
                     ),
-
+                
                     loading ? const Loader() : const SizedBox(),
-            
-                    // Button(
-                    //   buttonText: 'Set Pin',
-                    //   onPressed: () {
-                    //     showDialogBox(context: context, screen: ConfirmPinDialog(pin: pin));
-                    //   }, 
-                    //   buttonColor: kSecondaryColor, 
-                    //   inactive: false,
-                    // ),
                   ],
-                ),
+                ).animate(effects: MyEffects.fadeSlide()),
               ),
             ),
           ),

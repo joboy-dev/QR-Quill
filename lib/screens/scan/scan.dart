@@ -34,7 +34,7 @@ class _ScanState extends State<Scan> {
                     child: ColumnButtonIcon(
                       buttonText: 'Scan QR Code',
                       onPressed: () {
-                        navigatorPushNamed(context, ScanQRCode.id);
+                        navigatorPush(context, const ScanQRCode());
                       },
                       buttonColor: kSecondaryColor,
                       icon: Icons.qr_code_scanner_rounded
@@ -47,7 +47,7 @@ class _ScanState extends State<Scan> {
                     child: ColumnButtonIcon(
                       buttonText: 'Scan Bar Code',
                       onPressed: () {
-                        navigatorPushNamed(context, ScanBarcode.id);
+                        navigatorPush(context, const ScanBarcode());
                       },
                       buttonColor: kSecondaryColor,
                       icon: Icons.barcode_reader,

@@ -25,6 +25,8 @@ kHeightWidth(BuildContext context) {
 const kAppPadding = EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0);
 
 // ANIMATION DURATION
+kAnimationDurationMs(int ms) => Duration(milliseconds: ms);
+kAnimationDurationSecs(int seconds) => Duration(seconds: seconds);
 const kAnimationDuration1 = Duration(seconds: 1);
 const kAnimationDuration2 = Duration(seconds: 2);
 const kAnimationDuration3 = Duration(seconds: 3);

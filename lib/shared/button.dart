@@ -137,14 +137,17 @@ class IconTextButton extends StatelessWidget {
         padding: const EdgeInsets.only(left: 10.0),
         child: Row(
           children: [
-            Icon(icon, color: iconColor, size: 30.0),
+            Expanded(flex: 0, child: Icon(icon, color: iconColor, size: 30.0)),
             SizedBox(width: gap ?? 20.0),
-            Text(
-              text,
-              style: kNormalTextStyle.copyWith(
-                fontSize: fontSize ?? 22.0,
-                color: textColor ?? kTertiaryColor,
-                fontWeight: fontWeight ?? FontWeight.normal,
+            Expanded(
+              flex: 1,
+              child: Text(
+                text,
+                style: kNormalTextStyle.copyWith(
+                  fontSize: fontSize ?? 20.0,
+                  color: textColor ?? kTertiaryColor,
+                  fontWeight: fontWeight ?? FontWeight.normal,
+                ),
               ),
             ),
           ],

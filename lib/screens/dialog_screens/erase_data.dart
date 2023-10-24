@@ -38,7 +38,7 @@ class _EraseDataDialogState extends State<EraseDataDialog> {
           button2onPressed: () {
             // navigatorPushReplacementNamed(context, GetStarted.id);
             PinStorage().clearPin();
-            navigatorPushReplacementNamed(context, Wrapper.id);
+            navigatorPushReplacement(context, const Wrapper());
             showSnackbar(context, 'All data cleared.');
           }
         )

@@ -1,9 +1,11 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:qr_quill/screens/create/create_barcode.dart';
 import 'package:qr_quill/screens/create/create_qrcode.dart';
+import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/custom_appbar.dart';
@@ -46,7 +48,8 @@ class _CreateState extends State<Create> {
                     child: ColumnButtonIcon(
                       buttonText: 'Create QR Code',
                       onPressed: () {
-                        navigatorPushNamed(context, CreateQRCode.id);
+                        // navigatorPushNamed(context, CreateQRCode.id);
+                        navigatorPush(context, const CreateQRCode());
                       },
                       buttonColor: kSecondaryColor,
                       icon: Icons.qr_code_2_rounded
@@ -59,7 +62,7 @@ class _CreateState extends State<Create> {
                     child: ColumnButtonIcon(
                       buttonText: 'Create Bar Code',
                       onPressed: () {
-                        navigatorPushNamed(context, CreateBarcode.id);
+                        navigatorPush(context, const CreateBarcode());
                       },
                       buttonColor: kSecondaryColor,
                       icon: FontAwesomeIcons.barcode,
@@ -173,7 +176,10 @@ class _CreateState extends State<Create> {
                 ],
               )
             )
-          ],
+          ].animate(
+            interval: kAnimationDurationMs(300),
+            effects: MyEffects.fadeSlide()
+          ),
         ),
       ),
     );

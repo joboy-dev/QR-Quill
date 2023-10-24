@@ -28,7 +28,7 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
     controller.forward();
     animation.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        navigatorPushReplacementNamed(context, Wrapper.id);
+        navigatorPushReplacement(context, const Wrapper());
       }
     });
 

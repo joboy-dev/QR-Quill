@@ -80,7 +80,7 @@ class _SettingsState extends State<Settings> {
                   iconColor: kSecondaryColor,
                   textColor:  kFontTheme(context),
                   onPressed: () {
-                    navigatorPushNamed(context, PinAuth.id);
+                    navigatorPush(context, const PinAuth());
                     // navigatorPushNamed(context, VerifyPin.id);
                   },
                 ),

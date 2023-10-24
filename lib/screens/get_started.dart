@@ -87,7 +87,7 @@ class _GetStartedState extends State<GetStarted> with SingleTickerProviderStateM
                         Button(
                           buttonText: 'Create Pin',
                           onPressed: () {
-                            navigatorPushNamed(context, CreatePin.id);
+                            navigatorPush(context, const CreatePin());
                           }, 
                           buttonColor: kSecondaryColor, 
                           inactive: false,
@@ -96,7 +96,6 @@ class _GetStartedState extends State<GetStarted> with SingleTickerProviderStateM
                     ),
                   );
                 },
-                
               ),
             ),
           ),
