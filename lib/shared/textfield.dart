@@ -977,7 +977,7 @@ class _FileUploadFieldState extends State<FileUploadField> with SingleTickerProv
       // pick image from file system
       pickedFile = await filePicker.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['pdf', 'doc', 'docx', 'ppt', 'pptx', 'svg', 'xlsx', 'xls', 'zip', 'rar'],
+        allowedExtensions: ['pdf', 'doc', 'docx', 'ppt', 'pptx', 'svg', 'xlsx', 'xls', 'zip', 'rar', 'txt'],
       );
 
       if (pickedFile != null) {
