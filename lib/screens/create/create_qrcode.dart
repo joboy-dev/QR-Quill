@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:qr_quill/models/qrcode_model.dart';
 import 'package:qr_quill/screens/create/forms/contact.dart';
 import 'package:qr_quill/screens/create/forms/email.dart';
@@ -11,8 +12,10 @@ import 'package:qr_quill/screens/create/forms/socials.dart';
 import 'package:qr_quill/screens/create/forms/text.dart';
 import 'package:qr_quill/screens/create/forms/url.dart';
 import 'package:qr_quill/screens/create/forms/wifi.dart';
+import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
+import 'package:qr_quill/shared/snackbar.dart';
 import 'package:qr_quill/shared/textfield.dart';
 
 class CreateQRCode extends StatefulWidget {
@@ -28,12 +31,33 @@ class _CreateQRCodeState extends State<CreateQRCode> {
   double extraFieldsHeight = 0.0;
 
   final _formKey = GlobalKey<FormState>();
+  bool isLoading = false;
+  String message = '';
 
   String type = 'QR Code';
   String title = '';
   Category? selectedCategory;
 
-  // EVENT FORM
+  // Wifi
+  String wifiName = '';
+  String widiPassword = '';
+
+  // Email
+  String email = '';
+
+  // Text
+  String text = '';
+
+  // URL
+  String url = '';
+
+  // Contact
+  String fullName = '';
+  String phoneNumber = '';
+  String address = '';
+  // email already present
+
+  // Event
   String eventTitle = '';
   String eventLocation = '';
   DateTime? startDate;
@@ -41,16 +65,30 @@ class _CreateQRCodeState extends State<CreateQRCode> {
   TimeOfDay? startTime;
   TimeOfDay? endTime;
 
-  // SOCIALS FORM
+  // Image
+  String? mediaPath;
+
+  // File
+  String? filePath;
+
+  // Socials
   SocialLinks? selectedLink;
   String socialLink = '';
 
   validateForm() {
     if (_formKey.currentState!.validate()) {
+      setState(() {
+        isLoading = true;
+        message = 'Generating QR Code...';
+      });
 
     } else {
+      setState(() {
+        message = 'Field validation check failed.';
+      });
 
     }
+    showSnackbar(context, message);
   }
 
   @override
@@ -123,7 +161,10 @@ class _CreateQRCodeState extends State<CreateQRCode> {
                                   color: kSecondaryColor,
                                 ),
                               ),
-                            ],
+                            ].animate(
+                              interval: kAnimationDurationMs(1000),
+                              effects: MyEffects.slideShake(),
+                            ),
                           ),
                         ),
                       )
@@ -139,7 +180,6 @@ class _CreateQRCodeState extends State<CreateQRCode> {
                       setState(() {
                         selectedCategory = value!;
                         print('Seledted Category: ${selectedCategory?.name}');
-                        extraFieldsHeight = value == null ? 0.0 : kHeightWidth(context).height * 0.6;
                       });
                     },
                   ),
@@ -150,14 +190,19 @@ class _CreateQRCodeState extends State<CreateQRCode> {
                       Divider(color: kTertiaryColor, thickness: 0.2),
                       const SizedBox(height: 20.0),
                   
-                      if (selectedCategory?.name == 'Wifi') const WifiForm(),
-                      if (selectedCategory?.name == 'Text') const TextForm(),
-                      if (selectedCategory?.name == 'Email') const EmailForm(),
-                      if (selectedCategory?.name == 'URL') const URLForm(),
-                      if (selectedCategory?.name == 'Contact') const ContactForm(),
+                      if (selectedCategory?.name == 'Wifi') WifiForm(wifiName: wifiName, widiPassword: widiPassword,),
+                      if (selectedCategory?.name == 'Text') TextForm(text: text,),
+                      if (selectedCategory?.name == 'Email') EmailForm(email: email,),
+                      if (selectedCategory?.name == 'URL') URLForm(url: url,),
+                      if (selectedCategory?.name == 'Contact') ContactForm(
+                        fullname: fullName,
+                        phoneNumber: phoneNumber,
+                        address: address,
+                        email: email,
+                      ),
                       if (selectedCategory?.name == 'Socials') SocialsForm(selectedLink: selectedLink, link: socialLink),
-                      if (selectedCategory?.name == 'Image') const ImageUploadForm(),
-                      if (selectedCategory?.name == 'File') const FileUploadForm(),
+                      if (selectedCategory?.name == 'Image') ImageUploadForm(mediaPath: mediaPath,),
+                      if (selectedCategory?.name == 'File') FileUploadForm(filePath: filePath,),
                       if (selectedCategory?.name == 'Event') EventForm(
                         eventTitle: eventTitle, 
                         eventLocation: eventLocation, 
@@ -178,9 +223,15 @@ class _CreateQRCodeState extends State<CreateQRCode> {
                         inactive: false,
                       ),
                       const SizedBox(height: 20.0),
-                    ],
+                    ].animate(
+                      interval: kAnimationDurationMs(100),
+                      effects: MyEffects.fadeSlide(),
+                    ),
                   ) : const SizedBox(height: 0),
-                ],
+                ].animate(
+                  interval: kAnimationDurationMs(100),
+                  effects: MyEffects.fadeSlide(),
+                ),
               ),
             ),
           ),

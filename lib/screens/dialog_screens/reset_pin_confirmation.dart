@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:qr_quill/screens/dialog_screens/reset_pin.dart';
+import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/dialog.dart';
@@ -38,7 +40,10 @@ class _ResetPinConfirmationDialogState extends State<ResetPinConfirmationDialog>
             showDialogBox(context: context, screen: const ResetPinDialog());
           }
         )
-      ],
+      ].animate(
+        interval: kAnimationDurationMs(200),
+        effects: MyEffects.fadeSlide(),
+      ),
     );
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:qr_quill/services/provider/pin_storage.dart';
+import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/dialog_header.dart';
@@ -42,7 +44,10 @@ class _EraseDataDialogState extends State<EraseDataDialog> {
             showSnackbar(context, 'All data cleared.');
           }
         )
-      ],
+      ].animate(
+        interval: kAnimationDurationMs(200),
+        effects: MyEffects.fadeSlide(),
+      ),
     );
   }
 }

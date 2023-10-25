@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:qr_quill/screens/scan/scan_barcode.dart';
 import 'package:qr_quill/screens/scan/scan_qrcode.dart';
+import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/custom_appbar.dart';
@@ -81,6 +83,9 @@ class _ScanState extends State<Scan> {
                           return Text(
                             'hi', 
                             style: kNormalTextStyle,
+                          ).animate(
+                            delay: kAnimationDurationMs(100),
+                            effects: MyEffects.fadeSlide(offset: const Offset(-0.1, 0.0))
                           );
                         },
                       ),
@@ -89,7 +94,11 @@ class _ScanState extends State<Scan> {
                 ],
               )
             )
-          ],
+          ].animate(
+            delay: kAnimationDurationMs(1000),
+            interval: kAnimationDurationMs(500),
+            effects: MyEffects.fadeSlide(offset: const Offset(0.0, -0.1))
+          ),
         ),
       ),
     );

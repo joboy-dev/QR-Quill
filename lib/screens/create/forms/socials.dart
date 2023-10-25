@@ -1,7 +1,9 @@
 // ignore_for_file: constant_identifier_names, must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/logger.dart';
 import 'package:qr_quill/shared/textfield.dart';
@@ -56,8 +58,11 @@ class _SocialsFormState extends State<SocialsForm> with SingleTickerProviderStat
                         color: kSecondaryColor,
                       ),
                     ),
-                  ],
-                ),
+                  ].animate(
+                    interval: kAnimationDurationMs(100),
+                    effects: MyEffects.slideShake(),
+                  ),
+                )
               ),
             )
           .toList(),
@@ -236,7 +241,10 @@ class _SocialsFormState extends State<SocialsForm> with SingleTickerProviderStat
           iconColor: kSecondaryColor, 
           cursorColor: kSecondaryColor, 
         ),
-      ],
+      ].animate(
+        interval: kAnimationDurationMs(100),
+        effects: MyEffects.fadeSlide(offset: const Offset(-0.05, 0)),
+      ),
     );
   }
 }

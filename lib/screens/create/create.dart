@@ -117,7 +117,10 @@ class _CreateState extends State<Create> {
                                           color: kSecondaryColor,
                                         ),
                                       ),
-                                    ],
+                                    ].animate(
+                                        interval: kAnimationDurationMs(100),
+                                        effects: MyEffects.slideShake()
+                                    )
                                   ),
                                 ),
                               )
@@ -168,6 +171,9 @@ class _CreateState extends State<Create> {
                                 ],
                               ),
                             ),
+                          ).animate(
+                            delay: kAnimationDurationMs(100),
+                            effects: MyEffects.fadeSlide(offset: const Offset(-0.1, 0.0))
                           );
                         },
                       ),
@@ -177,8 +183,9 @@ class _CreateState extends State<Create> {
               )
             )
           ].animate(
-            interval: kAnimationDurationMs(300),
-            effects: MyEffects.fadeSlide()
+            delay: kAnimationDurationMs(1000),
+            interval: kAnimationDurationMs(500),
+            effects: MyEffects.fadeSlide(offset: const Offset(0.0, -0.1))
           ),
         ),
       ),

@@ -1,9 +1,15 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/textfield.dart';
 
 class EmailForm extends StatefulWidget {
-  const EmailForm({super.key});
+  EmailForm({super.key, required this.email});
+
+  String email;
 
   @override
   State<EmailForm> createState() => _EmailFormState();
@@ -17,7 +23,7 @@ class _EmailFormState extends State<EmailForm> with SingleTickerProviderStateMix
         EmailTextField(
           onChanged: (value) {
             setState(() {
-              // title = value!;
+              widget.email = value!;
             });
           }, 
           enabledBorderColor: kFontTheme(context), 
@@ -28,7 +34,10 @@ class _EmailFormState extends State<EmailForm> with SingleTickerProviderStateMix
           cursorColor: kSecondaryColor, 
           iconColor: kSecondaryColor,
         ),
-      ],
+      ].animate(
+        interval: kAnimationDurationMs(100),
+        effects: MyEffects.fadeSlide(offset: const Offset(-0.05, 0)),
+      ),
     );
   }
 }

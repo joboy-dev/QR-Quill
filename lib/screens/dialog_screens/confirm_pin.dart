@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/dialog_header.dart';
@@ -36,7 +38,10 @@ class _ConfirmPinDialogState extends State<ConfirmPinDialog> {
           button2Color: kSecondaryColor, 
           button2onPressed: widget.navFunction,
         )
-      ],
+      ].animate(
+        interval: kAnimationDurationMs(200),
+        effects: MyEffects.fadeSlide(),
+      ),
     );
   }
 }

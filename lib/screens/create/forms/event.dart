@@ -1,6 +1,8 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/textfield.dart';
 
@@ -140,7 +142,10 @@ class _EventFormState extends State<EventForm> with SingleTickerProviderStateMix
             ),
           ],
         ),
-      ],
+      ].animate(
+        interval: kAnimationDurationMs(100),
+        effects: MyEffects.fadeSlide(offset: const Offset(-0.05, 0)),
+      ),
     );
   }
 }

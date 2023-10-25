@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_quill/screens/dialog_screens/erase_data.dart';
 import 'package:qr_quill/screens/settings/pin_auth.dart';
 import 'package:qr_quill/services/provider/theme_switch.dart';
+import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/dialog.dart';
@@ -133,7 +135,10 @@ class _SettingsState extends State<Settings> {
                     ],
                   ),
                 ),
-              ],
+              ].animate(
+                interval: kAnimationDurationMs(200),
+                effects: MyEffects.fadeSlide(offset: const Offset(-0.05, 0))
+              ),
             ),
           ),
         ),

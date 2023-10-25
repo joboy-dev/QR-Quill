@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/textfield.dart';
 
+// ignore: must_be_immutable
 class TextForm extends StatefulWidget {
-  const TextForm({super.key});
+  TextForm({super.key, required this.text});
+
+  String text;
 
   @override
   State<TextForm> createState() => _TextFormState();
@@ -18,7 +23,7 @@ class _TextFormState extends State<TextForm> with SingleTickerProviderStateMixin
           hintText: 'Enter Text',
           onChanged: (value) {
             setState(() {
-              // title = value!;
+              widget.text = value!;
             });
           }, 
           enabledBorderColor: kFontTheme(context), 
@@ -28,7 +33,10 @@ class _TextFormState extends State<TextForm> with SingleTickerProviderStateMixin
           errorTextStyleColor: kRedColor, 
           cursorColor: kSecondaryColor, 
         ),
-      ],
+      ].animate(
+        interval: kAnimationDurationMs(100),
+        effects: MyEffects.fadeSlide(offset: const Offset(-0.05, 0)),
+      ),
     );
   }
 }

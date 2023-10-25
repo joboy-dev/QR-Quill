@@ -1,9 +1,15 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/textfield.dart';
 
 class ContactForm extends StatefulWidget {
-  const ContactForm({super.key});
+  ContactForm({super.key, required this.fullname, required this.phoneNumber, required this.address, required this.email});
+
+  String fullname, phoneNumber, address, email;
 
   @override
   State<ContactForm> createState() => _ContactFormState();
@@ -19,7 +25,7 @@ class _ContactFormState extends State<ContactForm> with SingleTickerProviderStat
           textColor: kSecondaryColor,
           onChanged: (value) {
             setState(() {
-              // title = value!;
+              widget.fullname = value!;
             });
           }, 
           enabledBorderColor: kFontTheme(context), 
@@ -38,7 +44,7 @@ class _ContactFormState extends State<ContactForm> with SingleTickerProviderStat
           textInputType: TextInputType.phone,
           onChanged: (value) {
             setState(() {
-              // title = value!;
+              widget.phoneNumber = value!;
             });
           }, 
           enabledBorderColor: kFontTheme(context), 
@@ -54,7 +60,7 @@ class _ContactFormState extends State<ContactForm> with SingleTickerProviderStat
         EmailTextField(
           onChanged: (value) {
             setState(() {
-              // title = value!;
+              widget.email = value!;
             });
           }, 
           enabledBorderColor: kFontTheme(context), 
@@ -72,7 +78,7 @@ class _ContactFormState extends State<ContactForm> with SingleTickerProviderStat
           textColor: kSecondaryColor,
           onChanged: (value) {
             setState(() {
-              // title = value!;
+              widget.address = value!;
             });
           }, 
           enabledBorderColor: kFontTheme(context), 
@@ -84,7 +90,10 @@ class _ContactFormState extends State<ContactForm> with SingleTickerProviderStat
           cursorColor: kSecondaryColor, 
           prefixIcon: Icons.place,
         ),
-      ],
+      ].animate(
+        interval: kAnimationDurationMs(100),
+        effects: MyEffects.fadeSlide(offset: const Offset(-0.05, 0)),
+      ),
     );
   }
 }

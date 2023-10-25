@@ -1,33 +1,23 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/textfield.dart';
 
 class WifiForm extends StatefulWidget {
-  const WifiForm({super.key});
+  WifiForm({super.key, required this.wifiName, required this.widiPassword});
+
+  String wifiName;
+  String widiPassword;
 
   @override
   State<WifiForm> createState() => _WifiFormState();
 }
 
 class _WifiFormState extends State<WifiForm> with SingleTickerProviderStateMixin {
-  late AnimationController controller;
-  late Animation<double> animation;
-
-  @override
-  void initState() {
-    controller = AnimationController(vsync: this, duration: kAnimationDuration2);
-    animation = Tween(begin: 0.0, end: 0.0).animate(controller);
-
-    controller.forward();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
   bool obscureText = true;
 
   @override
@@ -39,7 +29,7 @@ class _WifiFormState extends State<WifiForm> with SingleTickerProviderStateMixin
           textColor: kSecondaryColor,
           onChanged: (value) {
             setState(() {
-              // title = value!;
+              widget.wifiName = value!;
             });
           }, 
           enabledBorderColor: kFontTheme(context), 
@@ -58,7 +48,7 @@ class _WifiFormState extends State<WifiForm> with SingleTickerProviderStateMixin
           textInputType: TextInputType.visiblePassword,
           onChanged: (value) {
             setState(() {
-              // title = value!;
+              widget.widiPassword = value!;
             });
           }, 
           enabledBorderColor: kFontTheme(context), 
@@ -77,7 +67,10 @@ class _WifiFormState extends State<WifiForm> with SingleTickerProviderStateMixin
             });
           },
         ),
-      ],
+      ].animate(
+        interval: kAnimationDurationMs(100),
+        effects: MyEffects.fadeSlide(offset: const Offset(-0.05, 0)),
+      ),
     );
   }
 }

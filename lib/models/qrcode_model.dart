@@ -4,14 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // create enumerator to hold qrcode categories
-enum Category {Wifi, Text, Email, URL, Location, Contact, Event, Image, File, Socials}
+enum Category {Wifi, Text, Email, URL, Contact, Event, Image, File, Socials}
 
 const categoryIcons = {
   Category.Wifi: Icons.wifi,
   Category.Text: Icons.text_snippet_rounded,
   Category.Email: Icons.email_rounded,
   Category.URL: Icons.link_rounded,
-  Category.Location: Icons.place,
   Category.Contact: Icons.person_2_sharp,
   Category.Socials: FontAwesomeIcons.link,
   Category.Event: Icons.event,
@@ -52,13 +51,15 @@ class QRCodeModel {
   String? endDate;
   String? endTime;
 
-  // Location
-
   // Image
-  String? imagePath;
+  String? mediaPath;
 
   // File
   String? filePath;
+
+  // Socials
+  String? selectedLink;
+  String? link;
 
   QRCodeModel({
     required this.type,
@@ -78,7 +79,9 @@ class QRCodeModel {
     this.startTime,
     this.endDate,
     this.endTime,
-    this.imagePath,
+    this.mediaPath,
     this.filePath,
+    this.selectedLink,
+    this.link,
   });
 }

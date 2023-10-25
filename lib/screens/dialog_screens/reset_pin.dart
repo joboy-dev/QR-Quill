@@ -1,8 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_quill/services/provider/pin_storage.dart';
+import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/dialog_header.dart';
@@ -58,7 +60,10 @@ class _ResetPinDialogState extends State<ResetPinDialog> {
             savePin();
           }
         )
-      ],
+      ].animate(
+        interval: kAnimationDurationMs(200),
+        effects: MyEffects.fadeSlide(),
+      ),
     );
   }
 }

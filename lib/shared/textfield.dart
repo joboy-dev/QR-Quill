@@ -812,25 +812,7 @@ class MediaUploadField extends StatefulWidget {
 }
 
 class _MediaUploadFieldState extends State<MediaUploadField> with SingleTickerProviderStateMixin {
-  late AnimationController controller;
-  late Animation<double> animation;
-
   final imagePicker = ImagePicker();
-
-  @override
-  void initState() {
-    controller = AnimationController(vsync: this, duration: kAnimationDuration5);
-    animation = Tween(begin: 0.0, end: 1.0).animate(controller);
-
-    controller.forward();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -924,7 +906,6 @@ class _MediaUploadFieldState extends State<MediaUploadField> with SingleTickerPr
                   width: double.infinity,
                   height: double.infinity,
                   fit: BoxFit.cover,
-                  opacity: animation,
                 ),
               ),
             ),

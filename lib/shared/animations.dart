@@ -16,7 +16,12 @@ slideTransitionAnimation({
 
 class MyEffects {
   static List<Effect> fadeSlide({Offset offset= const Offset(0, -0.02)}) => [
-    FadeEffect(duration: kAnimationDurationMs(900)),
-    SlideEffect(duration: kAnimationDurationMs(900), begin: offset)
+    FadeEffect(duration: kAnimationDurationMs(1200)),
+    SlideEffect(duration: kAnimationDurationMs(700), begin: offset),
+  ];
+
+  static List<Effect> slideShake({Offset offset= const Offset(0, -0.1)}) => [
+    SlideEffect(duration: kAnimationDurationMs(500), begin: offset),
+    ShakeEffect(duration: kAnimationDurationMs(500)),
   ];
 }

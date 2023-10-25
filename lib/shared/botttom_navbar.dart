@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:qr_quill/screens/create/create.dart';
 import 'package:qr_quill/screens/scan/scan.dart';
@@ -82,9 +83,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
         items: _navbarItems(),
         controller: _controller,
         backgroundColor: kSecondaryColor,
-        screenTransitionAnimation: const ScreenTransitionAnimation(
+        screenTransitionAnimation: ScreenTransitionAnimation(
           animateTabTransition: true,
-          duration: kAnimationDuration1,
+          duration: kAnimationDurationMs(500),
           curve: Curves.fastOutSlowIn
         ),
         navBarHeight: kHeightWidth(context).height * 0.085,
@@ -95,7 +96,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             _index = value;
           });
         },
-      ),
+      ).animate().fade(duration: kAnimationDurationMs(1000)),
     );
   }
 }
