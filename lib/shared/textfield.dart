@@ -35,6 +35,7 @@ class NormalTextField extends StatelessWidget {
     this.maxLines,
     this.fillColor,
     this.filled=false,
+    this.borderRadius,
   });
 
   final String? initialValue;
@@ -59,6 +60,7 @@ class NormalTextField extends StatelessWidget {
   final double? fontSize;
   final TextInputType? textInputType;
   final int? maxLines;
+  final double? borderRadius;
   // Function(String? newValue) onSaved;
 
   @override
@@ -109,19 +111,19 @@ class NormalTextField extends StatelessWidget {
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: enabledBorderColor, width: 1.0),
-            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+            borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: focusedBorderColor, width: 1.0),
-            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+            borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
           ),
           errorBorder: OutlineInputBorder(
             borderSide: BorderSide(color: errorBorderColor, width: 1.0),
-            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+            borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderSide: BorderSide(color: focusedErrorBorderColor, width: 1.0),
-            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+            borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
           ),
           errorStyle: TextStyle(
             color: errorTextStyleColor,
@@ -164,6 +166,7 @@ class URLTextField extends StatelessWidget {
     this.labelText,
     this.maxLines,
     this.icon,
+    this.borderRadius
   });
 
   final String? initialValue;
@@ -185,6 +188,7 @@ class URLTextField extends StatelessWidget {
   final double? fontSize;
   final TextInputType? textInputType;
   final IconData? icon;
+  final double? borderRadius;
   // Function(String? newValue) onSaved;
 
   @override
@@ -225,19 +229,19 @@ class URLTextField extends StatelessWidget {
           labelText: labelText ?? hintText,
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: enabledBorderColor, width: 1.0),
-            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+            borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: focusedBorderColor, width: 1.0),
-            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+            borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
           ),
           errorBorder: OutlineInputBorder(
             borderSide: BorderSide(color: errorBorderColor, width: 1.0),
-            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+            borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderSide: BorderSide(color: focusedErrorBorderColor, width: 1.0),
-            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+            borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
           ),
           errorStyle: TextStyle(
             color: errorTextStyleColor,
@@ -310,6 +314,7 @@ class DropDownFormField extends StatelessWidget {
     required this.errorBorderColor, 
     required this.focusedErrorBorderColor, 
     required this.errorTextStyleColor,
+    this.borderRadius,
   });
 
   final dynamic value;
@@ -326,6 +331,7 @@ class DropDownFormField extends StatelessWidget {
   final Color focusedErrorBorderColor;
   final Color errorTextStyleColor;
   final void Function(dynamic value)? onChanged;
+  final double? borderRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -354,19 +360,19 @@ class DropDownFormField extends StatelessWidget {
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: enabledBorderColor, width: 1.0),
-          borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+          borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: focusedBorderColor, width: 1.0),
-          borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+          borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
         ),
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: errorBorderColor, width: 1.0),
-          borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+          borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: focusedErrorBorderColor, width: 1.0),
-          borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+          borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
         ),
         errorStyle: TextStyle(
           color: errorTextStyleColor,
@@ -397,6 +403,7 @@ class TextareaTextField extends StatelessWidget {
     this.focusedErrorBorderColor,
     required this.errorTextStyleColor,
     required this.cursorColor,
+    this.borderRadius,
   });
 
   final String? initialValue;
@@ -409,6 +416,7 @@ class TextareaTextField extends StatelessWidget {
   final Color? focusedErrorBorderColor;
   final Color errorTextStyleColor;
   final Color cursorColor;
+  final double? borderRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -433,22 +441,22 @@ class TextareaTextField extends StatelessWidget {
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
                 color: enabledBorderColor ?? Colors.transparent, width: 1.0),
-            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+            borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
                 color: focusedBorderColor ?? Colors.transparent, width: 1.0),
-            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+            borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
           ),
           errorBorder: OutlineInputBorder(
             borderSide: BorderSide(
                 color: errorBorderColor ?? Colors.transparent, width: 1.0),
-            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+            borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderSide: BorderSide(
                 color: focusedErrorBorderColor ?? Colors.transparent, width: 1.0),
-            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+            borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
           ),
           errorStyle: TextStyle(
             color: errorTextStyleColor,
@@ -482,6 +490,7 @@ class EmailTextField extends StatelessWidget {
     this.focusedErrorBorderColor, 
     required this.errorTextStyleColor, 
     required this.cursorColor,
+    this.borderRadius
     // required this.disableButton,
   });
 
@@ -494,6 +503,7 @@ class EmailTextField extends StatelessWidget {
   final Color? focusedErrorBorderColor;
   final Color errorTextStyleColor;
   final Color cursorColor;
+  final double? borderRadius;
   // bool disableButton;
 
   final Function(String? value) onChanged;
@@ -528,22 +538,22 @@ class EmailTextField extends StatelessWidget {
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
                 color: enabledBorderColor ?? Colors.transparent, width: 1.0),
-            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+            borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
                 color: focusedBorderColor ?? Colors.transparent, width: 1.0),
-            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+            borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
           ),
           errorBorder: OutlineInputBorder(
             borderSide: BorderSide(
                 color: errorBorderColor ?? Colors.transparent, width: 1.0),
-            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+            borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderSide: BorderSide(
                 color: focusedErrorBorderColor ?? Colors.transparent, width: 1.0),
-            borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+            borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
           ),
           errorStyle: TextStyle(
             color: errorTextStyleColor,
@@ -575,6 +585,7 @@ class DateField extends StatelessWidget {
     required this.iconColor,
     required this.onSaved,
     this.initialValue,
+    this.borderRadius
   });
 
   final String hintText;
@@ -585,6 +596,7 @@ class DateField extends StatelessWidget {
   final Color errorTextStyleColor;
   final Color iconColor;
   final String? initialValue;
+  final double? borderRadius;
   final Function(DateTime? date)? onSaved;
 
   @override
@@ -614,20 +626,20 @@ class DateField extends StatelessWidget {
               ),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: enabledBorderColor, width: 1.0),
-                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
               ),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: focusedBorderColor, width: 1.0),
-                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
               ),
               errorBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: errorBorderColor, width: 1.0),
-                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderSide:
                     BorderSide(color: focusedErrorBorderColor, width: 1.0),
-                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
               ),
               errorStyle: TextStyle(
                 color: errorTextStyleColor,
@@ -693,6 +705,7 @@ class TimeField extends StatelessWidget {
     required this.iconColor,
     required this.onSaved,
     this.initialValue,
+    this.borderRadius
   });
 
   final String hintText;
@@ -703,6 +716,7 @@ class TimeField extends StatelessWidget {
   final Color errorTextStyleColor;
   final Color iconColor;
   final String? initialValue;
+  final double? borderRadius;
   final Function(TimeOfDay? time)? onSaved;
 
   @override
@@ -732,20 +746,20 @@ class TimeField extends StatelessWidget {
               ),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: enabledBorderColor, width: 1.0),
-                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
               ),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: focusedBorderColor, width: 1.0),
-                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
               ),
               errorBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: errorBorderColor, width: 1.0),
-                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderSide:
                     BorderSide(color: focusedErrorBorderColor, width: 1.0),
-                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.0)),
               ),
               errorStyle: TextStyle(
                 color: errorTextStyleColor,
@@ -811,7 +825,7 @@ class MediaUploadField extends StatefulWidget {
   State<MediaUploadField> createState() => _MediaUploadFieldState();
 }
 
-class _MediaUploadFieldState extends State<MediaUploadField> with SingleTickerProviderStateMixin {
+class _MediaUploadFieldState extends State<MediaUploadField> {
   final imagePicker = ImagePicker();
 
   @override
@@ -887,7 +901,7 @@ class _MediaUploadFieldState extends State<MediaUploadField> with SingleTickerPr
               height: kHeightWidth(context).height * 0.3,
               decoration: BoxDecoration(
                 border: Border.all(color: kFontTheme(context)),
-                borderRadius: BorderRadius.circular(10.0),
+                borderRadius: BorderRadius.circular(20.0),
               ),
               child: widget.mediaPath == null ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -942,7 +956,7 @@ class FileUploadField extends StatefulWidget {
   State<FileUploadField> createState() => _FileUploadFieldState();
 }
 
-class _FileUploadFieldState extends State<FileUploadField> with SingleTickerProviderStateMixin {
+class _FileUploadFieldState extends State<FileUploadField> {
   final filePicker = FilePicker.platform;
 
   @override
@@ -1016,7 +1030,7 @@ class _FileUploadFieldState extends State<FileUploadField> with SingleTickerProv
               height: kHeightWidth(context).height * 0.3,
               decoration: BoxDecoration(
                 border: Border.all(color: kFontTheme(context)),
-                borderRadius: BorderRadius.circular(10.0),
+                borderRadius: BorderRadius.circular(20.0),
               ),
               child: 
               Column(

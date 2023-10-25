@@ -80,9 +80,26 @@ class _ScanState extends State<Scan> {
                       child: ListView.builder(
                         itemCount: 50,
                         itemBuilder: (context, index) {
-                          return Text(
-                            'hi', 
-                            style: kNormalTextStyle,
+                          return Card(
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                            surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
+                            margin: const EdgeInsets.only(bottom: 15.0),
+                            shadowColor: kSecondaryColor,
+                            elevation: 1.0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                              side: BorderSide(
+                                color: kFontTheme(context),
+                              )
+                            ),
+                            child: Padding(
+                              padding: kAppPadding.copyWith(bottom: 15.0),
+                              child: Row(
+                                children: [
+                                  Icon(Icons.zoom_in, size: 30.0, color: kSecondaryColor),
+                                ],
+                              ),
+                            ),
                           ).animate(
                             delay: kAnimationDurationMs(100),
                             effects: MyEffects.fadeSlide(offset: const Offset(-0.1, 0.0))

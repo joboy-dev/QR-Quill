@@ -9,7 +9,7 @@ showSnackbar(BuildContext context, String text) {
       content:
           Text(text, style: kNormalTextStyle.copyWith(fontSize: 20.0, fontWeight: FontWeight.bold,)),
       backgroundColor: kPrimaryColor,
-      padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
       margin: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 100.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(40.0),

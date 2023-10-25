@@ -157,7 +157,7 @@ class SettingsDivider extends StatelessWidget {
     return Column(
       children: [
         const SizedBox(height: 5.0),
-        Divider(color: kTertiaryColor),
+        Divider(color: kFontTheme(context), thickness: 0.2,),
         const SizedBox(height: 10.0),
       ],
     );

@@ -9,6 +9,7 @@ class Button extends StatelessWidget {
   final bool inactive;
   final double? width;
   final Color? textColor;
+  final double? borderRadius;
 
   const Button({
     super.key, 
@@ -17,7 +18,8 @@ class Button extends StatelessWidget {
     required this.buttonColor,
     required this.inactive,
     this.width,
-    this.textColor
+    this.textColor,
+    this.borderRadius
   });
 
   @override
@@ -36,7 +38,7 @@ class Button extends StatelessWidget {
           ? kTertiaryColor.withOpacity(0.5)
           : buttonColor.withOpacity(0.5),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(7.0),
+        borderRadius: BorderRadius.circular(borderRadius ?? 20.0),
       ),
       child: Text(
         buttonText,
@@ -69,14 +71,14 @@ class ColumnButtonIcon extends StatelessWidget {
     return MaterialButton(
       onPressed: onPressed,
       minWidth: double.infinity,
-      height: kHeightWidth(context).height * 0.5,
+      height: kHeightWidth(context).height * 0.1,
       color: buttonColor,
       focusColor: buttonColor.withOpacity(0.5),
       elevation: 2.0,
       focusElevation: 4.0,
       splashColor: buttonColor.withOpacity(0.5),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(7.0),
+        borderRadius: BorderRadius.circular(20.0),
       ),
       child: Column(
         children: [

@@ -158,7 +158,7 @@ class _CreateState extends State<Create> {
                             shadowColor: kSecondaryColor,
                             elevation: 1.0,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5.0),
+                              borderRadius: BorderRadius.circular(20.0),
                               side: BorderSide(
                                 color: kFontTheme(context),
                               )

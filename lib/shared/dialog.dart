@@ -14,9 +14,9 @@ showDialogBox(
       return AlertDialog.adaptive(
         key: dialogKey,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        surfaceTintColor: kPrimaryColor,
+        surfaceTintColor: kFontTheme(context),
         elevation: 4.0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         scrollable: true,
         content: screen.animate().fadeIn(duration: kAnimationDurationMs(200)),
       );
