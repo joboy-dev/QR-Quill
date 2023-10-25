@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'constants.dart';
 
@@ -21,20 +22,19 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(title, style: kAppbarTextStyle.copyWith(color: titleColor ?? kPrimaryColor)),
-      leading: Icon(icon, color: titleColor ?? kPrimaryColor, size: 30.0),
+      title: Text(title, style: kAppbarTextStyle.copyWith(color: titleColor ?? kPrimaryColor, fontSize: 17.sp)),
       backgroundColor: backgroundColor ?? kSecondaryColor,
       elevation: elevation ?? 2.0,
       shadowColor: kFontTheme(context),
       surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
       scrolledUnderElevation: 0.0,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5.0)
+        borderRadius: BorderRadius.circular(5.r)
       ),
     );
   }
 
   // important when implementing  PreferredSizeWidget class for custom appbars
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => Size.fromHeight(40.h);
 }

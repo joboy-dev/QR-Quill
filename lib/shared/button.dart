@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/navigator.dart';
 
@@ -26,8 +27,8 @@ class Button extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialButton(
       onPressed: onPressed,
-      minWidth: width ?? 200.0,
-      height: 50.0,
+      minWidth: width ?? 200.w,
+      height: 50.h,
       color: inactive ? kTertiaryColor : buttonColor,
       focusColor: inactive
           ? kTertiaryColor.withOpacity(0.5)
@@ -38,13 +39,13 @@ class Button extends StatelessWidget {
           ? kTertiaryColor.withOpacity(0.5)
           : buttonColor.withOpacity(0.5),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(borderRadius ?? 20.0),
+        borderRadius: BorderRadius.circular(borderRadius ?? 25.r),
       ),
       child: Text(
         buttonText,
         style: TextStyle(
           color: textColor ?? kPrimaryColor,
-          fontSize: 17.0,
+          fontSize: 17.sp,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -71,22 +72,22 @@ class ColumnButtonIcon extends StatelessWidget {
     return MaterialButton(
       onPressed: onPressed,
       minWidth: double.infinity,
-      height: kHeightWidth(context).height * 0.1,
+      height: 100.h,
       color: buttonColor,
       focusColor: buttonColor.withOpacity(0.5),
       elevation: 2.0,
       focusElevation: 4.0,
       splashColor: buttonColor.withOpacity(0.5),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       child: Column(
         children: [
           Expanded(
-            flex: 2,
+            flex: 1,
             child: Icon(
               icon,
-              size: 70.0,
+              size: 40.r,
               color: kPrimaryColor,
             ),
           ),
@@ -97,7 +98,7 @@ class ColumnButtonIcon extends StatelessWidget {
               buttonText,
               style: TextStyle(
                 color: kPrimaryColor,
-                fontSize: 20.0,
+                fontSize: 17.sp,
                 fontWeight: FontWeight.bold,
               ),
               textAlign: TextAlign.center,
@@ -136,17 +137,17 @@ class IconTextButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Padding(
-        padding: const EdgeInsets.only(left: 10.0),
+        padding: EdgeInsets.only(left: 10.r),
         child: Row(
           children: [
-            Expanded(flex: 0, child: Icon(icon, color: iconColor, size: 30.0)),
-            SizedBox(width: gap ?? 20.0),
+            Expanded(flex: 0, child: Icon(icon, color: iconColor, size: 30.r)),
+            SizedBox(width: gap ?? 20.sp),
             Expanded(
               flex: 1,
               child: Text(
                 text,
                 style: kNormalTextStyle.copyWith(
-                  fontSize: fontSize ?? 20.0,
+                  fontSize: fontSize ?? 20.sp,
                   color: textColor ?? kTertiaryColor,
                   fontWeight: fontWeight ?? FontWeight.normal,
                 ),
@@ -188,7 +189,7 @@ class DoubleButton extends StatelessWidget {
             inactive: false,
           ),
         ),
-        const SizedBox(width: 5.0),
+        SizedBox(width: 10.w),
         Expanded(
           child: Button(
             buttonText: button2Text,
@@ -220,13 +221,14 @@ class ButtonText extends StatelessWidget {
       child: RichText(
         text: TextSpan(
           text: firstText,
-          style: kNormalTextStyle.copyWith(color: kFontTheme(context)),
+          style: kNormalTextStyle.copyWith(color: kFontTheme(context), fontSize: 15.sp),
           children: [
             TextSpan(
               text: secondText,
               style: kNormalTextStyle.copyWith(
                 color: kSecondaryColor,
                 fontWeight: FontWeight.bold,
+                fontSize: 15.sp
               ),
             ),
           ],

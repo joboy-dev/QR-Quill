@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qr_quill/shared/constants.dart';
 
 class DialogHeader extends StatelessWidget {
@@ -20,17 +21,17 @@ class DialogHeader extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: mainColor, size: 40.0),
-            const SizedBox(width: 20.0),
+            Icon(icon, color: mainColor, size: 35.r),
+            SizedBox(width: 20.w),
             Text(
               headerText,
-              style: kNormalTextStyle.copyWith(color: mainColor, fontSize: 22.0, fontWeight: FontWeight.bold,),
+              style: kNormalTextStyle.copyWith(color: mainColor, fontSize: 22.sp, fontWeight: FontWeight.bold,),
             )
           ],
         ),
-        const SizedBox(height: 10.0),
-        Divider(color: mainColor, thickness: 0.5),
-        const SizedBox(height: 10.0),
+        SizedBox(height: 10.h),
+        Divider(color: mainColor, thickness: 0.5.r),
+        SizedBox(height: 10.h),
       ],
     );
   }

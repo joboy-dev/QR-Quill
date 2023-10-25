@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/constants.dart';
@@ -48,13 +49,13 @@ class _SocialsFormState extends State<SocialsForm> with SingleTickerProviderStat
                   children: [
                     Text(
                       link.name,
-                      style: kNormalTextStyle,
+                      style: kNormalTextStyle.copyWith(fontSize: 15.sp),
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Icon(
                         socialIcons[link],
-                        size: 20.0,
+                        size: 15.r,
                         color: kSecondaryColor,
                       ),
                     ),

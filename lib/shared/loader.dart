@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:qr_quill/shared/constants.dart';
 
@@ -12,7 +14,7 @@ class Loader extends StatelessWidget {
   Widget build(BuildContext context) {
     return SpinKitPianoWave(
       color: color ?? kSecondaryColor,
-      size: size ?? 30.0,
-    );
+      size: size ?? 30.r,
+    ).animate().fadeIn();
   }
 }

@@ -3,6 +3,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_quill/services/provider/pin_storage.dart';
 import 'package:qr_quill/shared/constants.dart';
@@ -30,7 +31,7 @@ class _ChangePinState extends State<ChangePin> {
   Widget build(BuildContext context) {
     final pinStore = context.read<PinStorage>();
 
-    savePin() {
+    savePin() async {
       // check if pin is empty
       if (pin.isEmpty) {
         setState(() {
@@ -39,9 +40,18 @@ class _ChangePinState extends State<ChangePin> {
         showSnackbar(context, 'Pin cannot be empty. Enter your pin.');
       }
       else {
-        // save pin to flutter secure storage
-        pinStore.setPin(pin);
-        showSnackbar(context, 'Pin has been set to $pin.');
+        showSnackbar(context, 'Changing pin...');
+        await Future.delayed(kAnimationDuration1);
+
+        // check if pin is the same as the previous one
+        if (pin == pinStore.pin) {
+          showSnackbar(context, 'New pin cannot be the same as the old one');
+        } else { 
+          // save pin to flutter secure storage
+          pinStore.setPin(pin);
+          showSnackbar(context, 'Pin has been set to $pin.');
+          navigatorPop(context);
+        }
       }
     }
 
@@ -57,7 +67,6 @@ class _ChangePinState extends State<ChangePin> {
           loading = false;
         });
         savePin();
-        navigatorPop(context);
       } else {
         
       }
@@ -80,21 +89,21 @@ class _ChangePinState extends State<ChangePin> {
                         children: [
                           Icon(
                             Icons.lock_outline_rounded,
-                            size: 200.0,
+                            size: 200.r,
                             color: kSecondaryColor,
                           ),
             
-                          const SizedBox(height: 20.0),
+                          SizedBox(height: 20.h),
             
                           Text(
                             'Change Your Pin', 
                             style: kNormalTextStyle.copyWith(
-                              fontSize: 25.0,
+                              fontSize: 25.sp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
             
-                          const SizedBox(height: 20.0),
+                          SizedBox(height: 20.h),
             
                           PinField(
                             onChange: (value) {

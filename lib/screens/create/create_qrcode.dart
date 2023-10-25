@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qr_quill/models/qrcode_model.dart';
 import 'package:qr_quill/screens/create/forms/contact.dart';
 import 'package:qr_quill/screens/create/forms/email.dart';
@@ -151,13 +152,13 @@ class _CreateQRCodeState extends State<CreateQRCode> {
                             children: [
                               Text(
                                 category.name,
-                                style: kNormalTextStyle,
+                                style: kNormalTextStyle.copyWith(fontSize: 15.sp),
                               ),
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                                 child: Icon(
                                   categoryIcons[category],
-                                  size: 20.0,
+                                  size: 15.r,
                                   color: kSecondaryColor,
                                 ),
                               ),
@@ -187,8 +188,8 @@ class _CreateQRCodeState extends State<CreateQRCode> {
                   // CATEGORY SPECIFIC FORM FIELDS
                   selectedCategory != null ? Column(
                     children: [
-                      Divider(color: kTertiaryColor, thickness: 0.2),
-                      const SizedBox(height: 20.0),
+                      Divider(color: kTertiaryColor, thickness: 0.2.sp),
+                      SizedBox(height: 20.h),
                   
                       if (selectedCategory?.name == 'Wifi') WifiForm(wifiName: wifiName, widiPassword: widiPassword,),
                       if (selectedCategory?.name == 'Text') TextForm(text: text,),

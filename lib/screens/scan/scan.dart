@@ -1,5 +1,8 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:qr_quill/screens/scan/scan_barcode.dart';
 import 'package:qr_quill/screens/scan/scan_qrcode.dart';
@@ -7,6 +10,7 @@ import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/custom_appbar.dart';
+import 'package:qr_quill/shared/logger.dart';
 import 'package:qr_quill/shared/navigator.dart';
 
 class Scan extends StatefulWidget {
@@ -19,8 +23,10 @@ class Scan extends StatefulWidget {
 }
 
 class _ScanState extends State<Scan> {
+
   @override
   Widget build(BuildContext context) {
+    logger(kHeightWidth(context).height);
     return Scaffold(
       body: Padding(
         padding: kAppPadding,
@@ -43,7 +49,7 @@ class _ScanState extends State<Scan> {
                     ),
                   ),
 
-                  const SizedBox(width: 20.0),
+                  SizedBox(width: 20.w),
 
                   Expanded(
                     child: ColumnButtonIcon(
@@ -59,7 +65,7 @@ class _ScanState extends State<Scan> {
               )
             ),
 
-            const SizedBox(height: 30.0),
+            SizedBox(height: 15.h),
 
             Expanded(
               flex: 4,
@@ -72,18 +78,19 @@ class _ScanState extends State<Scan> {
                     backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                     elevation: 0.0,
                   ),
+                  SizedBox(height: 5.h),
 
                   SizedBox(
-                    height: kHeightWidth(context).height * 0.52,
+                    height: kHeightWidth(context).height * 0.5,
                     child: Padding(
-                      padding: kAppPadding,
+                      padding: kAppPadding.copyWith(top: 0.0),
                       child: ListView.builder(
                         itemCount: 50,
                         itemBuilder: (context, index) {
                           return Card(
-                            color: Theme.of(context).scaffoldBackgroundColor,
-                            surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
-                            margin: const EdgeInsets.only(bottom: 15.0),
+                            color: kScaffoldBgColor(context),
+                            surfaceTintColor: kScaffoldBgColor(context),
+                            margin: EdgeInsets.only(bottom: 15.r),
                             shadowColor: kSecondaryColor,
                             elevation: 1.0,
                             shape: RoundedRectangleBorder(
@@ -93,10 +100,10 @@ class _ScanState extends State<Scan> {
                               )
                             ),
                             child: Padding(
-                              padding: kAppPadding.copyWith(bottom: 15.0),
+                              padding: kAppPadding.copyWith(bottom: 15.r),
                               child: Row(
                                 children: [
-                                  Icon(Icons.zoom_in, size: 30.0, color: kSecondaryColor),
+                                  Icon(Icons.zoom_in, size: 30.r, color: kSecondaryColor),
                                 ],
                               ),
                             ),

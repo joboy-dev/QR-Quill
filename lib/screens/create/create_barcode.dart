@@ -13,12 +13,12 @@ class CreateBarcode extends StatefulWidget {
 class _CreateBarcodeState extends State<CreateBarcode> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
             padding: kAppPadding,
-            child: Column(
+            child: const Column(
               children: [],
             ),
           ),

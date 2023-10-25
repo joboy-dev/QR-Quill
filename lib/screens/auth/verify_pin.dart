@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_quill/screens/dialog_screens/reset_pin_confirmation.dart';
 import 'package:qr_quill/services/provider/pin_storage.dart';
@@ -56,17 +57,21 @@ class _VerifyPinState extends State<VerifyPin> with SingleTickerProviderStateMix
     final pinStore = context.read<PinStorage>();
 
     checkPin() async {
+      showSnackbar(context, 'Checking pin...');
+      await Future.delayed(kAnimationDuration1);
       if (pin != pinStore.pin) {
         setState(() {
           pin = '';
+          loading = false;
         });
         showSnackbar(context, 'Pin is incorrect. Try again.');
       } else {
+        await Future.delayed(kAnimationDuration2);
+        showSnackbar(context, 'Pin is correct. Welcome.');
         setState(() {
+          loading = false;
           pinCorrect = true;
         });
-        await Future.delayed(kAnimationDuration2);
-        showSnackbar(context, 'Welcome.');
         navigatorPushReplacement(context, const BottomNavBar());
       }
     }
@@ -74,22 +79,18 @@ class _VerifyPinState extends State<VerifyPin> with SingleTickerProviderStateMix
     validateForm(String pincode) async {
       if (_formKey.currentState!.validate()) {
         log(pincode);
+
         setState(() {
           pin = pincode;
           loading = true;
         });
 
-        await Future.delayed(kAnimationDuration2);
-        setState(() {
-          loading = false;
-        });
-
         // run function to check actual pin entered by user
         checkPin();
       } else {
-        
       }
     }
+
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -107,30 +108,30 @@ class _VerifyPinState extends State<VerifyPin> with SingleTickerProviderStateMix
                         children: [
                           pinCorrect ? Icon(
                             Icons.lock_outline_rounded,
-                            size: 200.0,
+                            size: 200.r,
                             color: kSecondaryColor,
                           ).animate().swap(duration: kAnimationDuration1, builder: (_, __) => Icon(
                             Icons.lock_open_rounded,
-                            size: 200.0,
+                            size: 200.r,
                             color: kSecondaryColor,
                           ),)
                           : Icon(
                             Icons.lock_outline_rounded,
-                            size: 200.0,
+                            size: 200.r,
                             color: kSecondaryColor,
                           ),
                           
-                          const SizedBox(height: 20.0),
+                          SizedBox(height: 20.h),
                           
                           Text( 
                             'Enter your Pin', 
                             style: kNormalTextStyle.copyWith(
-                              fontSize: 25.0,
+                              fontSize: 25.sp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                 
-                          const SizedBox(height: 20.0),
+                          SizedBox(height: 20.h),
                 
                           ButtonText(
                             firstText: 'Can\'t remember your pin? ', 
@@ -140,7 +141,7 @@ class _VerifyPinState extends State<VerifyPin> with SingleTickerProviderStateMix
                             },
                           ),
                           
-                          const SizedBox(height: 20.0),
+                          SizedBox(height: 20.h),
                           
                           PinField(
                             onChange: (value) {

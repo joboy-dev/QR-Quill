@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qr_quill/shared/constants.dart';
 
 class DialogText extends StatelessWidget {
@@ -18,11 +21,11 @@ class DialogText extends StatelessWidget {
         Text(
           text,
           style: kNormalTextStyle.copyWith(
-            color: kFontTheme(context),
-            fontSize: 20.0,
+            color: Platform.isIOS ? kPrimaryColor : kFontTheme(context),
+            fontSize: 20.sp,
           ),
         ),
-        const SizedBox(height: 20.0),
+        SizedBox(height: 20.h),
       ],
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_quill/screens/dialog_screens/erase_data.dart';
@@ -83,7 +84,6 @@ class _SettingsState extends State<Settings> {
                   textColor:  kFontTheme(context),
                   onPressed: () {
                     navigatorPush(context, const PinAuth());
-                    // navigatorPushNamed(context, VerifyPin.id);
                   },
                 ),
                 const SettingsDivider(),
@@ -101,33 +101,33 @@ class _SettingsState extends State<Settings> {
                 const SettingsDivider(),
 
                 SizedBox(
-                  height: kHeightWidth(context).height * 0.5,
+                  height: 300.h,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Image(
-                        image: AssetImage('assets/images/logo.png'),
-                        height: 100,
-                        width: 100,
+                      Image(
+                        image: const AssetImage('assets/images/logo.png'),
+                        height: 100.h,
+                        width: 100.w,
                       ),
                   
-                      const SizedBox(height: 10.0),
+                      SizedBox(height: 10.h),
                   
                       Text(
                         'QR Quill', 
                         style: kNormalTextStyle.copyWith(
-                          fontSize: 20.0,
+                          fontSize: 20.sp,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
 
-                      const SizedBox(height: 10.0),
+                      SizedBox(height: 10.h),
                   
                       Text(
                         'Developed by Joboy-Dev.', 
                         style: kNormalTextStyle.copyWith(
                           color: kFontTheme(context),
-                          fontSize: 15.0,
+                          fontSize: 15.sp,
                           fontWeight: FontWeight.bold,
                         ),
                         textAlign: TextAlign.center,
@@ -156,9 +156,9 @@ class SettingsDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(height: 5.0),
-        Divider(color: kFontTheme(context), thickness: 0.2,),
-        const SizedBox(height: 10.0),
+        SizedBox(height: 5.h),
+        Divider(color: kFontTheme(context), thickness: 0.2.r),
+        SizedBox(height: 10.h),
       ],
     );
   }

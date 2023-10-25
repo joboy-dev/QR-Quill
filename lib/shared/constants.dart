@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_quill/services/provider/theme_switch.dart';
 
@@ -22,7 +23,7 @@ kHeightWidth(BuildContext context) {
   return MediaQuery.of(context).size;
 }
 
-const kAppPadding = EdgeInsets.only(left: 15.0, right: 15.0, top: 20.0);
+var kAppPadding = EdgeInsets.only(left: 10.r, right: 10.r, top: 15.r);
 
 // ANIMATION DURATION
 kAnimationDurationMs(int ms) => Duration(milliseconds: ms);
@@ -35,5 +36,5 @@ const kAnimationDuration5 = Duration(seconds: 5);
 
 // TEXT STYLES
 const kAppbarTextStyle = TextStyle(fontWeight: FontWeight.bold,);
-const kNavbarTextStyle = TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold);
-var kNormalTextStyle = TextStyle(fontSize: 17.0, color: kSecondaryColor);
+var kNavbarTextStyle = TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold);
+var kNormalTextStyle = TextStyle(fontSize: 17.sp, color: kSecondaryColor);

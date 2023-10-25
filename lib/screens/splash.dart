@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/navigator.dart';
 import 'package:qr_quill/wrapper.dart';
@@ -48,10 +49,10 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
         child: Center(
           child: ScaleTransition(
             scale: animation,
-            child: const Image(
-              image: AssetImage('assets/images/logo.png'),
-              height: 250,
-              width: 250,
+            child: Image(
+              image: const AssetImage('assets/images/logo.png'),
+              height: 250.h,
+              width: 250.w,
             ),
           ),
         )

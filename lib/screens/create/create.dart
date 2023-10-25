@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:qr_quill/screens/create/create_barcode.dart';
 import 'package:qr_quill/screens/create/create_qrcode.dart';
@@ -9,6 +10,7 @@ import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/custom_appbar.dart';
+import 'package:qr_quill/shared/logger.dart';
 import 'package:qr_quill/shared/navigator.dart';
 import 'package:qr_quill/shared/textfield.dart';
 
@@ -33,6 +35,9 @@ class _CreateState extends State<Create> {
 
   @override
   Widget build(BuildContext context) {
+    logger('Device Height: ${kHeightWidth(context).height}');
+    logger('Device width: ${kHeightWidth(context).width}');
+
     return Scaffold(
       body: Padding(
         padding: kAppPadding,
@@ -56,7 +61,7 @@ class _CreateState extends State<Create> {
                     ),
                   ),
 
-                  const SizedBox(width: 20.0),
+                  SizedBox(width: 20.w),
 
                   Expanded(
                     child: ColumnButtonIcon(
@@ -72,7 +77,7 @@ class _CreateState extends State<Create> {
               )
             ),
 
-            const SizedBox(height: 30.0),
+            SizedBox(height: 15.h),
 
             Expanded(
               flex: 4,
@@ -85,19 +90,21 @@ class _CreateState extends State<Create> {
                     backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                     elevation: 0.0,
                   ),
+                  SizedBox(height: 5.h),
 
                   Form(
                     child: Row(
                       children: [
-                        const Expanded(flex: 1, child: SizedBox()),
+                        const Spacer(),
+                        // const Expanded(flex: 1, child: SizedBox()),
                         Expanded(
-                          flex: 3,
+                          flex: kHeightWidth(context).width >= 800 ? 1 : 2,
                           child: DropDownFormField(
                             value: filterOption,
                             labelText: 'Filter by:',
-                            padding: const EdgeInsets.only(bottom: 0.0, left: 50.0),
-                            iconSize: 25.0,
-                            fontSize: 15.0,
+                            padding: const EdgeInsets.only(bottom: 0.0),
+                            iconSize: 20.r,
+                            // fontSize: 10.sp,
                             items: FilterOption.values
                               .map(
                                 (option) => DropdownMenuItem(
@@ -107,13 +114,13 @@ class _CreateState extends State<Create> {
                                     children: [
                                       Text(
                                         option.name,
-                                        style: kNormalTextStyle,
+                                        style: kNormalTextStyle.copyWith(fontSize: 12.sp),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                        padding: EdgeInsets.symmetric(horizontal: 20.r),
                                         child: Icon(
                                           optionIcons[option],
-                                          size: 15.0,
+                                          size: 10.r,
                                           color: kSecondaryColor,
                                         ),
                                       ),
@@ -145,16 +152,16 @@ class _CreateState extends State<Create> {
                   ),
 
                   SizedBox(
-                    height: kHeightWidth(context).height * 0.45,
+                    height: kHeightWidth(context).height * 0.5 - 70,
                     child: Padding(
                       padding: kAppPadding.copyWith(top: 0.0),
                       child: ListView.builder(
                         itemCount: 50,
                         itemBuilder: (context, index) {
                           return Card(
-                            color: Theme.of(context).scaffoldBackgroundColor,
-                            surfaceTintColor: Theme.of(context).scaffoldBackgroundColor,
-                            margin: const EdgeInsets.only(bottom: 15.0),
+                            color: kScaffoldBgColor(context),
+                            surfaceTintColor: kScaffoldBgColor(context),
+                            margin: EdgeInsets.only(bottom: 15.r),
                             shadowColor: kSecondaryColor,
                             elevation: 1.0,
                             shape: RoundedRectangleBorder(
@@ -164,10 +171,10 @@ class _CreateState extends State<Create> {
                               )
                             ),
                             child: Padding(
-                              padding: kAppPadding.copyWith(bottom: 15.0),
+                              padding: kAppPadding.copyWith(bottom: 15.r),
                               child: Row(
                                 children: [
-                                  Icon(Icons.zoom_in, size: 30.0, color: kSecondaryColor),
+                                  Icon(Icons.zoom_in, size: 30.r, color: kSecondaryColor),
                                 ],
                               ),
                             ),

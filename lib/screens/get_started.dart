@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qr_quill/screens/auth/create_pin.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
@@ -15,25 +16,7 @@ class GetStarted extends StatefulWidget {
   State<GetStarted> createState() => _GetStartedState();
 }
 
-class _GetStartedState extends State<GetStarted> with SingleTickerProviderStateMixin {
-  late AnimationController controller;
-  late Animation<double> animation;
-
-  @override
-  void initState() {
-    controller = AnimationController(vsync: this, duration: kAnimationDuration1);
-    animation = Tween(begin: 0.0, end: 1.0).animate(controller);
-
-    controller.forward();
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
+class _GetStartedState extends State<GetStarted> {
 
   @override
   Widget build(BuildContext context) {
@@ -50,29 +33,29 @@ class _GetStartedState extends State<GetStarted> with SingleTickerProviderStateM
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Image(
-                          image: AssetImage('assets/images/logo.png'),
-                          height: 200,
-                          width: 200,
+                        Image(
+                          image: const AssetImage('assets/images/logo.png'),
+                          height: 200.h,
+                          width: 200.w,
                         ),
                     
-                        const SizedBox(height: 20.0),
+                        SizedBox(height: 20.h),
                     
                         Text(
                           'QR Quill', 
                           style: kNormalTextStyle.copyWith(
-                            fontSize: 40.0,
+                            fontSize: 40.sp,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
   
-                        const SizedBox(height: 20.0),
+                        SizedBox(height: 20.h),
                     
                         Text(
                           'A quick and effective way to scan, create, and share QR Codes and Barcodes.', 
                           style: kNormalTextStyle.copyWith(
                             color: kFontTheme(context),
-                            fontSize: 20.0,
+                            fontSize: 20.sp,
                             fontWeight: FontWeight.bold,
                           ),
                           textAlign: TextAlign.center,

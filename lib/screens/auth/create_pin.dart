@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_quill/screens/auth/verify_pin.dart';
 import 'package:qr_quill/screens/dialog_screens/confirm_pin.dart';
@@ -35,7 +36,9 @@ class _CreatePinState extends State<CreatePin> {
   Widget build(BuildContext context) {
     final pinStore = context.read<PinStorage>();
 
-    savePin() {
+    savePin() async {
+      showSnackbar(context, 'Setting pin...');
+      await Future.delayed(kAnimationDuration1);
       // check if pin is empty
       if (pin.isEmpty) {
         setState(() {
@@ -67,9 +70,9 @@ class _CreatePinState extends State<CreatePin> {
           context: context, 
           screen: ConfirmPinDialog(
             pin: pincode,
-            navFunction: () {
+            navFunction: () async {
               // run function to save actual pin entered by user
-              savePin();
+              await savePin();
               // remove dialog box
               navigatorPop(context);
               // navigate to login screen
@@ -102,21 +105,21 @@ class _CreatePinState extends State<CreatePin> {
                         children: [
                           Icon(
                             Icons.lock_outline_rounded,
-                            size: 200.0,
+                            size: 200.r,
                             color: kSecondaryColor,
                           ),
             
-                          const SizedBox(height: 20.0),
+                          SizedBox(height: 20.h),
             
                           Text(
                             'Set Your Pin', 
                             style: kNormalTextStyle.copyWith(
-                              fontSize: 25.0,
+                              fontSize: 25.sp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
             
-                          const SizedBox(height: 20.0),
+                          SizedBox(height: 20.h),
             
                           PinField(
                             onChange: (value) {
