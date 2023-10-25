@@ -89,7 +89,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
           duration: kAnimationDurationMs(500),
           curve: Curves.fastOutSlowIn
         ),
-        navBarHeight: 50.h,
+        navBarHeight: MediaQuery.of(context).viewInsets.bottom > 0
+                  ? 0.0
+                  : 50.h,
         navBarStyle: NavBarStyle.style12,
         hideNavigationBarWhenKeyboardShows: true,
         onItemSelected: (value) {
