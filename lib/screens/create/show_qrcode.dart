@@ -40,7 +40,7 @@ class ShowQRCode extends StatefulWidget {
 }
 
 class _ShowQRCodeState extends State<ShowQRCode> {
-  final qrImageKey = GlobalKey();
+  final GlobalKey qrImageKey = GlobalKey();
 
   /// Function to launch URL
   launchUrl() async {
@@ -60,28 +60,20 @@ class _ShowQRCodeState extends State<ShowQRCode> {
     }
   }
 
-  /// Function to capture QR Code
+  /// Function to capture QR Code and share
   Future<void> captureAndShareQRCode() async {
     RenderRepaintBoundary boundary = qrImageKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
     ui.Image image = await boundary.toImage(pixelRatio: 3.0);
     ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
     Uint8List pngBytes = byteData!.buffer.asUint8List();
 
-    // final qrImage = QrPainter(
-    //   data: qrData, 
-    //   version: QrVersions.auto,
-    // ).toImage(200.r);
-
     final tempDir = await getTemporaryDirectory();
     final file = File('${tempDir.path}/qr_code.png');
     await file.writeAsBytes(pngBytes);
 
-    // XFile xFile = XFile(file.path);
-
-    // final RenderBox box = context.findRenderObject() as RenderBox;
-    // ignore: deprecated_member_use
-    Share.shareFiles(
-      [file.path],
+    XFile xFile = XFile(file.path);
+    Share.shareXFiles(
+      [xFile],
       subject: 'Check this out',
       text: 'QR Code Image',
       sharePositionOrigin: Rect.fromPoints(const Offset(0, 0), const Offset(0, 0))
@@ -110,22 +102,20 @@ class _ShowQRCodeState extends State<ShowQRCode> {
                 Center(
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 10.r),
-                    child: Builder(
-                      builder: (context) {
-                        return QrImageView(
-                          key: qrImageKey,
-                          data: widget.qrData,
-                          size: 220.r,
-                          eyeStyle: QrEyeStyle(
-                            color: kSecondaryColor,
-                            eyeShape: QrEyeShape.circle,
-                          ),
-                          dataModuleStyle: QrDataModuleStyle(
-                            color: kSecondaryColor,
-                            dataModuleShape: QrDataModuleShape.circle
-                          ),
-                        );
-                      }
+                    child: RepaintBoundary(
+                      key: qrImageKey,
+                      child: QrImageView(
+                        data: widget.qrData,
+                        size: 220.r,
+                        eyeStyle: QrEyeStyle(
+                          color: kSecondaryColor,
+                          eyeShape: QrEyeShape.circle,
+                        ),
+                        dataModuleStyle: QrDataModuleStyle(
+                          color: kSecondaryColor,
+                          dataModuleShape: QrDataModuleShape.circle
+                        ),
+                      ),
                     ),
                   ),
                 ),
