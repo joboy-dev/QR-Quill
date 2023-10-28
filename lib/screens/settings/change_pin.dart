@@ -76,7 +76,7 @@ class _ChangePinState extends State<ChangePin> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: kAppPadding,
+            padding: kAppPadding(),
             child: Form(
               key: _formKey,
               child: Center(
@@ -97,7 +97,7 @@ class _ChangePinState extends State<ChangePin> {
             
                           Text(
                             'Change Your Pin', 
-                            style: kNormalTextStyle.copyWith(
+                            style: kYellowNormalTextStyle(context).copyWith(
                               fontSize: 25.sp,
                               fontWeight: FontWeight.bold,
                             ),

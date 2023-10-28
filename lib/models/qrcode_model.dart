@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 // create enumerator to hold qrcode categories
-enum Category {Wifi, Text, Email, URL, Contact, Event, Image, File, Socials}
+enum Category {Wifi, Text, Email, URL, Contact, Event, Image, File, Socials, SMS}
 
 const categoryIcons = {
   Category.Wifi: Icons.wifi,
@@ -15,73 +15,23 @@ const categoryIcons = {
   Category.Socials: FontAwesomeIcons.link,
   Category.Event: Icons.event,
   Category.Image: Icons.image,
-  Category.File: FontAwesomeIcons.file,
+  Category.File: Icons.file_present,
+  Category.SMS: FontAwesomeIcons.commentSms,
 };
 
 // ALL CODE MODELS
 class QRCodeModel {
   String type;
-  String qrTitle;
+  String qrCodeName;
   String category;
-
-  // Wifi
-  String? wifiName;
-  String? widiPassword;
-
-  // Email
-  String? email;
-
-  // Text
-  String? text;
-
-  // URL
-  String? url;
-
-  // Contact
-  String? fullName;
-  String? phoneNumber;
-  String? address;
-  // email already present
-
-  // Event
-  String? eventTitle;
-  String? eventLocation;
-  String? startDate;
-  String? startTime;
-  String? endDate;
-  String? endTime;
-
-  // Image
-  String? mediaPath;
-
-  // File
-  String? filePath;
-
-  // Socials
-  String? selectedLink;
-  String? link;
+  String qrData;
+  String stringData;
 
   QRCodeModel({
     required this.type,
-    required this.qrTitle,
+    required this.qrCodeName,
     required this.category,
-    this.wifiName,
-    this.widiPassword,
-    this.email,
-    this.text,
-    this.url,
-    this.fullName,
-    this.phoneNumber,
-    this.address,
-    this.eventTitle,
-    this.eventLocation,
-    this.startDate,
-    this.startTime,
-    this.endDate,
-    this.endTime,
-    this.mediaPath,
-    this.filePath,
-    this.selectedLink,
-    this.link,
+    required this.qrData,
+    required this.stringData,
   });
 }

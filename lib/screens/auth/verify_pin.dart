@@ -95,7 +95,7 @@ class _VerifyPinState extends State<VerifyPin> with SingleTickerProviderStateMix
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: kAppPadding,
+            padding: kAppPadding(),
             child: Form(
               key: _formKey,
               child: Center(
@@ -125,7 +125,7 @@ class _VerifyPinState extends State<VerifyPin> with SingleTickerProviderStateMix
                           
                           Text( 
                             'Enter your Pin', 
-                            style: kNormalTextStyle.copyWith(
+                            style: kYellowNormalTextStyle(context).copyWith(
                               fontSize: 25.sp,
                               fontWeight: FontWeight.bold,
                             ),

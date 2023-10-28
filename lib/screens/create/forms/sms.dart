@@ -8,65 +8,48 @@ import 'package:qr_quill/screens/create/show_qrcode.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
-import 'package:qr_quill/shared/logger.dart';
 import 'package:qr_quill/shared/navigator.dart';
 import 'package:qr_quill/shared/snackbar.dart';
 import 'package:qr_quill/shared/textfield.dart';
 
-class EmailForm extends StatefulWidget {
-  EmailForm({super.key, required this.qrCodeName});
+class SMSForm extends StatefulWidget {
+  SMSForm({super.key, required this.qrCodeName});
 
   String qrCodeName;
 
   @override
-  State<EmailForm> createState() => _EmailFormState();
+  State<SMSForm> createState() => _SMSFormState();
 }
 
-class _EmailFormState extends State<EmailForm> with SingleTickerProviderStateMixin {
+class _SMSFormState extends State<SMSForm> with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
-  bool obscureText = true;
-  bool isLoading = false;
 
-  String email = '';
+  String phoneNumber = '';
   String subject = '';
   String message= '';
 
-  String data = '';
-  String qrData = '';
+  String stringData = '';
 
   /// Function to handle emailng of message
-  String generateMail(String email, String subject, String message) {
-    final uri = Uri(
-      scheme: 'mailto',
-      path: email,
-      queryParameters: {
-        'subject': subject,
-        'body': message,
-      },
-    );
-
-    return uri.toString();
+  String generateMessageQR(String phoneNumber, String message) {
+    final String smsUri = 'sms:$phoneNumber?body=$message';
+    return smsUri;  
   }
 
   validateForm() async {
     if (_formKey.currentState!.validate()) {
-      logger(email);
 
       // Collect all data
-      data = 'Email: $email\nSubject: $subject\n\nMessage:\n$message';
-      qrData = generateMail(email, subject, message);
+      stringData = 'To: $phoneNumber\n\nMessage:\n$message';
 
       showSnackbar(context, 'Generating QR Code...');
-      setState(() {
-        isLoading = true;
-      });
 
       await Future.delayed(kAnimationDuration2);
       navigatorPush(context, ShowQRCode(
-        qrData: qrData,
-        stringData: data,
+        qrData: generateMessageQR(phoneNumber, message),
+        stringData: stringData,
         qrCodeName: widget.qrCodeName,
-        selectedCategory: Category.Email,
+        selectedCategory: Category.SMS,
         )
       );
     } else {
@@ -80,27 +63,13 @@ class _EmailFormState extends State<EmailForm> with SingleTickerProviderStateMix
       key: _formKey,
       child: Column(
         children: [
-          EmailTextField(
-            onChanged: (value) {
-              setState(() {
-                email = value!;
-              });
-            }, 
-            enabledBorderColor: kFontTheme(context), 
-            focusedBorderColor: kSecondaryColor, 
-            errorBorderColor: kRedColor, 
-            focusedErrorBorderColor: kRedColor, 
-            errorTextStyleColor: kRedColor, 
-            cursorColor: kSecondaryColor, 
-            iconColor: kSecondaryColor,
-          ),
-
           NormalTextField(
-            hintText: 'Subject',
+            hintText: 'Phone Number',
             textColor: kSecondaryColor,
+            textInputType: TextInputType.phone,
             onChanged: (value) {
               setState(() {
-                subject = value!;
+                phoneNumber = value!;
               });
             }, 
             enabledBorderColor: kFontTheme(context), 
@@ -110,11 +79,11 @@ class _EmailFormState extends State<EmailForm> with SingleTickerProviderStateMix
             errorTextStyleColor: kRedColor, 
             iconColor: kSecondaryColor, 
             cursorColor: kSecondaryColor, 
-            prefixIcon: Icons.subject,
+            prefixIcon: Icons.phone,
           ),
 
           TextareaTextField(
-          hintText: 'Enter message',
+          hintText: 'Enter Message',
           onChanged: (value) {
             setState(() {
               message = value!;

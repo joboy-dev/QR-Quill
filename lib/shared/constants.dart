@@ -8,26 +8,27 @@ Color kBgColorLight = const Color.fromARGB(255, 255, 247, 247);
 Color kPrimaryColor = const Color.fromARGB(255, 63, 63, 63);
 // Color kSecondaryColor = const Color(0xffF7DC5F);
 Color kSecondaryColor = const Color.fromARGB(255, 192, 170, 73);
+// Color kSecondaryColor = Color.fromARGB(255, 132, 114, 214);
 Color kTertiaryColor = const Color.fromARGB(255, 196, 196, 196);
 const kRedColor = Color.fromARGB(255, 206, 15, 15);
-kScaffoldBgColor(BuildContext context) => Theme.of(context).scaffoldBackgroundColor;
+Color kScaffoldBgColor(BuildContext context) => Theme.of(context).scaffoldBackgroundColor;
 
 // THEME BASED FONT COLOR
 Color kFontTheme(BuildContext context) {
-  final theme = context.watch<ThemeSwitch>().isDarkMode;
-  return theme ? kTertiaryColor : kPrimaryColor;
+  final darkMode = context.watch<ThemeSwitch>().isDarkMode;
+  return darkMode ? kTertiaryColor : kPrimaryColor;
 }
 
 // RESPONSIVENESS
-kHeightWidth(BuildContext context) {
+Size kHeightWidth(BuildContext context) {
   return MediaQuery.of(context).size;
 }
 
-var kAppPadding = EdgeInsets.only(left: 10.r, right: 10.r, top: 15.r);
+EdgeInsets kAppPadding() => EdgeInsets.only(left: 10.r, right: 10.r, top: 15.r);
 
 // ANIMATION DURATION
-kAnimationDurationMs(int ms) => Duration(milliseconds: ms);
-kAnimationDurationSecs(int seconds) => Duration(seconds: seconds);
+Duration kAnimationDurationMs(int ms) => Duration(milliseconds: ms);
+Duration kAnimationDurationSecs(int seconds) => Duration(seconds: seconds);
 const kAnimationDuration1 = Duration(seconds: 1);
 const kAnimationDuration2 = Duration(seconds: 2);
 const kAnimationDuration3 = Duration(seconds: 3);
@@ -36,5 +37,8 @@ const kAnimationDuration5 = Duration(seconds: 5);
 
 // TEXT STYLES
 const kAppbarTextStyle = TextStyle(fontWeight: FontWeight.bold,);
-var kNavbarTextStyle = TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold);
-var kNormalTextStyle = TextStyle(fontSize: 17.sp, color: kSecondaryColor);
+TextStyle kNavbarTextStyle() => TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold);
+
+TextStyle kTextFieldTextStyle() => TextStyle(fontSize: 17.sp, color: kSecondaryColor);
+TextStyle kNormalTextStyle(BuildContext context) => TextStyle(fontSize: 17.sp, color: kFontTheme(context));
+TextStyle kYellowNormalTextStyle(BuildContext context) => TextStyle(fontSize: 17.sp, color: kSecondaryColor);

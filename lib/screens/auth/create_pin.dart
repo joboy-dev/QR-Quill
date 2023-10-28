@@ -92,7 +92,7 @@ class _CreatePinState extends State<CreatePin> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: kAppPadding,
+            padding: kAppPadding(),
             child: Form(
               key: _formKey,
               child: Center(
@@ -113,7 +113,7 @@ class _CreatePinState extends State<CreatePin> {
             
                           Text(
                             'Set Your Pin', 
-                            style: kNormalTextStyle.copyWith(
+                            style: kYellowNormalTextStyle(context).copyWith(
                               fontSize: 25.sp,
                               fontWeight: FontWeight.bold,
                             ),

@@ -28,43 +28,52 @@ class _BottomNavBarState extends State<BottomNavBar> {
   List<PersistentBottomNavBarItem> _navbarItems() => [
     PersistentBottomNavBarItem(
       icon: Icon(Icons.qr_code_2_rounded, size: 30.sp),
-      inactiveIcon: Icon(Icons.qr_code_2_rounded, size: 20.sp),
+      inactiveIcon: Icon(Icons.qr_code_2_rounded, size: 25.sp),
       title: 'Create',
       activeColorPrimary: kPrimaryColor,
       activeColorSecondary: kPrimaryColor,
       inactiveColorPrimary: kPrimaryColor.withOpacity(0.5),
       inactiveColorSecondary: kPrimaryColor.withOpacity(0.5),
-      textStyle: kNavbarTextStyle,
+      textStyle: kNavbarTextStyle(),
     ),
 
     PersistentBottomNavBarItem(
       icon: Icon(Icons.qr_code_scanner_rounded, size: 30.sp),
-      inactiveIcon: Icon(Icons.qr_code_scanner_rounded, size: 20.sp),
+      inactiveIcon: Icon(Icons.qr_code_scanner_rounded, size: 25.sp),
       title: 'Scan',
       activeColorPrimary: kPrimaryColor,
       activeColorSecondary: kPrimaryColor,
       inactiveColorPrimary: kPrimaryColor.withOpacity(0.5),
       inactiveColorSecondary: kPrimaryColor.withOpacity(0.5),
-      textStyle: kNavbarTextStyle,
+      textStyle: kNavbarTextStyle(),
     ),
 
     PersistentBottomNavBarItem(
       icon: Icon(Icons.settings, size: 30.sp),
-      inactiveIcon: Icon(Icons.settings, size: 20.sp),
+      inactiveIcon: Icon(Icons.settings, size: 25.sp),
       title: 'Settings',
       activeColorPrimary: kPrimaryColor,
       activeColorSecondary: kPrimaryColor,
       inactiveColorPrimary: kPrimaryColor.withOpacity(0.5),
       inactiveColorSecondary: kPrimaryColor.withOpacity(0.5),
-      textStyle: kNavbarTextStyle,
+      textStyle: kNavbarTextStyle(),
     ),
   ];
 
   // app bars
   List<CustomAppbar> _appbars() => [
-    const CustomAppbar(title: 'Create QR and Barcode', icon: Icons.qr_code_2_rounded),
-    const CustomAppbar(title: 'Scan QR and Barcode', icon: Icons.qr_code_scanner_rounded),
-    const CustomAppbar(title: 'Settings', icon: Icons.settings),
+    const CustomAppbar(
+      title: 'Create QR and Barcode', 
+      // icon: Icons.qr_code_2_rounded
+    ),
+    const CustomAppbar(
+      title: 'Scan QR and Barcode', 
+      // icon: Icons.qr_code_scanner_rounded
+    ),
+    const CustomAppbar(
+      title: 'Settings', 
+      // icon: Icons.settings
+    ),
   ];
 
   // screens
@@ -91,8 +100,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
         ),
         navBarHeight: MediaQuery.of(context).viewInsets.bottom > 0
                   ? 0.0
-                  : 50.h,
-        navBarStyle: NavBarStyle.style12,
+                  : kHeightWidth(context).height > 1000 ? 70.h : 55.h,
+        navBarStyle: NavBarStyle.style11,
         hideNavigationBarWhenKeyboardShows: true,
         onItemSelected: (value) {
           setState(() {

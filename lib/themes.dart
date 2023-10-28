@@ -7,9 +7,9 @@ datePickerTheme(BuildContext context) => DatePickerThemeData(
   shape: RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(12.0)
   ),
-  dayStyle: kNormalTextStyle,
-  yearStyle: kNormalTextStyle,
-  weekdayStyle: kNormalTextStyle.copyWith(color: kSecondaryColor),
+  dayStyle: kNormalTextStyle(context),
+  yearStyle: kNormalTextStyle(context),
+  weekdayStyle: kYellowNormalTextStyle(context),
   dayBackgroundColor: MaterialStatePropertyAll(kScaffoldBgColor(context)),
   dayForegroundColor: MaterialStatePropertyAll(kFontTheme(context)),
   dayOverlayColor: MaterialStatePropertyAll(kSecondaryColor),

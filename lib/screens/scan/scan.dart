@@ -29,7 +29,7 @@ class _ScanState extends State<Scan> {
     logger(kHeightWidth(context).height);
     return Scaffold(
       body: Padding(
-        padding: kAppPadding,
+        padding: kAppPadding(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -73,7 +73,7 @@ class _ScanState extends State<Scan> {
                 children: [
                   CustomAppbar(
                     title: 'Scan History',
-                    icon: FontAwesomeIcons.clockRotateLeft,
+                    // icon: FontAwesomeIcons.clockRotateLeft,
                     titleColor: kSecondaryColor,
                     backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                     elevation: 0.0,
@@ -83,7 +83,7 @@ class _ScanState extends State<Scan> {
                   SizedBox(
                     height: kHeightWidth(context).height * 0.5,
                     child: Padding(
-                      padding: kAppPadding.copyWith(top: 0.0),
+                      padding: kAppPadding().copyWith(top: 0.0),
                       child: ListView.builder(
                         itemCount: 50,
                         itemBuilder: (context, index) {
@@ -100,7 +100,7 @@ class _ScanState extends State<Scan> {
                               )
                             ),
                             child: Padding(
-                              padding: kAppPadding.copyWith(bottom: 15.r),
+                              padding: kAppPadding().copyWith(bottom: 15.r),
                               child: Row(
                                 children: [
                                   Icon(Icons.zoom_in, size: 30.r, color: kSecondaryColor),

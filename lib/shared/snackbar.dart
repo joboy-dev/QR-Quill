@@ -10,7 +10,7 @@ showSnackbar(BuildContext context, String text) {
       content:Text(
         text, 
         textAlign: TextAlign.center,
-        style: kNormalTextStyle.copyWith(fontSize: 20.sp, fontWeight: FontWeight.bold,)
+        style: kYellowNormalTextStyle(context).copyWith(fontSize: 20.sp, fontWeight: FontWeight.bold,)
       ),
       backgroundColor: kPrimaryColor,
       padding: EdgeInsets.symmetric(vertical: 10.r, horizontal: 20.r),

@@ -17,7 +17,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: kAppPadding,
+            padding: kAppPadding(),
             child: const Column(
               children: [],
             ),

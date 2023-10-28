@@ -7,14 +7,14 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppbar({
     super.key, 
     required this.title,
-    required this.icon,
+    // required this.icon,
     this.backgroundColor,
     this.titleColor,
     this.elevation,
   });
 
   final String title;
-  final IconData icon;
+  // final IconData icon;
   final Color? backgroundColor;
   final Color? titleColor;
   final double? elevation;
@@ -23,6 +23,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: Text(title, style: kAppbarTextStyle.copyWith(color: titleColor ?? kPrimaryColor, fontSize: 17.sp)),
+      automaticallyImplyLeading: false,
       backgroundColor: backgroundColor ?? kSecondaryColor,
       elevation: elevation ?? 2.0,
       shadowColor: kFontTheme(context),

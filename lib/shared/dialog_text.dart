@@ -20,7 +20,7 @@ class DialogText extends StatelessWidget {
       children: [
         Text(
           text,
-          style: kNormalTextStyle.copyWith(
+          style: kNormalTextStyle(context).copyWith(
             color: Platform.isIOS ? kPrimaryColor : kFontTheme(context),
             fontSize: 20.sp,
           ),

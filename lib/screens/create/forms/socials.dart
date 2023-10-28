@@ -4,9 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:qr_quill/models/qrcode_model.dart';
+import 'package:qr_quill/screens/create/show_qrcode.dart';
 import 'package:qr_quill/shared/animations.dart';
+import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/logger.dart';
+import 'package:qr_quill/shared/navigator.dart';
+import 'package:qr_quill/shared/snackbar.dart';
 import 'package:qr_quill/shared/textfield.dart';
 
 enum SocialLinks {WhatsApp, Facebook, Instagram, XTwitter, LinkedIn, YouTube, Other}
@@ -22,229 +27,276 @@ const socialIcons = {
 };
 
 class SocialsForm extends StatefulWidget {
-  SocialsForm({super.key, required this.link, this.selectedLink});
+  SocialsForm({super.key, required this.qrCodeName});
 
-  String link;
-  SocialLinks? selectedLink;
+  String qrCodeName;
 
   @override
   State<SocialsForm> createState() => _SocialsFormState();
 }
 
 class _SocialsFormState extends State<SocialsForm> with SingleTickerProviderStateMixin {
+  SocialLinks? selectedLink;
+
+  String link = '';
+
+  final _formKey = GlobalKey<FormState>();
+  bool obscureText = true;
+  bool isLoading = false;
+
+  String stringData = '';
+
+  validateForm() async {
+    if (_formKey.currentState!.validate()) {
+      logger(link);
+
+      // Collect all data
+      stringData = '${selectedLink?.name} Link:\n$link';
+
+      showSnackbar(context, 'Generating QR Code...');
+      setState(() {
+        isLoading = true;
+      });
+
+      await Future.delayed(kAnimationDuration2);
+      // ignore: use_build_context_synchronously
+      navigatorPush(context, ShowQRCode(
+        qrData: link,
+        stringData: stringData,
+        qrCodeName: widget.qrCodeName,
+        selectedCategory: Category.Socials,
+        )
+      );
+    } else {
+      showSnackbar(context, 'Field validation failed. Ensure all fields are valid.');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        DropDownFormField(
-          labelText: 'Choose',
-          value: widget.selectedLink, 
-          items: SocialLinks.values
-            .map(
-              (link) => DropdownMenuItem(
-                value: link,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      link.name,
-                      style: kNormalTextStyle.copyWith(fontSize: 15.sp),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Icon(
-                        socialIcons[link],
-                        size: 15.r,
-                        color: kSecondaryColor,
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          DropDownFormField(
+            labelText: 'Choose',
+            value: selectedLink, 
+            items: SocialLinks.values
+              .map(
+                (link) => DropdownMenuItem(
+                  value: link,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        link.name,
+                        style: kYellowNormalTextStyle(context).copyWith(fontSize: 15.sp),
                       ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.r),
+                        child: Icon(
+                          socialIcons[link],
+                          size: 15.r,
+                          color: kSecondaryColor,
+                        ),
+                      ),
+                    ].animate(
+                      interval: kAnimationDurationMs(100),
+                      effects: MyEffects.slideShake(),
                     ),
-                  ].animate(
-                    interval: kAnimationDurationMs(100),
-                    effects: MyEffects.slideShake(),
-                  ),
-                )
-              ),
-            )
-          .toList(),
-          onChanged: (value) {
-            setState(() {
-              widget.selectedLink = value;
-            });
-           logger('Selected Link: ${widget.selectedLink!.name}');
-          }, 
-          prefixIcon: Icons.link, 
-          iconColor: kSecondaryColor, 
-          enabledBorderColor: kFontTheme(context), 
-          focusedBorderColor: kSecondaryColor, 
-          errorBorderColor: kRedColor, 
-          focusedErrorBorderColor: kRedColor, 
-          errorTextStyleColor: kRedColor, 
-        ),
+                  )
+                ),
+              )
+            .toList(),
+            onChanged: (value) {
+              setState(() {
+                selectedLink = value;
+              });
+             logger('Selected Link: ${selectedLink!.name}');
+            }, 
+            prefixIcon: Icons.link, 
+            iconColor: kSecondaryColor, 
+            enabledBorderColor: kFontTheme(context), 
+            focusedBorderColor: kSecondaryColor, 
+            errorBorderColor: kRedColor, 
+            focusedErrorBorderColor: kRedColor, 
+            errorTextStyleColor: kRedColor, 
+          ),
+    
+          if (selectedLink == SocialLinks.WhatsApp) URLTextField(
+            hintText: 'WhatsApp',
+            textColor: kSecondaryColor,
+            icon: FontAwesomeIcons.whatsapp,
+            onChanged: (value) {
+              setState(() {
+                link = value!;
+              });
+            }, 
+            enabledBorderColor: kFontTheme(context), 
+            focusedBorderColor: kSecondaryColor, 
+            errorBorderColor: kRedColor, 
+            focusedErrorBorderColor: kRedColor, 
+            errorTextStyleColor: kRedColor, 
+            iconColor: kSecondaryColor, 
+            cursorColor: kSecondaryColor, 
+            validator: (value) {
+              Uri? uri = Uri.tryParse(value!);
+              return (uri?.host == 'www.whatsapp.com' || uri?.host == 'whatsapp.com')
+                ? null 
+                : 'Enter a valid WhatsApp URL';
+            },
+          ),
+    
+          if (selectedLink == SocialLinks.Instagram) URLTextField(
+            hintText: 'Instagram',
+            textColor: kSecondaryColor,
+            icon: FontAwesomeIcons.instagram,
+            onChanged: (value) {
+              setState(() {
+                link = value!;
+              });
+            }, 
+            enabledBorderColor: kFontTheme(context), 
+            focusedBorderColor: kSecondaryColor, 
+            errorBorderColor: kRedColor, 
+            focusedErrorBorderColor: kRedColor, 
+            errorTextStyleColor: kRedColor, 
+            iconColor: kSecondaryColor, 
+            cursorColor: kSecondaryColor, 
+            validator: (value) {
+              Uri? uri = Uri.tryParse(value!);
+              return (uri?.host == 'www.instagram.com' || uri?.host == 'instagram.com')
+                ? null 
+                : 'Enter a valid Instagram URL';
+            },
+          ),
+    
+          if (selectedLink == SocialLinks.XTwitter) URLTextField(
+            hintText: 'XTwitter',
+            textColor: kSecondaryColor,
+            icon: FontAwesomeIcons.xTwitter,
+            onChanged: (value) {
+              setState(() {
+                link = value!;
+              });
+            }, 
+            enabledBorderColor: kFontTheme(context), 
+            focusedBorderColor: kSecondaryColor, 
+            errorBorderColor: kRedColor, 
+            focusedErrorBorderColor: kRedColor, 
+            errorTextStyleColor: kRedColor, 
+            iconColor: kSecondaryColor, 
+            cursorColor: kSecondaryColor, 
+            validator: (value) {
+              Uri? uri = Uri.tryParse(value!);
+              return (uri?.host == 'www.twitter.com' || uri?.host == 'twitter.com')
+                ? null 
+                : 'Enter a valid XTwitter URL';
+            },
+          ),
+    
+          if (selectedLink == SocialLinks.Facebook) URLTextField(
+            hintText: 'Facebook',
+            textColor: kSecondaryColor,
+            icon: FontAwesomeIcons.facebook,
+            onChanged: (value) {
+              setState(() {
+                link = value!;
+              });
+            }, 
+            enabledBorderColor: kFontTheme(context), 
+            focusedBorderColor: kSecondaryColor, 
+            errorBorderColor: kRedColor, 
+            focusedErrorBorderColor: kRedColor, 
+            errorTextStyleColor: kRedColor, 
+            iconColor: kSecondaryColor, 
+            cursorColor: kSecondaryColor, 
+            validator: (value) {
+              Uri? uri = Uri.tryParse(value!);
+              return (uri?.host == 'www.facebook.com' || uri?.host == 'facebook.com')
+                ? null 
+                : 'Enter a valid Facebook URL';
+            },
+          ),
+    
+          if (selectedLink == SocialLinks.LinkedIn) URLTextField(
+            hintText: 'LinkedIn',
+            textColor: kSecondaryColor,
+            icon: FontAwesomeIcons.linkedin,
+            onChanged: (value) {
+              setState(() {
+                link = value!;
+              });
+            }, 
+            enabledBorderColor: kFontTheme(context), 
+            focusedBorderColor: kSecondaryColor, 
+            errorBorderColor: kRedColor, 
+            focusedErrorBorderColor: kRedColor, 
+            errorTextStyleColor: kRedColor, 
+            iconColor: kSecondaryColor, 
+            cursorColor: kSecondaryColor, 
+            validator: (value) {
+              Uri? uri = Uri.tryParse(value!);
+              return (uri?.host == 'www.linkedin.com' || uri?.host == 'linkedin.com')
+                ? null 
+                : 'Enter a valid Linkedin URL';
+            },
+          ),
+    
+          if (selectedLink == SocialLinks.YouTube) URLTextField(
+            hintText: 'YouTube',
+            textColor: kSecondaryColor,
+            icon: FontAwesomeIcons.youtube,
+            onChanged: (value) {
+              setState(() {
+                link = value!;
+              });
+            }, 
+            enabledBorderColor: kFontTheme(context), 
+            focusedBorderColor: kSecondaryColor, 
+            errorBorderColor: kRedColor, 
+            focusedErrorBorderColor: kRedColor, 
+            errorTextStyleColor: kRedColor, 
+            iconColor: kSecondaryColor, 
+            cursorColor: kSecondaryColor, 
+            validator: (value) {
+              Uri? uri = Uri.tryParse(value!);
+              return (uri?.host == 'www.youtube.com' || uri?.host == 'youtube.com')
+                ? null 
+                : 'Enter a valid Youtube URL';
+            },
+          ),
+    
+          if (selectedLink == SocialLinks.Other) URLTextField(
+            hintText: 'Other',
+            textColor: kSecondaryColor,
+            onChanged: (value) {
+              setState(() {
+                link = value!;
+              });
+            }, 
+            enabledBorderColor: kFontTheme(context), 
+            focusedBorderColor: kSecondaryColor, 
+            errorBorderColor: kRedColor, 
+            focusedErrorBorderColor: kRedColor, 
+            errorTextStyleColor: kRedColor, 
+            iconColor: kSecondaryColor, 
+            cursorColor: kSecondaryColor, 
+          ),
 
-        if (widget.selectedLink == SocialLinks.WhatsApp) URLTextField(
-          hintText: 'WhatsApp',
-          textColor: kSecondaryColor,
-          icon: FontAwesomeIcons.whatsapp,
-          onChanged: (value) {
-            setState(() {
-              widget.link = value!;
-            });
-          }, 
-          enabledBorderColor: kFontTheme(context), 
-          focusedBorderColor: kSecondaryColor, 
-          errorBorderColor: kRedColor, 
-          focusedErrorBorderColor: kRedColor, 
-          errorTextStyleColor: kRedColor, 
-          iconColor: kSecondaryColor, 
-          cursorColor: kSecondaryColor, 
-          validator: (value) {
-            Uri? uri = Uri.tryParse(value!);
-            return (uri?.host == 'www.whatsapp.com' || uri?.host == 'whatsapp.com')
-              ? null 
-              : 'Enter a valid WhatsApp URL';
-          },
+          Button(
+            buttonColor: kSecondaryColor,
+            buttonText: 'Generate QR Code',
+            onPressed: () {
+              validateForm();
+            },
+            inactive: false,
+          ),
+          SizedBox(height:10.h),
+        ].animate(
+          interval: kAnimationDurationMs(100),
+          effects: MyEffects.fadeSlide(offset: const Offset(-0.05, 0)),
         ),
-
-        if (widget.selectedLink == SocialLinks.Instagram) URLTextField(
-          hintText: 'Instagram',
-          textColor: kSecondaryColor,
-          icon: FontAwesomeIcons.instagram,
-          onChanged: (value) {
-            setState(() {
-              widget.link = value!;
-            });
-          }, 
-          enabledBorderColor: kFontTheme(context), 
-          focusedBorderColor: kSecondaryColor, 
-          errorBorderColor: kRedColor, 
-          focusedErrorBorderColor: kRedColor, 
-          errorTextStyleColor: kRedColor, 
-          iconColor: kSecondaryColor, 
-          cursorColor: kSecondaryColor, 
-          validator: (value) {
-            Uri? uri = Uri.tryParse(value!);
-            return (uri?.host == 'www.instagram.com' || uri?.host == 'instagram.com')
-              ? null 
-              : 'Enter a valid Instagram URL';
-          },
-        ),
-
-        if (widget.selectedLink == SocialLinks.XTwitter) URLTextField(
-          hintText: 'XTwitter',
-          textColor: kSecondaryColor,
-          icon: FontAwesomeIcons.xTwitter,
-          onChanged: (value) {
-            setState(() {
-              widget.link = value!;
-            });
-          }, 
-          enabledBorderColor: kFontTheme(context), 
-          focusedBorderColor: kSecondaryColor, 
-          errorBorderColor: kRedColor, 
-          focusedErrorBorderColor: kRedColor, 
-          errorTextStyleColor: kRedColor, 
-          iconColor: kSecondaryColor, 
-          cursorColor: kSecondaryColor, 
-          validator: (value) {
-            Uri? uri = Uri.tryParse(value!);
-            return (uri?.host == 'www.twitter.com' || uri?.host == 'twitter.com')
-              ? null 
-              : 'Enter a valid XTwitter URL';
-          },
-        ),
-
-        if (widget.selectedLink == SocialLinks.Facebook) URLTextField(
-          hintText: 'Facebook',
-          textColor: kSecondaryColor,
-          icon: FontAwesomeIcons.facebook,
-          onChanged: (value) {
-            setState(() {
-              widget.link = value!;
-            });
-          }, 
-          enabledBorderColor: kFontTheme(context), 
-          focusedBorderColor: kSecondaryColor, 
-          errorBorderColor: kRedColor, 
-          focusedErrorBorderColor: kRedColor, 
-          errorTextStyleColor: kRedColor, 
-          iconColor: kSecondaryColor, 
-          cursorColor: kSecondaryColor, 
-          validator: (value) {
-            Uri? uri = Uri.tryParse(value!);
-            return (uri?.host == 'www.facebook.com' || uri?.host == 'facebook.com')
-              ? null 
-              : 'Enter a valid Facebook URL';
-          },
-        ),
-
-        if (widget.selectedLink == SocialLinks.LinkedIn) URLTextField(
-          hintText: 'LinkedIn',
-          textColor: kSecondaryColor,
-          icon: FontAwesomeIcons.linkedin,
-          onChanged: (value) {
-            setState(() {
-              widget.link = value!;
-            });
-          }, 
-          enabledBorderColor: kFontTheme(context), 
-          focusedBorderColor: kSecondaryColor, 
-          errorBorderColor: kRedColor, 
-          focusedErrorBorderColor: kRedColor, 
-          errorTextStyleColor: kRedColor, 
-          iconColor: kSecondaryColor, 
-          cursorColor: kSecondaryColor, 
-          validator: (value) {
-            Uri? uri = Uri.tryParse(value!);
-            return (uri?.host == 'www.linkedin.com' || uri?.host == 'linkedin.com')
-              ? null 
-              : 'Enter a valid Linkedin URL';
-          },
-        ),
-
-        if (widget.selectedLink == SocialLinks.YouTube) URLTextField(
-          hintText: 'YouTube',
-          textColor: kSecondaryColor,
-          icon: FontAwesomeIcons.youtube,
-          onChanged: (value) {
-            setState(() {
-              widget.link = value!;
-            });
-          }, 
-          enabledBorderColor: kFontTheme(context), 
-          focusedBorderColor: kSecondaryColor, 
-          errorBorderColor: kRedColor, 
-          focusedErrorBorderColor: kRedColor, 
-          errorTextStyleColor: kRedColor, 
-          iconColor: kSecondaryColor, 
-          cursorColor: kSecondaryColor, 
-          validator: (value) {
-            Uri? uri = Uri.tryParse(value!);
-            return (uri?.host == 'www.youtube.com' || uri?.host == 'youtube.com')
-              ? null 
-              : 'Enter a valid Youtube URL';
-          },
-        ),
-
-        if (widget.selectedLink == SocialLinks.Other) URLTextField(
-          hintText: 'Other',
-          textColor: kSecondaryColor,
-          onChanged: (value) {
-            setState(() {
-              widget.link = value!;
-            });
-          }, 
-          enabledBorderColor: kFontTheme(context), 
-          focusedBorderColor: kSecondaryColor, 
-          errorBorderColor: kRedColor, 
-          focusedErrorBorderColor: kRedColor, 
-          errorTextStyleColor: kRedColor, 
-          iconColor: kSecondaryColor, 
-          cursorColor: kSecondaryColor, 
-        ),
-      ].animate(
-        interval: kAnimationDurationMs(100),
-        effects: MyEffects.fadeSlide(offset: const Offset(-0.05, 0)),
       ),
     );
   }

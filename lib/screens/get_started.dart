@@ -24,7 +24,7 @@ class _GetStartedState extends State<GetStarted> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: kAppPadding,
+            padding: kAppPadding(),
             child: Center(
               child: Column(
                 children: [
@@ -43,7 +43,7 @@ class _GetStartedState extends State<GetStarted> {
                     
                         Text(
                           'QR Quill', 
-                          style: kNormalTextStyle.copyWith(
+                          style: kYellowNormalTextStyle(context).copyWith(
                             fontSize: 40.sp,
                             fontWeight: FontWeight.bold,
                           ),
@@ -53,8 +53,7 @@ class _GetStartedState extends State<GetStarted> {
                     
                         Text(
                           'A quick and effective way to scan, create, and share QR Codes and Barcodes.', 
-                          style: kNormalTextStyle.copyWith(
-                            color: kFontTheme(context),
+                          style: kNormalTextStyle(context).copyWith(
                             fontSize: 20.sp,
                             fontWeight: FontWeight.bold,
                           ),
@@ -70,7 +69,7 @@ class _GetStartedState extends State<GetStarted> {
                   Button(
                     buttonText: 'Create Pin',
                     onPressed: () {
-                      navigatorPush(context, const CreatePin());
+                      navigatorPushReplacement(context, const CreatePin());
                     }, 
                     buttonColor: kSecondaryColor, 
                     inactive: false,

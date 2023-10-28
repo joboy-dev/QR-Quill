@@ -10,7 +10,6 @@ import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/custom_appbar.dart';
-import 'package:qr_quill/shared/logger.dart';
 import 'package:qr_quill/shared/navigator.dart';
 import 'package:qr_quill/shared/textfield.dart';
 
@@ -35,12 +34,12 @@ class _CreateState extends State<Create> {
 
   @override
   Widget build(BuildContext context) {
-    logger('Device Height: ${kHeightWidth(context).height}');
-    logger('Device width: ${kHeightWidth(context).width}');
+    // logger('Device Height: ${kHeightWidth(context).height}');
+    // logger('Device width: ${kHeightWidth(context).width}');
 
     return Scaffold(
       body: Padding(
-        padding: kAppPadding,
+        padding: kAppPadding(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -85,7 +84,7 @@ class _CreateState extends State<Create> {
                 children: [
                   CustomAppbar(
                     title: 'Created QR/Bar Codes',
-                    icon: FontAwesomeIcons.qrcode,
+                    // icon: FontAwesomeIcons.qrcode,
                     titleColor: kSecondaryColor,
                     backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                     elevation: 0.0,
@@ -114,7 +113,7 @@ class _CreateState extends State<Create> {
                                     children: [
                                       Text(
                                         option.name,
-                                        style: kNormalTextStyle.copyWith(fontSize: 12.sp),
+                                        style: kYellowNormalTextStyle(context).copyWith(fontSize: 12.sp),
                                       ),
                                       Padding(
                                         padding: EdgeInsets.symmetric(horizontal: 20.r),
@@ -154,7 +153,7 @@ class _CreateState extends State<Create> {
                   SizedBox(
                     height: kHeightWidth(context).height * 0.5 - 70,
                     child: Padding(
-                      padding: kAppPadding.copyWith(top: 0.0),
+                      padding: kAppPadding().copyWith(top: 0.0),
                       child: ListView.builder(
                         itemCount: 50,
                         itemBuilder: (context, index) {
@@ -171,7 +170,7 @@ class _CreateState extends State<Create> {
                               )
                             ),
                             child: Padding(
-                              padding: kAppPadding.copyWith(bottom: 15.r),
+                              padding: kAppPadding().copyWith(bottom: 15.r),
                               child: Row(
                                 children: [
                                   Icon(Icons.zoom_in, size: 30.r, color: kSecondaryColor),

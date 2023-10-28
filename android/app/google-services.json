@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "55196365703",
+    "project_id": "qr-quill",
+    "storage_bucket": "qr-quill.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:55196365703:android:011083bfd1bd5206ae5922",
+        "android_client_info": {
+          "package_name": "com.joboydev.qr_quill"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4S2kIyr72CEnUe2r17hhf0YLjXvBeKUA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

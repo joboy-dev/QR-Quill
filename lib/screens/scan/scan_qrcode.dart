@@ -17,7 +17,7 @@ class _ScanQRCodeState extends State<ScanQRCode> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: kAppPadding,
+            padding: kAppPadding(),
             child: const Column(
               children: [],
             ),

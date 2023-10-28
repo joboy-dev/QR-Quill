@@ -35,7 +35,7 @@ class _SettingsState extends State<Settings> {
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
-            padding: kAppPadding,
+            padding: kAppPadding(),
             child: Column(
               children: [
                 Row(
@@ -50,6 +50,7 @@ class _SettingsState extends State<Settings> {
                             ? Icons.brightness_high_rounded
                             : Icons.nightlight,
                         iconColor: kSecondaryColor,
+                        
                         // textColor: theme ? kTertiaryColor: kPrimaryColor,
                         textColor: kFontTheme(context),
                         onPressed: () {},
@@ -57,20 +58,23 @@ class _SettingsState extends State<Settings> {
                     ),
                     Expanded(
                       flex: 1,
-                      child: Switch.adaptive(
-                        activeColor: kSecondaryColor,
-                        activeTrackColor:
-                            kSecondaryColor.withOpacity(0.5),
-                        inactiveThumbColor:
-                            kSecondaryColor.withOpacity(0.5),
-                        inactiveTrackColor: kSecondaryColor,
-                        value: theme,
-                        onChanged: (value) async {
-                          await switchTheme.toggleThemeMode();
-                          setState(() {
-                            theme = value;
-                          });
-                        },
+                      child: Transform.scale(
+                        scale: 1.r,
+                        child: Switch.adaptive(
+                          activeColor: kSecondaryColor,
+                          activeTrackColor:
+                              kSecondaryColor.withOpacity(0.5),
+                          inactiveThumbColor:
+                              kSecondaryColor.withOpacity(0.5),
+                          inactiveTrackColor: kSecondaryColor,
+                          value: theme,
+                          onChanged: (value) async {
+                            await switchTheme.toggleThemeMode();
+                            setState(() {
+                              theme = value;
+                            });
+                          },
+                        ),
                       ),
                     ),
                   ],
@@ -115,7 +119,7 @@ class _SettingsState extends State<Settings> {
                   
                       Text(
                         'QR Quill', 
-                        style: kNormalTextStyle.copyWith(
+                        style: kYellowNormalTextStyle(context).copyWith(
                           fontSize: 20.sp,
                           fontWeight: FontWeight.bold,
                         ),
@@ -125,8 +129,7 @@ class _SettingsState extends State<Settings> {
                   
                       Text(
                         'Developed by Joboy-Dev.', 
-                        style: kNormalTextStyle.copyWith(
-                          color: kFontTheme(context),
+                        style: kNormalTextStyle(context).copyWith(
                           fontSize: 15.sp,
                           fontWeight: FontWeight.bold,
                         ),

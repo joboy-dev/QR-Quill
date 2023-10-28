@@ -28,7 +28,7 @@ class Button extends StatelessWidget {
     return MaterialButton(
       onPressed: onPressed,
       minWidth: width ?? 200.w,
-      height: 50.h,
+      height: 40.h,
       color: inactive ? kTertiaryColor : buttonColor,
       focusColor: inactive
           ? kTertiaryColor.withOpacity(0.5)
@@ -146,7 +146,7 @@ class IconTextButton extends StatelessWidget {
               flex: 1,
               child: Text(
                 text,
-                style: kNormalTextStyle.copyWith(
+                style: kNormalTextStyle(context).copyWith(
                   fontSize: fontSize ?? 20.sp,
                   color: textColor ?? kTertiaryColor,
                   fontWeight: fontWeight ?? FontWeight.normal,
@@ -221,12 +221,11 @@ class ButtonText extends StatelessWidget {
       child: RichText(
         text: TextSpan(
           text: firstText,
-          style: kNormalTextStyle.copyWith(color: kFontTheme(context), fontSize: 15.sp),
+          style: kNormalTextStyle(context).copyWith(color: kFontTheme(context), fontSize: 15.sp),
           children: [
             TextSpan(
               text: secondText,
-              style: kNormalTextStyle.copyWith(
-                color: kSecondaryColor,
+              style: kYellowNormalTextStyle(context).copyWith(
                 fontWeight: FontWeight.bold,
                 fontSize: 15.sp
               ),

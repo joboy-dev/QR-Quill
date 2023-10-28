@@ -25,7 +25,7 @@ class DialogHeader extends StatelessWidget {
             SizedBox(width: 20.w),
             Text(
               headerText,
-              style: kNormalTextStyle.copyWith(color: mainColor, fontSize: 22.sp, fontWeight: FontWeight.bold,),
+              style: kNormalTextStyle(context).copyWith(color: mainColor, fontSize: 22.sp, fontWeight: FontWeight.bold,),
             )
           ],
         ),

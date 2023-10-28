@@ -1,4 +1,5 @@
 import 'package:device_preview/device_preview.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,10 +11,14 @@ import 'package:qr_quill/services/provider/pin_storage.dart';
 import 'package:qr_quill/services/provider/theme_switch.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/themes.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(
     MultiProvider(
@@ -21,11 +26,11 @@ void main() {
         ChangeNotifierProvider(create: (_) => ThemeSwitch()),
         ChangeNotifierProvider(create: (_) => PinStorage()),
       ],
-      // child: DevicePreview(
-      //   enabled: !kReleaseMode,
-      //   builder: (context) => const QRQuill(),
-      // ),
-      child: const QRQuill(),
+      child: DevicePreview(
+        enabled: !kReleaseMode,
+        builder: (context) => const QRQuill(),
+      ),
+      // child: const QRQuill(),
     ),
   );
 }

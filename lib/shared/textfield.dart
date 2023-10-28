@@ -1,14 +1,11 @@
-// ignore_for_file: avoid_print, must_be_immutable, use_build_context_synchronously
+// ignore_for_file:, must_be_immutable, use_build_context_synchronously
 
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pin_code_fields/flutter_pin_code_fields.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:qr_quill/services/get_app_dir.dart';
 import 'package:qr_quill/shared/constants.dart';
 
 class NormalTextField extends StatelessWidget {
@@ -73,7 +70,7 @@ class NormalTextField extends StatelessWidget {
         initialValue: initialValue,
         minLines: 1,
         maxLines: maxLines ?? 1,
-        style: kNormalTextStyle.copyWith(
+        style: kNormalTextStyle(context).copyWith(
           fontSize: fontSize ?? 15.sp, 
           color: textColor ?? kFontTheme(context),
         ),
@@ -84,7 +81,7 @@ class NormalTextField extends StatelessWidget {
           hintText: hintText,
           filled: filled,
           fillColor: fillColor,
-          hintStyle: kNormalTextStyle.copyWith(
+          hintStyle: kNormalTextStyle(context).copyWith(
               color: kFontTheme(context).withOpacity(0.5), 
               fontSize: fontSize ?? 15.sp,
               fontWeight: FontWeight.normal,
@@ -111,19 +108,19 @@ class NormalTextField extends StatelessWidget {
             fontSize: 15.sp,
           ),
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: enabledBorderColor, width: 1.0),
+            borderSide: BorderSide(color: enabledBorderColor, width: 1.w),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: focusedBorderColor, width: 1.0),
+            borderSide: BorderSide(color: focusedBorderColor, width: 1.w),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
           ),
           errorBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: errorBorderColor, width: 1.0),
+            borderSide: BorderSide(color: errorBorderColor, width: 1.w),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
           ),
           focusedErrorBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: focusedErrorBorderColor, width: 1.0),
+            borderSide: BorderSide(color: focusedErrorBorderColor, width: 1.w),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
           ),
           errorStyle: TextStyle(
@@ -134,7 +131,7 @@ class NormalTextField extends StatelessWidget {
         // onSaved: onSaved,
         onChanged: onChanged,
         validator: (value) {
-          if (value!.isEmpty) {
+          if (value!.isEmpty ) {
             return 'This field cannot be empty';
           } else {
             return null;
@@ -199,7 +196,7 @@ class URLTextField extends StatelessWidget {
       child: TextFormField(
         readOnly: readonly ?? false,
         initialValue: initialValue,
-        style: kNormalTextStyle.copyWith(
+        style: kNormalTextStyle(context).copyWith(
           fontSize: fontSize ?? 15.sp, 
           color: textColor ?? kFontTheme(context),
         ),
@@ -209,7 +206,7 @@ class URLTextField extends StatelessWidget {
         keyboardType: textInputType ?? TextInputType.text,
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: kNormalTextStyle.copyWith(
+          hintStyle: kNormalTextStyle(context).copyWith(
               color: kFontTheme(context).withOpacity(0.5), 
               fontSize: fontSize ?? 15.sp,
               fontWeight: FontWeight.normal,
@@ -229,19 +226,19 @@ class URLTextField extends StatelessWidget {
           ),
           labelText: labelText ?? hintText,
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: enabledBorderColor, width: 1.0),
+            borderSide: BorderSide(color: enabledBorderColor, width: 1.w),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: focusedBorderColor, width: 1.0),
+            borderSide: BorderSide(color: focusedBorderColor, width: 1.w),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
           ),
           errorBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: errorBorderColor, width: 1.0),
+            borderSide: BorderSide(color: errorBorderColor, width: 1.w),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
           ),
           focusedErrorBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: focusedErrorBorderColor, width: 1.0),
+            borderSide: BorderSide(color: focusedErrorBorderColor, width: 1.w),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
           ),
           errorStyle: TextStyle(
@@ -277,8 +274,8 @@ class PinField extends StatelessWidget {
     return PinCodeFields(
       length: 4,
       fieldHeight: 55.h,
-      fieldWidth: 65.w,
-      margin: kAppPadding,
+      fieldWidth: double.infinity,
+      margin: kAppPadding(),
       fieldBorderStyle: FieldBorderStyle.square,
       borderRadius: BorderRadius.circular(45.r),
       fieldBackgroundColor: Colors.transparent,
@@ -288,8 +285,8 @@ class PinField extends StatelessWidget {
       obscureText: true,
       // autofocus: true,
       keyboardType: TextInputType.number,
-      textStyle: kNormalTextStyle.copyWith(
-        fontSize: 52.sp,
+      textStyle: kYellowNormalTextStyle(context).copyWith(
+        fontSize: 50.sp,
         fontWeight: FontWeight.bold,
       ),
       onComplete: oncomplete,
@@ -340,14 +337,14 @@ class DropDownFormField extends StatelessWidget {
     return DropdownButtonFormField(
       value: value,
       items: items,
-      style: kNormalTextStyle.copyWith(fontSize: fontSize ?? 15.sp),
+      style: kYellowNormalTextStyle(context).copyWith(fontSize: fontSize ?? 15.sp),
       onChanged: onChanged,
       dropdownColor: Theme.of(context).scaffoldBackgroundColor,
       elevation: 4,
       padding: padding ?? const EdgeInsets.only(bottom: 20.0),
       decoration: InputDecoration(
         hintText: labelText,
-        hintStyle: kNormalTextStyle.copyWith(
+        hintStyle: kNormalTextStyle(context).copyWith(
           color: kFontTheme(context).withOpacity(0.5), 
           fontSize: fontSize ?? 15.sp,
           fontWeight: FontWeight.normal,
@@ -367,24 +364,24 @@ class DropDownFormField extends StatelessWidget {
           fontSize: 15.sp,
         ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: enabledBorderColor, width: 1.0),
+          borderSide: BorderSide(color: enabledBorderColor, width: 1.w),
           borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: focusedBorderColor, width: 1.0),
+          borderSide: BorderSide(color: focusedBorderColor, width: 1.w),
           borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
         ),
         errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: errorBorderColor, width: 1.0),
+          borderSide: BorderSide(color: errorBorderColor, width: 1.w),
           borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: focusedErrorBorderColor, width: 1.0),
+          borderSide: BorderSide(color: focusedErrorBorderColor, width: 1.w),
           borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
         ),
         errorStyle: TextStyle(
           color: errorTextStyleColor,
-          fontSize: 17.0,
+          fontSize: 17.sp,
         ),
       ),
       validator: (value) {
@@ -404,6 +401,7 @@ class TextareaTextField extends StatelessWidget {
     this.initialValue,
     this.readonly,
     required this.hintText,
+    this.labelText,
     required this.onChanged,
     this.enabledBorderColor,
     this.focusedBorderColor,
@@ -416,6 +414,7 @@ class TextareaTextField extends StatelessWidget {
 
   final String? initialValue;
   final String hintText;
+  final String? labelText;
   final bool? readonly;
   final Function(String? value) onChanged;
   final Color? enabledBorderColor;
@@ -433,14 +432,15 @@ class TextareaTextField extends StatelessWidget {
       child: TextFormField(
         readOnly: readonly ?? false,
         maxLines: null,
+        minLines: 4,
         keyboardType: TextInputType.multiline,
         initialValue: initialValue,
-        style: kNormalTextStyle,
+        style: kYellowNormalTextStyle(context),
         cursorColor: cursorColor,
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: kNormalTextStyle.copyWith(color: kFontTheme(context).withOpacity(0.5)),
-          labelText: 'Text',
+          hintStyle: kNormalTextStyle(context).copyWith(color: kFontTheme(context).withOpacity(0.5)),
+          // labelText: labelText ?? hintText,
           labelStyle: TextStyle(
             color: kFontTheme(context).withOpacity(0.5),
             fontWeight: FontWeight.normal,
@@ -448,22 +448,22 @@ class TextareaTextField extends StatelessWidget {
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-                color: enabledBorderColor ?? Colors.transparent, width: 1.0),
+                color: enabledBorderColor ?? Colors.transparent, width: 1.w),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
-                color: focusedBorderColor ?? Colors.transparent, width: 1.0),
+                color: focusedBorderColor ?? Colors.transparent, width: 1.w),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
           ),
           errorBorder: OutlineInputBorder(
             borderSide: BorderSide(
-                color: errorBorderColor ?? Colors.transparent, width: 1.0),
+                color: errorBorderColor ?? Colors.transparent, width: 1.w),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderSide: BorderSide(
-                color: focusedErrorBorderColor ?? Colors.transparent, width: 1.0),
+                color: focusedErrorBorderColor ?? Colors.transparent, width: 1.w),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
           ),
           errorStyle: TextStyle(
@@ -525,10 +525,10 @@ class EmailTextField extends StatelessWidget {
         initialValue: initialValue,
         cursorColor: cursorColor,
         keyboardType: TextInputType.emailAddress,
-        style: kNormalTextStyle.copyWith(fontSize: 15.sp),
+        style: kYellowNormalTextStyle(context).copyWith(fontSize: 15.sp),
         decoration: InputDecoration(
           hintText: 'Email',
-          hintStyle: kNormalTextStyle.copyWith(color: kFontTheme(context).withOpacity(0.5)),
+          hintStyle: kNormalTextStyle(context).copyWith(color: kFontTheme(context).withOpacity(0.5)),
           labelText: 'Email',
           labelStyle: TextStyle(
             color: kFontTheme(context).withOpacity(0.5),
@@ -545,22 +545,22 @@ class EmailTextField extends StatelessWidget {
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-                color: enabledBorderColor ?? Colors.transparent, width: 1.0),
+                color: enabledBorderColor ?? Colors.transparent, width: 1.w),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
-                color: focusedBorderColor ?? Colors.transparent, width: 1.0),
+                color: focusedBorderColor ?? Colors.transparent, width: 1.w),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
           ),
           errorBorder: OutlineInputBorder(
             borderSide: BorderSide(
-                color: errorBorderColor ?? Colors.transparent, width: 1.0),
+                color: errorBorderColor ?? Colors.transparent, width: 1.w),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderSide: BorderSide(
-                color: focusedErrorBorderColor ?? Colors.transparent, width: 1.0),
+                color: focusedErrorBorderColor ?? Colors.transparent, width: 1.w),
             borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
           ),
           errorStyle: TextStyle(
@@ -582,7 +582,7 @@ class EmailTextField extends StatelessWidget {
 }
 
 class DateField extends StatelessWidget {
-  const DateField({
+   DateField({
     super.key,
     required this.hintText,
     required this.enabledBorderColor,
@@ -592,8 +592,10 @@ class DateField extends StatelessWidget {
     required this.errorTextStyleColor,
     required this.iconColor,
     required this.onSaved,
+    required this.onDateChanged,
     this.initialValue,
-    this.borderRadius
+    this.borderRadius,
+    this.selectedDate,
   });
 
   final String hintText;
@@ -605,7 +607,9 @@ class DateField extends StatelessWidget {
   final Color iconColor;
   final String? initialValue;
   final double? borderRadius;
+  DateTime? selectedDate;
   final Function(DateTime? date)? onSaved;
+  final Function(DateTime date)? onDateChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -619,7 +623,7 @@ class DateField extends StatelessWidget {
             decoration: InputDecoration(
               hintText: '',
               hintStyle:
-                  kNormalTextStyle.copyWith(color: kFontTheme(context).withOpacity(0.5), fontSize: 15.sp),
+                  kNormalTextStyle(context).copyWith(color: kFontTheme(context).withOpacity(0.5), fontSize: 15.sp),
               prefixIcon: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.r),
                 child: Icon(
@@ -634,20 +638,20 @@ class DateField extends StatelessWidget {
                 fontSize: 15.sp,
               ),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: enabledBorderColor, width: 1.0),
+                borderSide: BorderSide(color: enabledBorderColor, width: 1.w),
                 borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: focusedBorderColor, width: 1.0),
+                borderSide: BorderSide(color: focusedBorderColor, width: 1.w),
                 borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
               ),
               errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: errorBorderColor, width: 1.0),
+                borderSide: BorderSide(color: errorBorderColor, width: 1.w),
                 borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderSide:
-                    BorderSide(color: focusedErrorBorderColor, width: 1.0),
+                    BorderSide(color: focusedErrorBorderColor, width: 1.w),
                 borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
               ),
               errorStyle: TextStyle(
@@ -657,6 +661,7 @@ class DateField extends StatelessWidget {
             child: InkWell(
               onTap: () async {
                 final DateTime? pickedDate = await showDatePicker(
+                // selectedDate = await showDatePicker(
                   context: context,
                   initialDate: dateState.value ?? DateTime.now(),
                   firstDate: DateTime(1900),
@@ -664,6 +669,9 @@ class DateField extends StatelessWidget {
                 );
                 if (pickedDate != null && pickedDate != dateState.value) {
                   dateState.didChange(pickedDate);
+                  if(onDateChanged != null) {
+                    onDateChanged!(pickedDate);
+                  }
                 }
               },
               child: Row(
@@ -674,7 +682,7 @@ class DateField extends StatelessWidget {
                       dateState.value != null
                           ? dateState.value!.toIso8601String().substring(0, 10).replaceAll('-', '/')
                           : hintText,
-                      style: kNormalTextStyle.copyWith(fontSize: 13.sp),
+                      style: kYellowNormalTextStyle(context).copyWith(fontSize: 13.sp),
                     ),
                   ),
                   Expanded(
@@ -713,6 +721,7 @@ class TimeField extends StatelessWidget {
     required this.errorTextStyleColor,
     required this.iconColor,
     required this.onSaved,
+    required this.onTimeChanged,
     this.initialValue,
     this.borderRadius
   });
@@ -727,6 +736,7 @@ class TimeField extends StatelessWidget {
   final String? initialValue;
   final double? borderRadius;
   final Function(TimeOfDay? time)? onSaved;
+  final Function(TimeOfDay time)? onTimeChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -740,7 +750,7 @@ class TimeField extends StatelessWidget {
             decoration: InputDecoration(
               hintText: '',
               hintStyle:
-                  kNormalTextStyle.copyWith(color: kFontTheme(context).withOpacity(0.5), fontSize: 15.sp),
+                  kNormalTextStyle(context).copyWith(color: kFontTheme(context).withOpacity(0.5), fontSize: 15.sp),
               prefixIcon: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.r),
                 child: Icon(
@@ -755,20 +765,20 @@ class TimeField extends StatelessWidget {
                 fontSize: 15.sp,
               ),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: enabledBorderColor, width: 1.0),
+                borderSide: BorderSide(color: enabledBorderColor, width: 1.w),
                 borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: focusedBorderColor, width: 1.0),
+                borderSide: BorderSide(color: focusedBorderColor, width: 1.w),
                 borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
               ),
               errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: errorBorderColor, width: 1.0),
+                borderSide: BorderSide(color: errorBorderColor, width: 1.w),
                 borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderSide:
-                    BorderSide(color: focusedErrorBorderColor, width: 1.0),
+                    BorderSide(color: focusedErrorBorderColor, width: 1.w),
                 borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 20.r)),
               ),
               errorStyle: TextStyle(
@@ -783,6 +793,9 @@ class TimeField extends StatelessWidget {
                 );
                 if (pickedTime != null && pickedTime != timeState.value) {
                   timeState.didChange(pickedTime);
+                  if(onTimeChanged != null) {
+                    onTimeChanged!(pickedTime);
+                  }
                   // selectedDate = pickedTime;
                 }
               },
@@ -794,7 +807,7 @@ class TimeField extends StatelessWidget {
                       timeState.value != null
                           ? timeState.value!.format(context)
                           : hintText,
-                      style: kNormalTextStyle.copyWith(fontSize: 13.sp),
+                      style: kYellowNormalTextStyle(context).copyWith(fontSize: 13.sp),
                     ),
                   ),
                   Expanded(
@@ -826,131 +839,105 @@ class MediaUploadField extends StatefulWidget {
   MediaUploadField({
     super.key,
     required this.mediaPath,
+    required this.pickImage,
+    // required this.pickedMedia
     // required this.iconColor,
   });
 
   String? mediaPath;
-  // Color iconColor;
+  Function() pickImage;
 
   @override
   State<MediaUploadField> createState() => _MediaUploadFieldState();
 }
 
 class _MediaUploadFieldState extends State<MediaUploadField> {
-  final imagePicker = ImagePicker();
-
   @override
   Widget build(BuildContext context) {
-    XFile? pickedMedia;
-
-    pickImage() async {
-      setState(() {
-        pickedMedia = null;
-      });
-
-      // pick image from file system
-      pickedMedia = await imagePicker.pickImage(source: ImageSource.gallery);
-
-      if (pickedMedia != null) {
-        // // get app directory
-        // String appDir = 'QR Quill';
-        // // convert picked image into a file
-        // final File imageFile = File(pickedMedia!.path);
-        // // give the file a path
-        // final String imagePath = '$appDir/images/image_${DateTime.now().millisecondsSinceEpoch}.png';
-        // // copy the file into the path specified
-        // await imageFile.copy(imagePath);
-
-        setState(() {
-          widget.mediaPath = pickedMedia!.path;
-          // widget.mediaPath = imagePath;
-        });
-        print('Selected Image Path: ${widget.mediaPath}');
-      }
-    }
-
-    return Padding(
-      padding: EdgeInsets.only(bottom: 20.r),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Upload Media (e.g. jpg, png)', 
-                style: kNormalTextStyle.copyWith(
-                  fontSize: 15.sp,
-                  color: kFontTheme(context)
-                ),
-              ),
-              widget.mediaPath != null ? GestureDetector(
-                onTap: () {
-                  setState(() {
-                    pickedMedia = null;
-                    widget.mediaPath = null;
-                  });
-                },
-                child: Text(
-                  'Remove', 
-                  style: kNormalTextStyle.copyWith(
+      return Padding(
+        padding: EdgeInsets.only(bottom: 20.r),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Upload Media (e.g. jpg, png)', 
+                  style: kNormalTextStyle(context).copyWith(
                     fontSize: 15.sp,
-                    color: kSecondaryColor,
-                    fontWeight: FontWeight.bold
+                    color: kFontTheme(context)
                   ),
                 ),
-              ) : const SizedBox(),
-            ],
-          ),
-
-          SizedBox(height: 10.h),
-
-          GestureDetector(
-            onTap: pickImage,
-            child: Container(
-              width: double.infinity,
-              height: 300.h,
-              decoration: BoxDecoration(
-                border: Border.all(color: kFontTheme(context)),
-                borderRadius: BorderRadius.circular(20.r),
-              ),
-              child: widget.mediaPath == null ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const UploadFieldIcon(icon: FontAwesomeIcons.image),
-                  const SizedBox(height: 20.0),
-                  Text(
-                    'Click here to upload media (e.g. photos)',
-                    style: kNormalTextStyle.copyWith(color: kFontTheme(context), fontSize: 15.sp),
+                widget.mediaPath != null ? GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      // widget.pickedMedia = null;
+                      widget.mediaPath = null;
+                    });
+                  },
+                  child: Text(
+                    'Remove', 
+                    style: kYellowNormalTextStyle(context).copyWith(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.bold
+                    ),
                   ),
-                ],
-              ) : Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Image.file(
-                  File(widget.mediaPath!),
-                  width: double.infinity,
-                  height: double.infinity,
-                  fit: BoxFit.cover,
+                ) : const SizedBox(),
+              ],
+            ),
+
+            SizedBox(height: 10.h),
+
+            GestureDetector(
+              onTap: widget.pickImage,
+              child: Container(
+                width: double.infinity,
+                height: 300.h,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: kFontTheme(context),
+                    width: 1.w,
+                  ),
+                  borderRadius: BorderRadius.circular(20.r),
+                ),
+                child: widget.mediaPath == null ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const UploadFieldIcon(icon: FontAwesomeIcons.image),
+                    const SizedBox(height: 20.0),
+                    Text(
+                      'Click here to upload media (e.g. photos)',
+                      style: kNormalTextStyle(context).copyWith(color: kFontTheme(context), fontSize: 15.sp),
+                    ),
+                  ],
+                ) : Padding(
+                  padding: EdgeInsets.all(10.r),
+                  child: Image.file(
+                    File(widget.mediaPath!),
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 10.r),
-            child: Text(
-              widget.mediaPath == null 
-                ? 'No file selected' 
-                : 'File selected: \n${widget.mediaPath!.split('/').last}',
-              style: kNormalTextStyle.copyWith(
-                color: widget.mediaPath == null ? kFontTheme(context) : kSecondaryColor,
-                fontSize: 15.r,
+            Padding(
+              padding: EdgeInsets.only(top: 10.r),
+              child: Text(
+                widget.mediaPath == null 
+                  ? 'No file selected' 
+                  : 'File selected: \n${widget.mediaPath!.split('/').last}',
+                style: kNormalTextStyle(context).copyWith(
+                  color: widget.mediaPath == null ? kFontTheme(context) : kSecondaryColor,
+                  fontSize: 15.r,
+                ),
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
+          ],
+        ),
+      );
+    }
 }
 
 
@@ -958,47 +945,20 @@ class FileUploadField extends StatefulWidget {
   FileUploadField({
     super.key,
     required this.filePath,
-    // required this.iconColor,
+    required this.pickFile
   });
 
   String? filePath;
-  // Color iconColor;
+  Function() pickFile;
 
   @override
   State<FileUploadField> createState() => _FileUploadFieldState();
 }
 
 class _FileUploadFieldState extends State<FileUploadField> {
-  final filePicker = FilePicker.platform;
 
   @override
-  Widget build(BuildContext context) {
-    FilePickerResult? pickedFile;
-
-    pickFile() async {
-      // get app directory
-      String appDir = await getAppDirctory();
-
-      setState(() {
-        pickedFile = null;
-      });
-
-      // pick image from file system
-      pickedFile = await filePicker.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['pdf', 'doc', 'docx', 'ppt', 'pptx', 'svg', 'xlsx', 'xls', 'zip', 'rar', 'txt'],
-      );
-
-      if (pickedFile != null) {
-        File file = File(pickedFile!.files.single.path!);
-        setState(() {
-          widget.filePath = file.path;
-        });
-        print('Selected File Path: ${widget.filePath}');
-        print('AppDir: $appDir');
-      }
-    }
-
+  Widget build(BuildContext context) {    
     return Padding(
       padding: EdgeInsets.only(bottom: 20.r),
       child: Column(
@@ -1009,7 +969,7 @@ class _FileUploadFieldState extends State<FileUploadField> {
             children: [
               Text(
                 'Upload File',
-                style: kNormalTextStyle.copyWith(
+                style: kNormalTextStyle(context).copyWith(
                   fontSize: 15.sp,
                   color: kFontTheme(context)
                 ),
@@ -1017,15 +977,13 @@ class _FileUploadFieldState extends State<FileUploadField> {
               widget.filePath != null ? GestureDetector(
                 onTap: () {
                   setState(() {
-                    pickedFile = null;
                     widget.filePath = null;
                   });
                 },
                 child: Text(
                   'Remove', 
-                  style: kNormalTextStyle.copyWith(
+                  style: kYellowNormalTextStyle(context).copyWith(
                     fontSize: 15.sp,
-                    color: kSecondaryColor,
                     fontWeight: FontWeight.bold
                   ),
                 ),
@@ -1036,24 +994,27 @@ class _FileUploadFieldState extends State<FileUploadField> {
           SizedBox(height: 10.h),
 
           GestureDetector(
-            onTap: pickFile,
+            onTap: widget.pickFile,
             child: Container(
               width: double.infinity,
               height: 300.h,
               decoration: BoxDecoration(
-                border: Border.all(color: kFontTheme(context)),
+                border: Border.all(
+                  color: kFontTheme(context),
+                  width: 1.w
+                ),
                 borderRadius: BorderRadius.circular(20.r),
               ),
               child: 
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 50.0),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 50.r),
                     child: Wrap(
-                      spacing: 20.0,
+                      spacing: 20.r,
                       alignment: WrapAlignment.center,
-                      children: [
+                      children: const [
                         UploadFieldIcon(icon: FontAwesomeIcons.solidFileWord),
                         UploadFieldIcon(icon: FontAwesomeIcons.solidFilePowerpoint),
                         UploadFieldIcon(icon: FontAwesomeIcons.solidFileExcel),
@@ -1068,7 +1029,7 @@ class _FileUploadFieldState extends State<FileUploadField> {
                     padding: EdgeInsets.symmetric(horizontal: 20.r),
                     child: Text(
                       widget.filePath == null ? 'Click here to upload file' :'Selected File:\n${widget.filePath!.split('/').last}',
-                      style: kNormalTextStyle.copyWith(
+                      style: kNormalTextStyle(context).copyWith(
                         color: widget.filePath == null ? kFontTheme(context) : kSecondaryColor,
                         fontSize: 15.r
                       ),
@@ -1096,7 +1057,7 @@ class UploadFieldIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: EdgeInsets.all(10.r),
       child: Icon(
         icon,
         size: 40.r,
