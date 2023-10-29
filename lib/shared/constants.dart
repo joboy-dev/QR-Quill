@@ -36,9 +36,9 @@ const kAnimationDuration4 = Duration(seconds: 4);
 const kAnimationDuration5 = Duration(seconds: 5);
 
 // TEXT STYLES
-const kAppbarTextStyle = TextStyle(fontWeight: FontWeight.bold,);
+const kAppbarTextStyle = TextStyle(fontWeight: FontWeight.bold);
 TextStyle kNavbarTextStyle() => TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold);
 
-TextStyle kTextFieldTextStyle() => TextStyle(fontSize: 17.sp, color: kSecondaryColor);
-TextStyle kNormalTextStyle(BuildContext context) => TextStyle(fontSize: 17.sp, color: kFontTheme(context));
-TextStyle kYellowNormalTextStyle(BuildContext context) => TextStyle(fontSize: 17.sp, color: kSecondaryColor);
+TextStyle kTextFieldTextStyle() => TextStyle(fontSize: 15.sp, color: kSecondaryColor);
+TextStyle kNormalTextStyle(BuildContext context) => TextStyle(fontSize: 15.sp, color: kFontTheme(context));
+TextStyle kYellowNormalTextStyle(BuildContext context) => TextStyle(fontSize: 15.sp, color: kSecondaryColor);

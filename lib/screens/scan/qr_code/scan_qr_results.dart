@@ -1,39 +1,44 @@
-// ignore_for_file: use_build_context_synchronousl, use_build_context_synchronously
-
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:qr_quill/services/qr_barcode_utility_functions.dart';
-import 'package:qr_quill/shared/button.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:qr_quill/models/qrcode_model.dart';
-import 'package:qr_quill/shared/animations.dart';
+import 'package:qr_quill/services/qr_barcode_utility_functions.dart';
+import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/custom_appbar.dart';
+import 'package:qr_quill/shared/logger.dart';
 
-class ShowQRCode extends StatefulWidget {
-  const ShowQRCode({
-    super.key, 
-    required this.qrCodeName,
-    required this.selectedCategory,
-    required this.qrData, 
-    required this.stringData,
-  });
+class ScanQRResults extends StatefulWidget {
+  const ScanQRResults({super.key, required this.scannedQrData, required this.category});
 
-  final String qrData;
-  final String stringData;
-  final String qrCodeName;
-  final Category selectedCategory;
+  final String scannedQrData;
+  final Category category;
 
   @override
-  State<ShowQRCode> createState() => _ShowQRCodeState();
+  State<ScanQRResults> createState() => _ScanQRResultsState();
 }
 
-class _ShowQRCodeState extends State<ShowQRCode> {
-  final GlobalKey _qrImageKey = GlobalKey();
-  final dateGenerated = DateTime.now().toString().substring(0, 16);
+class _ScanQRResultsState extends State<ScanQRResults> {
+  final _qrImageKey = GlobalKey();
+  final dateScanned = DateTime.now().toString().substring(0, 16);
 
+  Uri sendEmail() {
+    Uri uri = Uri.parse(widget.scannedQrData);
+    final Uri params = Uri(
+      scheme: 'mailto',
+      path: uri.path,
+      queryParameters: {
+        'subject': uri.queryParameters['subject'],
+        'body': uri.queryParameters['body']
+      }
+    );
+
+    logger(uri.path);
+    logger(params.toString());
+
+    return params;
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +50,7 @@ class _ShowQRCodeState extends State<ShowQRCode> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomAppbar(
-                  title: 'Generated QR Code',
+                  title: 'Scanned QR Code',
                   backgroundColor: kScaffoldBgColor(context),
                   titleColor: kSecondaryColor,
                   elevation: 0.0,
@@ -54,7 +59,7 @@ class _ShowQRCodeState extends State<ShowQRCode> {
                 Padding(
                   padding: EdgeInsets.only(left: 15.r),
                   child: Text(
-                    'Date Generated: $dateGenerated', 
+                    'Scan Date: $dateScanned', 
                     style: kNormalTextStyle(context),
                   ),
                 ),
@@ -66,7 +71,7 @@ class _ShowQRCodeState extends State<ShowQRCode> {
                     child: RepaintBoundary(
                       key: _qrImageKey,
                       child: QrImageView(
-                        data: widget.qrData,
+                        data: widget.scannedQrData,
                         size: 220.r,
                         eyeStyle: QrEyeStyle(
                           color: kSecondaryColor,
@@ -84,7 +89,6 @@ class _ShowQRCodeState extends State<ShowQRCode> {
                 Divider(thickness: 0.3.r, color: kFontTheme(context)),
                 SizedBox(height: 10.r),
 
-                // QR DATA
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -92,7 +96,7 @@ class _ShowQRCodeState extends State<ShowQRCode> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          categoryIcons[widget.selectedCategory],
+                          categoryIcons[widget.category],
                           color: kSecondaryColor,
                           size: 35.r,
                         ),
@@ -100,7 +104,7 @@ class _ShowQRCodeState extends State<ShowQRCode> {
                         SizedBox(width: 10.w),
 
                         Text(
-                          widget.selectedCategory.name,
+                          widget.category.name,
                           style: kYellowNormalTextStyle(context).copyWith(
                             fontWeight: FontWeight.bold,
                             fontSize: 20.sp
@@ -113,20 +117,6 @@ class _ShowQRCodeState extends State<ShowQRCode> {
 
                     SizedBox(height: 10.h),
                     Text(
-                      'QR Code Name:',
-                      style: kYellowNormalTextStyle(context).copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17.sp,
-                      ),
-                    ),
-
-                    Text(
-                      widget.qrCodeName,
-                      style: kNormalTextStyle(context)
-                    ),
-                    SizedBox(height: 10.h),
-
-                    Text(
                       'QR Code Data:',
                       style: kYellowNormalTextStyle(context).copyWith(
                         fontWeight: FontWeight.bold,
@@ -134,41 +124,8 @@ class _ShowQRCodeState extends State<ShowQRCode> {
                       ),
                     ),
 
-                    // DIsplay Image
-                    if (widget.selectedCategory == Category.Image)  Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 18.0),
-                      child: Center(
-                        child: Image(
-                          image: NetworkImage(widget.qrData),
-                          height: 300.h,
-                          width: 300.w,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
-
-                    // File
-                    if (widget.selectedCategory == Category.File)  Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5.0),
-                      child: Text(
-                        'File Source:\n\n${widget.stringData}\n',
-                        style: kNormalTextStyle(context),
-                        textAlign: TextAlign.justify,
-                      ),
-                    ),
-
-                    // Download button for images and files
-                    widget.selectedCategory == Category.File || widget.selectedCategory == Category.Image 
-                    ? IconTextButton(
-                        onPressed: () {
-                          launchUrlFromString(context, widget.qrData);
-                        }, 
-                        icon: FontAwesomeIcons.download,
-                        text: 'Download',
-                        iconColor: kSecondaryColor,
-                        fontSize: 17.sp,
-                    ): Text(
-                      widget.stringData,
+                    Text(
+                      widget.scannedQrData,
                       style: kNormalTextStyle(context)
                     ),
 
@@ -178,7 +135,6 @@ class _ShowQRCodeState extends State<ShowQRCode> {
                 Divider(thickness: 0.3.r, color: kFontTheme(context)),
                 SizedBox(height: 10.h),
 
-                // Share QR Code and open URL 
                 Row(
                   children: [
                     Expanded(
@@ -193,26 +149,20 @@ class _ShowQRCodeState extends State<ShowQRCode> {
                       ),
                     ),
 
-                    if(widget.selectedCategory == Category.URL || widget.selectedCategory == Category.Socials) Expanded(
+                    if(widget.category == Category.Email) Expanded(
                       child: IconTextButton(
-                        text: 'Open URL', 
-                        icon: Icons.open_in_browser, 
+                        text: 'Send email', 
+                        icon: Icons.email_rounded, 
                         iconColor: kSecondaryColor, 
                         fontSize: 17.sp,
                         onPressed: () {
-                          launchUrlFromString(context, widget.qrData);
-                        }
+                          launchUrlFromUri(context, sendEmail());
+                        },
                       ),
-                    )
+                    ),
                   ],
                 ),
-
-                SizedBox(height: 20.h),
-                
-              ].animate(
-                interval: kAnimationDurationMs(500),
-                effects: MyEffects.fadeSlide(),
-              ),
+              ],
             ),
           ),
         ),

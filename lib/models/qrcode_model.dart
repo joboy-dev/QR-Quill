@@ -3,9 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-// create enumerator to hold qrcode categories
+/// Enumerator to hold qrcode categories
 enum Category {Wifi, Text, Email, URL, Contact, Event, Image, File, Socials, SMS}
 
+/// Map from Category enum to Icons
 const categoryIcons = {
   Category.Wifi: Icons.wifi,
   Category.Text: Icons.text_snippet_rounded,
@@ -19,7 +20,7 @@ const categoryIcons = {
   Category.SMS: FontAwesomeIcons.commentSms,
 };
 
-// ALL CODE MODELS
+/// Model to be used to add created qrcodes to isar db
 class QRCodeModel {
   String type;
   String qrCodeName;

@@ -3,9 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:qr_quill/screens/scan/scan_barcode.dart';
-import 'package:qr_quill/screens/scan/scan_qrcode.dart';
+import 'package:qr_quill/screens/scan/barcode/scan_barcode.dart';
+import 'package:qr_quill/screens/scan/qr_code/scan_qrcode.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';

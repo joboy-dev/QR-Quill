@@ -498,11 +498,15 @@ class EmailTextField extends StatelessWidget {
     this.focusedErrorBorderColor, 
     required this.errorTextStyleColor, 
     required this.cursorColor,
-    this.borderRadius
+    this.borderRadius,
+    this.labelText,
+    this.hintText,
     // required this.disableButton,
   });
 
   final String? initialValue;
+  final String? hintText;
+  final String? labelText;
   final bool? readOnly;
   final Color iconColor;
   final Color? enabledBorderColor;
@@ -527,9 +531,9 @@ class EmailTextField extends StatelessWidget {
         keyboardType: TextInputType.emailAddress,
         style: kYellowNormalTextStyle(context).copyWith(fontSize: 15.sp),
         decoration: InputDecoration(
-          hintText: 'Email',
+          hintText: hintText ?? 'Email',
           hintStyle: kNormalTextStyle(context).copyWith(color: kFontTheme(context).withOpacity(0.5)),
-          labelText: 'Email',
+          labelText: labelText ?? 'Email',
           labelStyle: TextStyle(
             color: kFontTheme(context).withOpacity(0.5),
             fontWeight: FontWeight.normal,

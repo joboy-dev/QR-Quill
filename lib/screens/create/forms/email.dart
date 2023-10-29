@@ -86,6 +86,7 @@ class _EmailFormState extends State<EmailForm> with SingleTickerProviderStateMix
                 email = value!;
               });
             }, 
+            hintText: 'Receiver Email',
             enabledBorderColor: kFontTheme(context), 
             focusedBorderColor: kSecondaryColor, 
             errorBorderColor: kRedColor, 

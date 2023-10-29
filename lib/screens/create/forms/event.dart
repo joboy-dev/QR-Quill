@@ -40,6 +40,9 @@ class _EventFormState extends State<EventForm> with SingleTickerProviderStateMix
   TimeOfDay startTime = TimeOfDay.now();
   TimeOfDay endTime = TimeOfDay.now();
 
+  DateTime? eventStart;
+  DateTime? eventEnd;
+
   final _formKey = GlobalKey<FormState>();
 
   String stringData = '';
@@ -82,21 +85,31 @@ class _EventFormState extends State<EventForm> with SingleTickerProviderStateMix
         eventTimeEnd.minute,
       );
 
-      return 'BEGIN:VCALENDAR\n'
-        'VERSION:2.0\n'
-        'BEGIN:VEVENT\n'
-        'SUMMARY:$eventName\n'
-        'DESCRIPTION:$eventDescription\n'
-        'LOCATION:$eventLocation\n'
-        'DTSTART:${dateFormat.format(eventStart)}T${timeFormat.format(eventStart)}Z\n'
-        'DTEND:${dateFormat.format(eventEnd)}T${timeFormat.format(eventEnd)}Z\n'
-        'END:VEVENT\n'
-        'END:VCALENDAR\n';
+      // Date validation checks
+      if (eventStart.isBefore(DateTime.now())) {
+        showSnackbar(context, 'Start date cannot be in the past.');
+        return '';
+      } else if (eventEnd.isBefore(eventStart)) {
+        showSnackbar(context, 'End date cannot be before the start date.');
+        return '';
+      } else {
+        return 'BEGIN:VCALENDAR\n'
+          'VERSION:2.0\n'
+          'BEGIN:VEVENT\n'
+          'SUMMARY:$eventName\n'
+          'DESCRIPTION:$eventDescription\n'
+          'LOCATION:$eventLocation\n'
+          'DTSTART:${dateFormat.format(eventStart)}T${timeFormat.format(eventStart)}Z\n'
+          'DTEND:${dateFormat.format(eventEnd)}T${timeFormat.format(eventEnd)}Z\n'
+          'END:VEVENT\n'
+          'END:VCALENDAR\n';
+      }
+
   }
+
   validateForm() async {
     if (_formKey.currentState!.validate()) {
       // Collect all data
-      
       allDayEvent 
         ? stringData = '''
 Event Name: $eventTitle
@@ -116,35 +129,39 @@ End Date: ${endDate.toIso8601String().substring(0,10)}
 End Time: ${endTime.format(context)}
         ''';
 
-      showSnackbar(context, 'Generating QR Code...');
-      setState(() {
-        isLoading = true;
-      });
+      // check if data ia valid
+      if (generateICalendarData(
+        eventName: eventTitle, 
+        eventDescription: eventDescription, 
+        eventLocation: eventLocation, 
+        eventDateStart: startDate, 
+        eventDateEnd: endDate,
+        eventTimeStart: startTime, 
+        eventTimeEnd: endTime
+      ) != '') {
+        showSnackbar(context, 'Generating QR Code...');
+        setState(() {
+          isLoading = true;
+        });
 
-      await Future.delayed(kAnimationDuration2);
-      navigatorPush(context, ShowQRCode(
-        qrData: allDayEvent ? generateICalendarData(
-          eventName: eventTitle, 
-          eventDescription: eventDescription, 
-          eventLocation: eventLocation, 
-          eventDateStart: startDate, 
-          eventDateEnd: endDate,
-          eventTimeStart: startTime, 
-          eventTimeEnd: endTime
-        ) : generateICalendarData(
-          eventName: eventTitle, 
-          eventDescription: eventDescription, 
-          eventLocation: eventLocation, 
-          eventDateStart: startDate, 
-          eventDateEnd: endDate,
-          eventTimeStart: startTime, 
-          eventTimeEnd: endTime
-        ),
-        stringData: stringData,
-        qrCodeName: widget.qrCodeName,
-        selectedCategory: Category.Event,
-        )
-      );
+        await Future.delayed(kAnimationDuration2);
+
+        navigatorPush(context, ShowQRCode(
+          qrData: generateICalendarData(
+            eventName: eventTitle, 
+            eventDescription: eventDescription, 
+            eventLocation: eventLocation, 
+            eventDateStart: startDate, 
+            eventDateEnd: endDate,
+            eventTimeStart: startTime, 
+            eventTimeEnd: endTime
+          ),
+          stringData: stringData,
+          qrCodeName: widget.qrCodeName,
+          selectedCategory: Category.Event,
+          )
+        );
+      }
     } else {
       showSnackbar(context, 'Field validation failed. Ensure all fields are valid.');
     }

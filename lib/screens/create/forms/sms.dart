@@ -64,7 +64,8 @@ class _SMSFormState extends State<SMSForm> with SingleTickerProviderStateMixin {
       child: Column(
         children: [
           NormalTextField(
-            hintText: 'Phone Number',
+            hintText: 'Receiver Phone Number',
+            labelText: 'Phone Number',
             textColor: kSecondaryColor,
             textInputType: TextInputType.phone,
             onChanged: (value) {
