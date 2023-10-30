@@ -60,10 +60,10 @@ class _ScanQRWithCameraState extends State<ScanQRWithCamera> {
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: kSecondaryColor,
-                        width: 2.w,
+                        width: 1.w,
                       ),
                       shape: BoxShape.rectangle,
-                      borderRadius: BorderRadius.circular(20.r),
+                      // borderRadius: BorderRadius.circular(20.r),
                     ),
                     clipBehavior: Clip.hardEdge,
                     child: ScanView(

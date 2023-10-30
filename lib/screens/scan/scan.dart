@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qr_quill/screens/scan/qr_code/scan_qr_from_image.dart';
 import 'package:qr_quill/screens/scan/qr_code/scan_qr_with_camera.dart';
 import 'package:qr_quill/screens/scan/scan_code.dart';
-import 'package:qr_quill/screens/scan/qr_code/scan_qrcode.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';

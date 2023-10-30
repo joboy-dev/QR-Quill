@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, unused_field
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -75,3 +75,56 @@ class _ScanCodeState extends State<ScanCode> {
     );
   }
 }
+
+/// Function to generate category based on qr code data 
+  // Category generateCategory() {
+  //   if (scanQRCode.contains('mailto:')) {
+  //     return Category.Email;
+  //   } else if (scanQRCode.contains('WIFI:')) {
+  //     return Category.Wifi;
+  //   } else if(scanQRCode.contains('https://') || scanQRCode.contains('http://')) {
+  //     return Category.URL;
+  //   } else if(scanQRCode.contains('sms:')) {
+  //     return Category.SMS;
+  //   } else if(scanQRCode.contains('BEGIN:VCARD')) {
+  //     return Category.Contact;
+  //   } else if(scanQRCode.contains('BEGIN:VCALENDAR') || scanQRCode.contains('BEGIN:VEVENT')) {
+  //     return Category.Event;
+  //   } else {
+  //     return Category.Text;
+  //   }
+  // }
+
+  // String scanQRCode = 'none';
+
+  // Future<void> scanQRWithCamera() async {
+  //   String qrScanResult;
+
+  //   // Platform messages may fail, so we use a try/catch PlatformException.
+  //   try {
+  //     qrScanResult = await FlutterBarcodeScanner.scanBarcode(
+  //       '#F7DC5F', 
+  //       'Cancel', 
+  //       true, 
+  //       ScanMode.QR
+  //     );
+  //     logger('QR Scan Result: $scanQRCode');
+
+  //     // check if user scans the qr code completely
+  //     if (qrScanResult != '-1') {
+  //       setState(() {
+  //         scanQRCode = qrScanResult;
+  //       });
+  //       showSnackbar(context, 'QR Code scan successful.');
+  //       navigatorPush(context, ScanQRResults(scannedQrData: qrScanResult, category: generateCategory()));
+  //     } else {
+  //       showSnackbar(context, 'Operation canceled.');
+  //     }
+  //   } on PlatformException {
+  //     logger('Could not get platform version');
+  //   }
+  //   // In case widget was removed from widget tree while scanning is going on
+  //   if (!mounted) return;
+  // }
+
+  // scanQRWithImage() {}
