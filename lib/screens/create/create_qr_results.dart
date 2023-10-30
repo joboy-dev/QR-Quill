@@ -7,7 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:qr_quill/services/qr_barcode_utility_functions.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:qr_quill/models/qrcode_model.dart';
+import 'package:qr_quill/models/create_model.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/custom_appbar.dart';
@@ -138,7 +138,7 @@ class _ShowQRCodeState extends State<ShowQRCode> {
                     if (widget.selectedCategory == Category.Image)  Padding(
                       padding: const EdgeInsets.symmetric(vertical: 18.0),
                       child: Center(
-                        child: Image(
+                        child:  Image(
                           image: NetworkImage(widget.qrData),
                           height: 300.h,
                           width: 300.w,
@@ -183,10 +183,26 @@ class _ShowQRCodeState extends State<ShowQRCode> {
                   children: [
                     Expanded(
                       child: IconTextButton(
+                        text: 'Save QR', 
+                        icon: Icons.save, 
+                        iconColor: kSecondaryColor,
+                        iconsize: 20.r,
+                        fontSize: 15.sp,
+                        gap: 10.w,
+                        onPressed: () {
+                          // captureAndShareQRCode(_qrImageKey);
+                        },
+                      ),
+                    ),
+
+                    Expanded(
+                      child: IconTextButton(
                         text: 'Share', 
                         icon: Icons.share, 
                         iconColor: kSecondaryColor, 
-                        fontSize: 17.sp,
+                        fontSize: 15.sp,
+                        iconsize: 20.r,
+                        gap: 10.w,
                         onPressed: () {
                           captureAndShareQRCode(_qrImageKey);
                         },
@@ -198,7 +214,9 @@ class _ShowQRCodeState extends State<ShowQRCode> {
                         text: 'Open URL', 
                         icon: Icons.open_in_browser, 
                         iconColor: kSecondaryColor, 
-                        fontSize: 17.sp,
+                        fontSize: 15.sp,
+                        iconsize: 20.r,
+                        gap: 10.w,
                         onPressed: () {
                           launchUrlFromString(context, widget.qrData);
                         }

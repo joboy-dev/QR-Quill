@@ -41,7 +41,7 @@ Future<void> captureAndShareQRCode(GlobalKey imageKey) async {
   );
 }
 
- /// Function to launch URL
+/// Function to launch URL
 launchUrlFromString(BuildContext context, String url) async {
   try {
     if (await canLaunchUrlString(url)) {
@@ -51,7 +51,7 @@ launchUrlFromString(BuildContext context, String url) async {
       throw 'Unable to load url.';
     }
   } catch (e) {
-    showSnackbar(context, 'An error occured while trying to load the URL.');
+    showSnackbar(context, 'An error occured. Please try again later.');
     logger(e.toString());
   }
 }
@@ -65,7 +65,7 @@ launchUrlFromUri(BuildContext context, Uri uri) async {
       throw 'Unable to load url.';
     }
   } catch (e) {
-    showSnackbar(context, 'An error occured while trying to load the URL.');
+    showSnackbar(context, 'An error occured. Please try again later.');
     logger(e.toString());
   }
 }

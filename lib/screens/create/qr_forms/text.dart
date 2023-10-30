@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:qr_quill/models/qrcode_model.dart';
-import 'package:qr_quill/screens/create/show_qrcode.dart';
+import 'package:qr_quill/models/create_model.dart';
+import 'package:qr_quill/screens/create/create_qr_results.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';

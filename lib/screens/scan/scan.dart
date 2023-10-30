@@ -3,7 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:qr_quill/screens/scan/barcode/scan_barcode.dart';
+import 'package:qr_quill/screens/scan/qr_code/scan_qr_from_image.dart';
+import 'package:qr_quill/screens/scan/qr_code/scan_qr_with_camera.dart';
+import 'package:qr_quill/screens/scan/scan_code.dart';
 import 'package:qr_quill/screens/scan/qr_code/scan_qrcode.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
@@ -41,7 +43,14 @@ class _ScanState extends State<Scan> {
                     child: ColumnButtonIcon(
                       buttonText: 'Scan QR Code',
                       onPressed: () {
-                        navigatorPush(context, const ScanQRCode());
+                        navigatorPush(context, ScanCode(
+                          scanWithCameraNavTo: () {
+                            navigatorPush(context, const ScanQRWithCamera());
+                          },
+                          scanFromImageNavTo: () {
+                            navigatorPush(context, const ScanQRFromImage());
+                          },
+                        ));
                       },
                       buttonColor: kSecondaryColor,
                       icon: Icons.qr_code_scanner_rounded
@@ -54,7 +63,15 @@ class _ScanState extends State<Scan> {
                     child: ColumnButtonIcon(
                       buttonText: 'Scan Bar Code',
                       onPressed: () {
-                        navigatorPush(context, const ScanBarcode());
+                        navigatorPush(context, ScanCode(
+                          scanWithCameraNavTo: () {
+                            
+                          },
+
+                          scanFromImageNavTo: () {
+                            
+                          },
+                        ));
                       },
                       buttonColor: kSecondaryColor,
                       icon: Icons.barcode_reader,

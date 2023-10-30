@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:qr_quill/models/qrcode_model.dart';
-import 'package:qr_quill/screens/create/show_qrcode.dart';
+import 'package:qr_quill/models/create_model.dart';
+import 'package:qr_quill/screens/create/create_qr_results.dart';
 import 'package:qr_quill/services/cloud_storage.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
@@ -37,7 +37,7 @@ class _ImageFormState extends State<ImageForm> {
   bool isLoading = false;
 
   /// Function to pick an image
-  pickImage() async {
+  pickImage(ImageSource source) async {
     final imagePicker = ImagePicker();
                                               
     setState(() {
@@ -45,7 +45,7 @@ class _ImageFormState extends State<ImageForm> {
     });
 
     // pick image from file system
-    pickedMedia = await imagePicker.pickImage(source: ImageSource.gallery);
+    pickedMedia = await imagePicker.pickImage(source: source);
 
     if (pickedMedia != null) {
       setState(() {
@@ -95,16 +95,38 @@ class _ImageFormState extends State<ImageForm> {
             )
           ),
           SizedBox(height: 10.h),
+
           MediaUploadField(
             mediaPath: mediaPath, 
-            pickImage: pickImage
+            pickImage: () {
+              pickImage(ImageSource.gallery);
+            }
           ),
-          Button(
-            buttonColor: kSecondaryColor,
-            buttonText: 'Generate QR Code',
-            onPressed: validateForm,
-            inactive: false,
+
+          Row(
+            children: [
+              Expanded(
+                child: Button(
+                  buttonColor: kSecondaryColor,
+                  buttonText: 'Take Photo',
+                  onPressed: () {
+                    pickImage(ImageSource.camera);
+                  },
+                  inactive: false,
+                )
+              ),
+              SizedBox(width: 10.w),
+              Expanded(
+                child: Button(
+                  buttonColor: kSecondaryColor,
+                  buttonText: 'Generate QR',
+                  onPressed: validateForm,
+                  inactive: false,
+                ),
+              ),
+            ],
           ),
+
           SizedBox(height:10.h),
           isLoading ? Padding(
             padding: EdgeInsets.only(bottom: 20.h),

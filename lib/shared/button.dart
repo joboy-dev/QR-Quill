@@ -121,6 +121,7 @@ class IconTextButton extends StatelessWidget {
     this.textColor,
     this.gap,
     this.fontWeight,
+    this.iconsize,
   });
 
   final String text;
@@ -130,6 +131,7 @@ class IconTextButton extends StatelessWidget {
   final double? fontSize;
   final double? gap;
   final FontWeight? fontWeight;
+  final double? iconsize;
   final Function() onPressed;
 
   @override
@@ -140,7 +142,7 @@ class IconTextButton extends StatelessWidget {
         padding: EdgeInsets.only(left: 10.r),
         child: Row(
           children: [
-            Expanded(flex: 0, child: Icon(icon, color: iconColor, size: 30.r)),
+            Expanded(flex: 0, child: Icon(icon, color: iconColor, size: iconsize ?? 30.r)),
             SizedBox(width: gap ?? 20.sp),
             Expanded(
               flex: 1,
@@ -148,7 +150,7 @@ class IconTextButton extends StatelessWidget {
                 text,
                 style: kNormalTextStyle(context).copyWith(
                   fontSize: fontSize ?? 20.sp,
-                  color: textColor ?? kTertiaryColor,
+                  color: textColor ?? kFontTheme(context),
                   fontWeight: fontWeight ?? FontWeight.normal,
                 ),
               ),

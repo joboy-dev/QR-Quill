@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:qr_quill/models/qrcode_model.dart';
-import 'package:qr_quill/screens/create/show_qrcode.dart';
+import 'package:qr_quill/models/create_model.dart';
+import 'package:qr_quill/screens/create/create_qr_results.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
@@ -62,6 +62,7 @@ class _EventFormState extends State<EventForm> with SingleTickerProviderStateMix
       final DateFormat dateFormat = DateFormat("yyyyMMdd");
       final DateFormat timeFormat = DateFormat("HHmmss");
 
+      const westAfricanTime = Duration(hours: -1);
       // Convert TimeOfDay to DateTime
       DateTime eventStart = DateTime(
         eventDateStart.year,
@@ -69,7 +70,7 @@ class _EventFormState extends State<EventForm> with SingleTickerProviderStateMix
         eventDateStart.day,
         eventTimeStart.hour,
         eventTimeStart.minute,
-      );
+      ).add(westAfricanTime);
 
       DateTime eventEnd = allDayEvent ? DateTime(
         eventDateStart.year,
@@ -77,13 +78,14 @@ class _EventFormState extends State<EventForm> with SingleTickerProviderStateMix
         eventDateStart.day,
         eventTimeEnd.hour,
         eventTimeEnd.minute,
-      ) : DateTime(
+      ).add(westAfricanTime) : DateTime(
         eventDateEnd.year,
         eventDateEnd.month,
         eventDateEnd.day,
         eventTimeEnd.hour,
         eventTimeEnd.minute,
-      );
+      ).add(westAfricanTime);
+
 
       // Date validation checks
       if (eventStart.isBefore(DateTime.now())) {
@@ -99,8 +101,8 @@ class _EventFormState extends State<EventForm> with SingleTickerProviderStateMix
           'SUMMARY:$eventName\n'
           'DESCRIPTION:$eventDescription\n'
           'LOCATION:$eventLocation\n'
-          'DTSTART:${dateFormat.format(eventStart)}T${timeFormat.format(eventStart)}Z\n'
-          'DTEND:${dateFormat.format(eventEnd)}T${timeFormat.format(eventEnd)}Z\n'
+          'DTSTART:${dateFormat.format(eventStart)}T${timeFormat.format(eventStart)}Z\n' // West African Time
+          'DTEND:${dateFormat.format(eventEnd)}T${timeFormat.format(eventEnd)}Z\n' // West African Time
           'END:VEVENT\n'
           'END:VCALENDAR\n';
       }

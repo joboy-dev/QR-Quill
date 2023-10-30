@@ -3,50 +3,58 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:qr_quill/models/qrcode_model.dart';
-import 'package:qr_quill/screens/create/show_qrcode.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:qr_quill/models/create_model.dart';
+import 'package:qr_quill/screens/create/create_qr_results.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
+import 'package:qr_quill/shared/logger.dart';
 import 'package:qr_quill/shared/navigator.dart';
 import 'package:qr_quill/shared/snackbar.dart';
 import 'package:qr_quill/shared/textfield.dart';
 
-class ContactForm extends StatefulWidget {
-  ContactForm({super.key, required this.qrCodeName});
+// ignore: constant_identifier_names
+enum WifiTypes {WPA, WEP, Open}
+
+class WifiForm extends StatefulWidget {
+  WifiForm({
+    super.key, 
+    required this.qrCodeName,
+  });
 
   String qrCodeName;
 
   @override
-  State<ContactForm> createState() => _ContactFormState();
+  State<WifiForm> createState() => _WifiFormState();
 }
 
-class _ContactFormState extends State<ContactForm> with SingleTickerProviderStateMixin {
-  String fullname = '';
-  String phoneNumber = '';
-  String address = '';
-  String email = '';
-
+class _WifiFormState extends State<WifiForm> with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   bool obscureText = true;
   bool isLoading = false;
 
+  WifiTypes? selectedType;
+
+  String wifiName = '';
+  String wifiPassword = '';
+
+  String qrData = '';
   String stringData = '';
 
-  String generateQrData(String name, String phoneNumber, String email, String address) {
-    return 'BEGIN:VCARD\n'
-      'VERSION:3.0\n'
-      'FN:$name\n'
-      'TEL:$phoneNumber\n'
-      'EMAIL:$email\n'
-      'ADR:$address\n'
-      'END:VCARD';
+  String generateWifiUri(String wifiName, String wifiType, String wifiPassword) {
+    return 'WIFI:T:$wifiType;S:$wifiName;P:$wifiPassword;;';
   }
 
   validateForm() async {
     if (_formKey.currentState!.validate()) {
-      // Collect all data
-      stringData = 'Name: $fullname\nPhone: $phoneNumber\nEmail: $email\nAddress: $address';
+      logger(wifiName);
+      logger(wifiPassword);
+
+      // Collect all qrData
+      selectedType == WifiTypes.Open 
+        ? stringData = 'Wifi Name: $wifiName\nWifi Type:: ${selectedType?.name}'
+        : stringData = 'Wifi Name: $wifiName\nWifi Type:: ${selectedType?.name}\nPassword: $wifiPassword';
 
       showSnackbar(context, 'Generating QR Code...');
       setState(() {
@@ -55,17 +63,19 @@ class _ContactFormState extends State<ContactForm> with SingleTickerProviderStat
 
       await Future.delayed(kAnimationDuration2);
       navigatorPush(context, ShowQRCode(
-        qrData: generateQrData(fullname, phoneNumber, email, address),
-        stringData: stringData,
-        qrCodeName: widget.qrCodeName,
-        selectedCategory: Category.Contact,
+          qrData: generateWifiUri(wifiName, selectedType!.name, wifiPassword), 
+          // qrData: stringData, 
+          stringData: stringData,
+          qrCodeName: widget.qrCodeName,
+          selectedCategory: Category.Wifi,
         )
       );
     } else {
       showSnackbar(context, 'Field validation failed. Ensure all fields are valid.');
     }
   }
-  
+
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -73,11 +83,11 @@ class _ContactFormState extends State<ContactForm> with SingleTickerProviderStat
       child: Column(
         children: [
           NormalTextField(
-            hintText: 'Full Name',
+            hintText: 'Wifi Name',
             textColor: kSecondaryColor,
             onChanged: (value) {
               setState(() {
-                fullname = value!;
+                wifiName = value!;
               });
             }, 
             enabledBorderColor: kFontTheme(context), 
@@ -87,16 +97,42 @@ class _ContactFormState extends State<ContactForm> with SingleTickerProviderStat
             errorTextStyleColor: kRedColor, 
             iconColor: kSecondaryColor, 
             cursorColor: kSecondaryColor, 
-            prefixIcon: Icons.person,
+            prefixIcon: Icons.wifi,
+          ),
+
+          DropDownFormField(
+            value: selectedType, 
+            labelText: 'Wifi Type',
+            items: WifiTypes.values.map(
+              (type) => DropdownMenuItem(
+                value: type,
+                child: Text(
+                  type.name, 
+                  style: kYellowNormalTextStyle(context),
+                )
+              ) 
+            ).toList(), 
+            onChanged: (value) {
+              setState(() {
+                selectedType = value;
+              });
+            }, 
+            prefixIcon: Icons.wifi, 
+            iconColor: kSecondaryColor, 
+            enabledBorderColor: kFontTheme(context), 
+            focusedBorderColor: kSecondaryColor, 
+            errorBorderColor: kRedColor, 
+            focusedErrorBorderColor: kRedColor, 
+            errorTextStyleColor: kRedColor, 
           ),
     
-          NormalTextField(
-            hintText: 'Phone Number',
+          selectedType == WifiTypes.Open ? const SizedBox() : NormalTextField(
+            hintText: 'Wifi Password',
             textColor: kSecondaryColor,
-            textInputType: TextInputType.phone,
+            textInputType: TextInputType.visiblePassword,
             onChanged: (value) {
               setState(() {
-                phoneNumber = value!;
+                wifiPassword = value!;
               });
             }, 
             enabledBorderColor: kFontTheme(context), 
@@ -106,41 +142,14 @@ class _ContactFormState extends State<ContactForm> with SingleTickerProviderStat
             errorTextStyleColor: kRedColor, 
             iconColor: kSecondaryColor, 
             cursorColor: kSecondaryColor, 
-            prefixIcon: Icons.phone,
-          ),
-    
-          EmailTextField(
-            onChanged: (value) {
+            obscureText: obscureText,
+            prefixIcon: Icons.password,
+            suffixIcon: obscureText ? FontAwesomeIcons.solidEye : FontAwesomeIcons.solidEyeSlash,
+            suffixIconOTap: () {
               setState(() {
-                email = value!;
+                obscureText = !obscureText;
               });
-            }, 
-            enabledBorderColor: kFontTheme(context), 
-            focusedBorderColor: kSecondaryColor, 
-            errorBorderColor: kRedColor, 
-            focusedErrorBorderColor: kRedColor, 
-            errorTextStyleColor: kRedColor, 
-            iconColor: kSecondaryColor, 
-            cursorColor: kSecondaryColor, 
-          ),
-    
-          NormalTextField(
-            hintText: 'Address',
-            maxLines: 4,
-            textColor: kSecondaryColor,
-            onChanged: (value) {
-              setState(() {
-                address = value!;
-              });
-            }, 
-            enabledBorderColor: kFontTheme(context), 
-            focusedBorderColor: kSecondaryColor, 
-            errorBorderColor: kRedColor, 
-            focusedErrorBorderColor: kRedColor, 
-            errorTextStyleColor: kRedColor, 
-            iconColor: kSecondaryColor, 
-            cursorColor: kSecondaryColor, 
-            prefixIcon: Icons.place,
+            },
           ),
 
           Button(

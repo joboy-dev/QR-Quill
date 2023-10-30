@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:qr_quill/models/qrcode_model.dart';
+import 'package:qr_quill/models/create_model.dart';
 import 'package:qr_quill/services/qr_barcode_utility_functions.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
@@ -157,6 +158,54 @@ class _ScanQRResultsState extends State<ScanQRResults> {
                         fontSize: 17.sp,
                         onPressed: () {
                           launchUrlFromUri(context, sendEmail());
+                        },
+                      ),
+                    ),
+
+                    if(widget.category == Category.SMS) Expanded(
+                      child: IconTextButton(
+                        text: 'Send SMS', 
+                        icon: FontAwesomeIcons.commentSms, 
+                        iconColor: kSecondaryColor, 
+                        fontSize: 17.sp,
+                        onPressed: () {
+                          // launchUrlFromUri(context, sendEmail());
+                        },
+                      ),
+                    ),
+
+                    if(widget.category == Category.URL) Expanded(
+                      child: IconTextButton(
+                        text: 'Open URL', 
+                        icon: Icons.open_in_browser, 
+                        iconColor: kSecondaryColor, 
+                        fontSize: 17.sp,
+                        onPressed: () {
+                          launchUrlFromString(context, widget.scannedQrData);
+                        },
+                      ),
+                    ),
+
+                    if(widget.category == Category.Event) Expanded(
+                      child: IconTextButton(
+                        text: 'Save in Calendar', 
+                        icon: Icons.calendar_month, 
+                        iconColor: kSecondaryColor, 
+                        fontSize: 17.sp,
+                        onPressed: () {
+                          // launchUrlFromString(context, widget.scannedQrData);
+                        },
+                      ),
+                    ),
+
+                    if(widget.category == Category.Wifi) Expanded(
+                      child: IconTextButton(
+                        text: 'Connect', 
+                        icon: Icons.wifi, 
+                        iconColor: kSecondaryColor, 
+                        fontSize: 17.sp,
+                        onPressed: () {
+                          launchUrlFromUri(context, Uri.parse(widget.scannedQrData));
                         },
                       ),
                     ),
