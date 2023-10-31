@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:qr_quill/models/create_model.dart';
+import 'package:qr_quill/models/create_code.dart';
 import 'package:qr_quill/screens/create/qr_code/qr_forms/contact.dart';
 import 'package:qr_quill/screens/create/qr_code/qr_forms/email.dart';
 import 'package:qr_quill/screens/create/qr_code/qr_forms/event.dart';
@@ -109,7 +109,7 @@ class _CreateQRCodeState extends State<CreateQRCode> {
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 20.r),
                                 child: Icon(
-                                  qrCodeCategoryIcons[category],
+                                  qrCodeCategoryStringDataIcons[category.name],
                                   size: 15.r,
                                   color: kSecondaryColor,
                                 ),

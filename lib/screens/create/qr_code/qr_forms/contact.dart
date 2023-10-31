@@ -3,8 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:qr_quill/models/create_model.dart';
+import 'package:qr_quill/models/create_code.dart';
 import 'package:qr_quill/screens/create/qr_code/create_qr_results.dart';
+import 'package:qr_quill/services/isar_db.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
@@ -22,6 +23,8 @@ class ContactForm extends StatefulWidget {
 }
 
 class _ContactFormState extends State<ContactForm> with SingleTickerProviderStateMixin {
+  final isarDb = IsarDB();
+  
   String fullname = '';
   String phoneNumber = '';
   String address = '';
@@ -32,6 +35,7 @@ class _ContactFormState extends State<ContactForm> with SingleTickerProviderStat
   bool isLoading = false;
 
   String stringData = '';
+  final dateGenerated = DateTime.now().toString().substring(0, 16);
 
   String generateQrData(String name, String phoneNumber, String email, String address) {
     return 'BEGIN:VCARD\n'
@@ -54,12 +58,27 @@ class _ContactFormState extends State<ContactForm> with SingleTickerProviderStat
       });
 
       await Future.delayed(kAnimationDuration2);
-      navigatorPush(context, ShowQRCode(
-        qrData: generateQrData(fullname, phoneNumber, email, address),
-        stringData: stringData,
-        qrCodeName: widget.qrCodeName,
-        selectedCategory: QRCodeCategory.Contact,
+      navigatorPushReplacement(
+        context, 
+        ShowQRCode(
+          qrData: generateQrData(fullname, phoneNumber, email, address),
+          stringData: stringData,
+          qrCodeName: widget.qrCodeName,
+          selectedCategory: QRCodeCategory.Contact.name,
+          dateGenerated: dateGenerated,
         )
+      );
+      
+      await isarDb.addCreatedCode(
+        context, 
+        CreateCode(
+          type: 'QR Code',
+          codeName: widget.qrCodeName,
+          category: QRCodeCategory.Contact.name,
+          codeData: generateQrData(fullname, phoneNumber, email, address),
+          stringData: stringData,
+          datetime: dateGenerated,
+        ),
       );
     } else {
       showSnackbar(context, 'Field validation failed. Ensure all fields are valid.');

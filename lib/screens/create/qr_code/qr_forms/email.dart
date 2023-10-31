@@ -3,8 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:qr_quill/models/create_model.dart';
+import 'package:qr_quill/models/create_code.dart';
 import 'package:qr_quill/screens/create/qr_code/create_qr_results.dart';
+import 'package:qr_quill/services/isar_db.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
@@ -34,6 +35,9 @@ class _EmailFormState extends State<EmailForm> with SingleTickerProviderStateMix
   String data = '';
   String qrData = '';
 
+  final isarDb = IsarDB();
+  final dateGenerated = DateTime.now().toString().substring(0, 16);
+
   /// Function to handle emailng of message
   String generateMail(String email, String subject, String message) {
     final uri = Uri(
@@ -62,12 +66,25 @@ class _EmailFormState extends State<EmailForm> with SingleTickerProviderStateMix
       });
 
       await Future.delayed(kAnimationDuration2);
-      navigatorPush(context, ShowQRCode(
+      navigatorPushReplacement(context, ShowQRCode(
         qrData: qrData,
         stringData: data,
         qrCodeName: widget.qrCodeName,
-        selectedCategory: QRCodeCategory.Email,
+        selectedCategory: QRCodeCategory.Email.name,
+        dateGenerated: dateGenerated,
         )
+      );
+
+      await isarDb.addCreatedCode(
+        context, 
+        CreateCode(
+          type: 'QR Code',
+          codeName: widget.qrCodeName,
+          category: QRCodeCategory.Email.name,
+          codeData: qrData,
+          stringData: data,
+          datetime: dateGenerated,
+        ),
       );
     } else {
       showSnackbar(context, 'Field validation failed. Ensure all fields are valid.');

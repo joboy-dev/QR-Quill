@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:qr_quill/models/create_model.dart';
+import 'package:qr_quill/models/create_code.dart';
 import 'package:qr_quill/screens/create/qr_code/create_qr_results.dart';
+import 'package:qr_quill/services/isar_db.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
@@ -46,6 +47,9 @@ class _EventFormState extends State<EventForm> with SingleTickerProviderStateMix
   final _formKey = GlobalKey<FormState>();
 
   String stringData = '';
+  final isarDb = IsarDB();
+
+  final dateGenerated = DateTime.now().toString().substring(0, 16);
 
   @override
   Widget build(BuildContext context) {
@@ -131,25 +135,7 @@ End Date: ${endDate.toIso8601String().substring(0,10)}
 End Time: ${endTime.format(context)}
         ''';
 
-      // check if data ia valid
-      if (generateICalendarData(
-        eventName: eventTitle, 
-        eventDescription: eventDescription, 
-        eventLocation: eventLocation, 
-        eventDateStart: startDate, 
-        eventDateEnd: endDate,
-        eventTimeStart: startTime, 
-        eventTimeEnd: endTime
-      ) != '') {
-        showSnackbar(context, 'Generating QR Code...');
-        setState(() {
-          isLoading = true;
-        });
-
-        await Future.delayed(kAnimationDuration2);
-
-        navigatorPush(context, ShowQRCode(
-          qrData: generateICalendarData(
+      String qrData = generateICalendarData(
             eventName: eventTitle, 
             eventDescription: eventDescription, 
             eventLocation: eventLocation, 
@@ -157,12 +143,37 @@ End Time: ${endTime.format(context)}
             eventDateEnd: endDate,
             eventTimeStart: startTime, 
             eventTimeEnd: endTime
-          ),
+          );
+
+      // check if data ia valid
+      if (qrData != '') {
+        showSnackbar(context, 'Generating QR Code...');
+        setState(() {
+          isLoading = true;
+        });
+
+        await Future.delayed(kAnimationDuration2);
+
+        navigatorPushReplacement(context, ShowQRCode(
+          qrData: qrData,
           stringData: stringData,
           qrCodeName: widget.qrCodeName,
-          selectedCategory: QRCodeCategory.Event,
+          selectedCategory: QRCodeCategory.Event.name,
+          dateGenerated: dateGenerated,
           )
         );
+
+        await isarDb.addCreatedCode(
+        context, 
+        CreateCode(
+          type: 'QR Code',
+          codeName: widget.qrCodeName,
+          category: QRCodeCategory.Event.name,
+          codeData: qrData,
+          stringData: stringData,
+          datetime: dateGenerated,
+        ),
+      );
       }
     } else {
       showSnackbar(context, 'Field validation failed. Ensure all fields are valid.');

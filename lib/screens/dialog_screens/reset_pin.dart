@@ -54,7 +54,7 @@ class _ResetPinDialogState extends State<ResetPinDialog> {
 
         DoubleButton(
           inactiveButton: false, 
-          button2Text: 'Proceed', 
+          button2Text: 'Save Pin', 
           button2Color: kSecondaryColor, 
           button2onPressed: () {
             savePin();

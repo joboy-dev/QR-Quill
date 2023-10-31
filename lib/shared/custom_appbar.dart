@@ -11,6 +11,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
     this.backgroundColor,
     this.titleColor,
     this.elevation,
+    this.trailing,
   });
 
   final String title;
@@ -18,6 +19,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   final Color? backgroundColor;
   final Color? titleColor;
   final double? elevation;
+  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +34,9 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5.r)
       ),
+      actions: [
+        trailing ?? const SizedBox(),
+      ],
     );
   }
 

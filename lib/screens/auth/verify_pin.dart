@@ -7,6 +7,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_quill/screens/dialog_screens/reset_pin_confirmation.dart';
+import 'package:qr_quill/services/isar_db.dart';
 import 'package:qr_quill/services/provider/pin_storage.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/botttom_navbar.dart';
@@ -28,29 +29,18 @@ class VerifyPin extends StatefulWidget {
 }
 
 class _VerifyPinState extends State<VerifyPin> with SingleTickerProviderStateMixin {
-  late AnimationController controller;
-  late Animation<double> animation;
 
   @override
   void initState() {
-    controller = AnimationController(vsync: this, duration: kAnimationDuration1);
-    animation = Tween(begin: 0.0, end: 1.0).animate(controller);
-
-    controller.forward();
-
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
   }
 
   final _formKey = GlobalKey<FormState>();
   String pin = '';
   bool loading = false;
   bool pinCorrect = false;
+
+  final isarDb = IsarDB();
 
   @override
   Widget build(BuildContext context) {
@@ -66,12 +56,21 @@ class _VerifyPinState extends State<VerifyPin> with SingleTickerProviderStateMix
         });
         showSnackbar(context, 'Pin is incorrect. Try again.');
       } else {
-        await Future.delayed(kAnimationDuration2);
-        showSnackbar(context, 'Pin is correct. Welcome.');
         setState(() {
-          loading = false;
+          loading = true;
           pinCorrect = true;
         });
+
+        // await Future.delayed(kAnimationDuration2);
+        showSnackbar(context, 'Pin is correct. Loading your data...');
+
+        await isarDb.getCreatedCodes(context);
+        await isarDb.getScannedCodes(context);
+
+        setState(() {
+          loading = false;
+        });
+
         navigatorPushReplacement(context, const BottomNavBar());
       }
     }

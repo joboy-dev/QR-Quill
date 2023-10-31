@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:qr_quill/models/create_model.dart';
+import 'package:qr_quill/models/create_code.dart';
 import 'package:qr_quill/screens/create/qr_code/create_qr_results.dart';
 import 'package:qr_quill/services/cloud_storage.dart';
+import 'package:qr_quill/services/isar_db.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
@@ -35,6 +36,8 @@ class _ImageFormState extends State<ImageForm> {
   final cloudStorage = CloudStorage();
 
   bool isLoading = false;
+  final isarDb = IsarDB();
+  final dateGenerated = DateTime.now().toString().substring(0, 16);
 
   /// Function to pick an image
   pickImage(ImageSource source) async {
@@ -70,12 +73,25 @@ class _ImageFormState extends State<ImageForm> {
       });
       logger(downloadUrl);
 
-      navigatorPush(context, ShowQRCode(
+      navigatorPushReplacement(context, ShowQRCode(
           qrCodeName: widget.qrCodeName ,
-          selectedCategory: QRCodeCategory.Image, 
+          selectedCategory: QRCodeCategory.Image.name, 
           qrData: downloadUrl, 
           stringData: downloadUrl,
+          dateGenerated: dateGenerated,
         )
+      );
+
+      await isarDb.addCreatedCode(
+        context, 
+        CreateCode(
+          type: 'QR Code',
+          codeName: widget.qrCodeName,
+          category: QRCodeCategory.Image.name,
+          codeData: downloadUrl,
+          stringData: downloadUrl,
+          datetime: dateGenerated,
+        ),
       );
     } else {
       showSnackbar(context, 'Please select an image');

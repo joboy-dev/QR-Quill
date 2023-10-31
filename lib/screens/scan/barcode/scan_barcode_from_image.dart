@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:qr_quill/models/create_code.dart';
 import 'package:qr_quill/models/scan_code.dart';
-import 'package:qr_quill/screens/scan/qr_code/scan_qr_results.dart';
+import 'package:qr_quill/screens/scan/barcode/scan_barcode_results.dart';
 import 'package:qr_quill/services/isar_db.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
@@ -15,17 +15,17 @@ import 'package:qr_quill/shared/snackbar.dart';
 import 'package:qr_quill/shared/textfield.dart';
 import 'package:scan/scan.dart';
 
-class ScanQRFromImage extends StatefulWidget {
-  const ScanQRFromImage({super.key});
+class ScanBarcodeFromImage extends StatefulWidget {
+  const ScanBarcodeFromImage({super.key});
 
   @override
-  State<ScanQRFromImage> createState() => _ScanQRFromImageState();
+  State<ScanBarcodeFromImage> createState() => _ScanBarcodeFromImageState();
 }
 
-class _ScanQRFromImageState extends State<ScanQRFromImage> {
+class _ScanBarcodeFromImageState extends State<ScanBarcodeFromImage> {
   // final _scanController = ScanController();
 
-  String qrData = 'Unknown';
+  String barcodeData = 'Unknown';
   
   XFile? pickedMedia;
   String? mediaPath;
@@ -53,22 +53,23 @@ class _ScanQRFromImageState extends State<ScanQRFromImage> {
   }
 
   /// Function to generate category based on qr code data 
-  QRCodeCategory generateCategory() {
-    if (qrData.contains('mailto:')) {
-      return QRCodeCategory.Email;
-    } else if (qrData.contains('WIFI:')) {
-      return QRCodeCategory.Wifi;
-    } else if(qrData.contains('https://') || qrData.contains('http://')) {
-      return QRCodeCategory.URL;
-    } else if(qrData.contains('sms:') || qrData.contains('SMSTO:')) {
-      return QRCodeCategory.SMS;
-    } else if(qrData.contains('BEGIN:VCARD')) {
-      return QRCodeCategory.Contact;
-    } else if(qrData.contains('BEGIN:VCALENDAR') || qrData.contains('BEGIN:VEVENT')) {
-      return QRCodeCategory.Event;
-    } else {
-      return QRCodeCategory.Text;
-    }
+  BarcodeCategory generateCategory() {
+    // if (qrData.contains('mailto:')) {
+    //   return QRCodeCategory.Email;
+    // } else if (qrData.contains('WIFI:')) {
+    //   return QRCodeCategory.Wifi;
+    // } else if(qrData.contains('https://') || qrData.contains('http://')) {
+    //   return QRCodeCategory.URL;
+    // } else if(qrData.contains('sms:') || qrData.contains('SMSTO:')) {
+    //   return QRCodeCategory.SMS;
+    // } else if(qrData.contains('BEGIN:VCARD')) {
+    //   return QRCodeCategory.Contact;
+    // } else if(qrData.contains('BEGIN:VCALENDAR') || qrData.contains('BEGIN:VEVENT')) {
+    //   return QRCodeCategory.Event;
+    // } else {
+    //   return QRCodeCategory.Text;
+    // }
+    return BarcodeCategory.Aztec;
   }
 
   @override
@@ -83,7 +84,7 @@ class _ScanQRFromImageState extends State<ScanQRFromImage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text('Please upload a QR Code image.', style: kYellowNormalTextStyle(context)),
+                  Text('Please upload a Barcode image.', style: kYellowNormalTextStyle(context)),
                   SizedBox(height: 20.h),
                   
                   MediaUploadField(
@@ -99,13 +100,13 @@ class _ScanQRFromImageState extends State<ScanQRFromImage> {
                       String? image = await Scan.parse(mediaPath!);
                       if (image != null) {    
                         setState(() {
-                          qrData = image;
+                          barcodeData = image;
                         });
 
                         navigatorPushReplacement(
                           context, 
-                          ScanQRResults(
-                            scannedQrData: qrData, 
+                          ScanBarcodeResults(
+                            scannedBarcodeData: barcodeData, 
                             category: generateCategory().name, 
                             imagePath: mediaPath, 
                             dateScanned: dateGenerated,
@@ -116,10 +117,10 @@ class _ScanQRFromImageState extends State<ScanQRFromImage> {
                         IsarDB().addScannedCode(
                           context, 
                           ScanCode(
-                            type: 'QR Code',
+                            type: 'Barcoode',
                             codeName: generateCategory().name,
                             category: generateCategory().name,
-                            codeData: qrData,
+                            codeData: barcodeData,
                             datetime: dateGenerated,
                             mediaPath: mediaPath,
                           ),

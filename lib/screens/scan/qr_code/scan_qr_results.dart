@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:qr_quill/models/create_model.dart';
+import 'package:qr_quill/models/create_code.dart';
 import 'package:qr_quill/services/qr_barcode_utility_functions.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
@@ -21,12 +21,14 @@ class ScanQRResults extends StatefulWidget {
     super.key, 
     required this.scannedQrData, 
     required this.category, 
-    this.imageFile
+    this.imagePath,
+    required this.dateScanned,
   });
 
   final String scannedQrData;
-  final XFile? imageFile;
-  final QRCodeCategory category;
+  final String? imagePath;
+  final String category;
+  final String dateScanned;
 
   @override
   State<ScanQRResults> createState() => _ScanQRResultsState();
@@ -75,7 +77,7 @@ class _ScanQRResultsState extends State<ScanQRResults> {
                 Padding(
                   padding: EdgeInsets.only(left: 15.r),
                   child: Text(
-                    'Scan Date: $dateScanned', 
+                    'Scan Date: ${widget.dateScanned}', 
                     style: kNormalTextStyle(context),
                   ),
                 ),
@@ -86,7 +88,7 @@ class _ScanQRResultsState extends State<ScanQRResults> {
                     padding: EdgeInsets.symmetric(vertical: 10.r),
                     child: RepaintBoundary(
                       key: _qrImageKey,
-                      child: widget.imageFile == null ? QrImageView(
+                      child: widget.imagePath == null ? QrImageView(
                         data: widget.scannedQrData,
                         size: 220.r,
                         eyeStyle: QrEyeStyle(
@@ -98,7 +100,7 @@ class _ScanQRResultsState extends State<ScanQRResults> {
                           dataModuleShape: QrDataModuleShape.circle
                         ),
                       ) : Image.file(
-                        File(widget.imageFile!.path),
+                        File(widget.imagePath!),
                         height: 220.h,
                         width: 250.w,
                         fit: BoxFit.fill,
@@ -117,7 +119,7 @@ class _ScanQRResultsState extends State<ScanQRResults> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          qrCodeCategoryIcons[widget.category],
+                          qrCodeCategoryStringDataIcons[widget.category],
                           color: kSecondaryColor,
                           size: 35.r,
                         ),
@@ -125,7 +127,7 @@ class _ScanQRResultsState extends State<ScanQRResults> {
                         SizedBox(width: 10.w),
 
                         Text(
-                          widget.category.name,
+                          widget.category,
                           style: kYellowNormalTextStyle(context).copyWith(
                             fontWeight: FontWeight.bold,
                             fontSize: 20.sp
@@ -209,7 +211,7 @@ class _ScanQRResultsState extends State<ScanQRResults> {
                       ),
                     ),
 
-                    if(widget.category == QRCodeCategory.Email) Expanded(
+                    if(widget.category == QRCodeCategory.Email.name) Expanded(
                       child: IconTextButton(
                         text: 'Send Email', 
                         icon: Icons.email_rounded, 
@@ -224,7 +226,7 @@ class _ScanQRResultsState extends State<ScanQRResults> {
                       ),
                     ),
 
-                    if(widget.category == QRCodeCategory.SMS) Expanded(
+                    if(widget.category == QRCodeCategory.SMS.name) Expanded(
                       child: IconTextButton(
                         text: 'Send SMS', 
                         icon: FontAwesomeIcons.commentSms, 
@@ -238,7 +240,7 @@ class _ScanQRResultsState extends State<ScanQRResults> {
                       ),
                     ),
 
-                    if(widget.category == QRCodeCategory.URL) Expanded(
+                    if(widget.category == QRCodeCategory.URL.name) Expanded(
                       child: IconTextButton(
                         text: 'Open URL', 
                         icon: Icons.open_in_browser, 
@@ -252,7 +254,7 @@ class _ScanQRResultsState extends State<ScanQRResults> {
                       ),
                     ),
 
-                    if(widget.category == QRCodeCategory.Event) Expanded(
+                    if(widget.category == QRCodeCategory.Event.name) Expanded(
                       child: IconTextButton(
                         text: 'Save in Calendar', 
                         icon: Icons.calendar_month, 
@@ -266,7 +268,7 @@ class _ScanQRResultsState extends State<ScanQRResults> {
                       ),
                     ),
 
-                    if(widget.category == QRCodeCategory.Wifi) Expanded(
+                    if(widget.category == QRCodeCategory.Wifi.name) Expanded(
                       child: IconTextButton(
                         text: 'Connect', 
                         icon: Icons.wifi, 

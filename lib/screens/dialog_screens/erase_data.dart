@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:qr_quill/services/isar_db.dart';
 import 'package:qr_quill/services/provider/pin_storage.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
@@ -40,6 +41,7 @@ class _EraseDataDialogState extends State<EraseDataDialog> {
           button2onPressed: () {
             // navigatorPushReplacementNamed(context, GetStarted.id);
             PinStorage().clearPin();
+            IsarDB().clearDB(context);
             navigatorPushReplacement(context, const Wrapper());
             showSnackbar(context, 'All data cleared.');
           }

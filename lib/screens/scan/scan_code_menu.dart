@@ -7,17 +7,17 @@ import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:scan/scan.dart';
 
-class ScanCode extends StatefulWidget {
-  const ScanCode({super.key, required this.scanWithCameraNavTo, required this.scanFromImageNavTo});
+class ScanCodeMenu extends StatefulWidget {
+  const ScanCodeMenu({super.key, required this.scanWithCameraNavTo, required this.scanFromImageNavTo});
 
   final Function() scanWithCameraNavTo;
   final Function() scanFromImageNavTo;
 
   @override
-  State<ScanCode> createState() => _ScanCodeState();
+  State<ScanCodeMenu> createState() => _ScanCodeMenuState();
 }
 
-class _ScanCodeState extends State<ScanCode> {
+class _ScanCodeMenuState extends State<ScanCodeMenu> {
   @override
   void initState() {
     super.initState();

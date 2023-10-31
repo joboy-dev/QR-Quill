@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qr_quill/models/create_code.dart';
 import 'package:qr_quill/models/scan_code.dart';
-import 'package:qr_quill/screens/scan/qr_code/scan_qr_results.dart';
+import 'package:qr_quill/screens/scan/barcode/scan_barcode_results.dart';
 import 'package:qr_quill/services/isar_db.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
@@ -12,38 +12,23 @@ import 'package:qr_quill/shared/navigator.dart';
 import 'package:qr_quill/shared/snackbar.dart';
 import 'package:scan/scan.dart';
 
-class ScanQRWithCamera extends StatefulWidget {
-  const ScanQRWithCamera({super.key});
+class ScanBarcodeWithCamera extends StatefulWidget {
+  const ScanBarcodeWithCamera({super.key});
 
   @override
-  State<ScanQRWithCamera> createState() => _ScanQRWithCameraState();
+  State<ScanBarcodeWithCamera> createState() => _ScanBarcodeWithCameraState();
 }
 
-class _ScanQRWithCameraState extends State<ScanQRWithCamera> {
+class _ScanBarcodeWithCameraState extends State<ScanBarcodeWithCamera> {
   final _scanController = ScanController();
-  String qrData = 'Unknown';
+  String barcodeData = 'Unknown';
   bool isTorchOn = false;
   bool cameraPaused = false;
   final dateGenerated = DateTime.now().toString().substring(0, 16);
 
-
   /// Function to generate category based on qr code data 
-  QRCodeCategory generateCategory() {
-    if (qrData.contains('mailto:')) {
-      return QRCodeCategory.Email;
-    } else if (qrData.contains('WIFI:')) {
-      return QRCodeCategory.Wifi;
-    } else if(qrData.contains('https://') || qrData.contains('http://')) {
-      return QRCodeCategory.URL;
-    } else if(qrData.contains('sms:')) {
-      return QRCodeCategory.SMS;
-    } else if(qrData.contains('BEGIN:VCARD')) {
-      return QRCodeCategory.Contact;
-    } else if(qrData.contains('BEGIN:VCALENDAR') || qrData.contains('BEGIN:VEVENT')) {
-      return QRCodeCategory.Event;
-    } else {
-      return QRCodeCategory.Text;
-    }
+  BarcodeCategory generateCategory() {
+    return BarcodeCategory.EAN13;
   }
 
   @override
@@ -75,22 +60,22 @@ class _ScanQRWithCameraState extends State<ScanQRWithCamera> {
                       scanLineColor: kSecondaryColor,
                       scanAreaScale: 0.7,
                       onCapture: (data) {
-                        qrData = data;
+                        barcodeData = data;
                         navigatorPushReplacement(
                           context, 
-                          ScanQRResults(scannedQrData: qrData, category: generateCategory().name, dateScanned: dateGenerated,)
+                          ScanBarcodeResults(scannedBarcodeData: barcodeData, category: generateCategory().name, dateScanned: dateGenerated,)
                         );
 
                         // add scanned code to isar db
                         IsarDB().addScannedCode(
                           context, 
                           ScanCode(
-                            type: 'QR Code',
+                            type: 'Barcode',
                             codeName: generateCategory().name,
                             category: generateCategory().name,
-                            codeData: qrData,
-                            datetime: dateGenerated
-                          )
+                            codeData: barcodeData,
+                            datetime: dateGenerated,
+                          ),
                         );
                       },
                     ),
@@ -130,7 +115,7 @@ class _ScanQRWithCameraState extends State<ScanQRWithCamera> {
                             _scanController.pause();
                           },
                           icon: Icon(
-                            cameraPaused ? Icons.qr_code_scanner_rounded : Icons.pause,
+                            cameraPaused ? Icons.barcode_reader : Icons.pause,
                             size: 30.r,
                           ),
                           color: kSecondaryColor,

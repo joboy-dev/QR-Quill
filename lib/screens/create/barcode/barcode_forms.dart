@@ -3,8 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:qr_quill/models/create_model.dart';
+import 'package:qr_quill/models/create_code.dart';
 import 'package:qr_quill/screens/create/barcode/create_barcode_results.dart';
+import 'package:qr_quill/services/isar_db.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/logger.dart';
@@ -26,6 +27,9 @@ class _BarcodeFormsState extends State<BarcodeForms> {
   final _formKey = GlobalKey<FormState>();
   String barcodeData = '';
 
+  final isarDb = IsarDB();
+  final dateGenerated = DateTime.now().toString().substring(0, 16);
+
   // Function to validate fields that requires max number of numbers
   String? digitValidator(String? value, int maxDigits) {
     if (value!.length > maxDigits) {
@@ -37,20 +41,34 @@ class _BarcodeFormsState extends State<BarcodeForms> {
     }
   }
 
-  validateForm() {
+  validateForm() async {
     if (_formKey.currentState!.validate()) {
       showSnackbar(context, 'Generating QR Code');
 
       logger('Barcode Text: $barcodeData');
       logger('Barcode Name: ${widget.barcodeName}');
 
-      navigatorPush(context, ShowBarcode(
-        barcodeName: widget.barcodeName, 
-        selectedCategory: widget.barcodeCategory, 
-        barcodeData: barcodeData,
+      navigatorPushReplacement(
+        context,
+        ShowBarcode(
+          barcodeName: widget.barcodeName, 
+          selectedCategory: widget.barcodeCategory.name, 
+          barcodeData: barcodeData,
+          dateScanned: dateGenerated,
         )
       );
 
+      await isarDb.addCreatedCode(
+        context, 
+        CreateCode(
+          type: 'Barcode',
+          category: widget.barcodeCategory.name,
+          codeName: widget.barcodeName,
+          codeData: barcodeData,
+          stringData: barcodeData,
+          datetime: dateGenerated,
+        )
+      );
     } else {
       showSnackbar(context, 'Field validation checks failed. Ensure all fields are valid.');
     }

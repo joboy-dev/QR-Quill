@@ -1,11 +1,12 @@
-// ignore_for_file: constant_identifier_names, must_be_immutable
+// ignore_for_file: constant_identifier_names, must_be_immutable, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:qr_quill/models/create_model.dart';
+import 'package:qr_quill/models/create_code.dart';
 import 'package:qr_quill/screens/create/qr_code/create_qr_results.dart';
+import 'package:qr_quill/services/isar_db.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
@@ -45,6 +46,8 @@ class _SocialsFormState extends State<SocialsForm> with SingleTickerProviderStat
   bool isLoading = false;
 
   String stringData = '';
+  final isarDb = IsarDB();
+  final dateGenerated = DateTime.now().toString().substring(0, 16);
 
   validateForm() async {
     if (_formKey.currentState!.validate()) {
@@ -59,13 +62,25 @@ class _SocialsFormState extends State<SocialsForm> with SingleTickerProviderStat
       });
 
       await Future.delayed(kAnimationDuration2);
-      // ignore: use_build_context_synchronously
-      navigatorPush(context, ShowQRCode(
+      navigatorPushReplacement(context, ShowQRCode(
         qrData: link,
         stringData: stringData,
         qrCodeName: widget.qrCodeName,
-        selectedCategory: QRCodeCategory.Socials,
+        selectedCategory: QRCodeCategory.Socials.name,
+        dateGenerated: dateGenerated,
         )
+      );
+
+      await isarDb.addCreatedCode(
+        context, 
+        CreateCode(
+          type: 'QR Code',
+          codeName: widget.qrCodeName,
+          category: QRCodeCategory.Socials.name,
+          codeData: link,
+          stringData: stringData,
+          datetime: dateGenerated,
+        ),
       );
     } else {
       showSnackbar(context, 'Field validation failed. Ensure all fields are valid.');

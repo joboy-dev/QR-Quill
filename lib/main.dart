@@ -7,7 +7,9 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_quill/screens/splash.dart';
+import 'package:qr_quill/services/provider/create_code_provider.dart';
 import 'package:qr_quill/services/provider/pin_storage.dart';
+import 'package:qr_quill/services/provider/scan_code_provider.dart';
 import 'package:qr_quill/services/provider/theme_switch.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/themes.dart';
@@ -25,6 +27,8 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeSwitch()),
         ChangeNotifierProvider(create: (_) => PinStorage()),
+        ChangeNotifierProvider(create: (_) => CreateCodeProvider()),
+        ChangeNotifierProvider(create: (_) => ScanCodeProvider()),
       ],
       child: DevicePreview(
         enabled: !kReleaseMode,

@@ -9,7 +9,7 @@ import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qr_quill/services/qr_barcode_utility_functions.dart';
 import 'package:qr_quill/shared/button.dart';
-import 'package:qr_quill/models/create_model.dart';
+import 'package:qr_quill/models/create_code.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/custom_appbar.dart';
@@ -21,11 +21,13 @@ class ShowBarcode extends StatefulWidget {
     required this.barcodeName,
     required this.selectedCategory,
     required this.barcodeData, 
+    required this.dateScanned,
   });
 
   final String barcodeData;
   final String barcodeName;
-  final BarcodeCategory selectedCategory;
+  final String selectedCategory;
+  final String dateScanned;
 
   @override
   State<ShowBarcode> createState() => _ShowBarcodeState();
@@ -33,40 +35,39 @@ class ShowBarcode extends StatefulWidget {
 
 class _ShowBarcodeState extends State<ShowBarcode> {
   final GlobalKey _barcodeImageKey = GlobalKey();
-  final dateGenerated = DateTime.now().toString().substring(0, 16);
 
   Barcode? generateBarcode() {
-    if (widget.selectedCategory == BarcodeCategory.Aztec) {
+    if (widget.selectedCategory == BarcodeCategory.Aztec.name) {
       return Barcode.aztec();
-    } else if (widget.selectedCategory == BarcodeCategory.Codabar) {
+    } else if (widget.selectedCategory == BarcodeCategory.Codabar.name) {
       return Barcode.codabar();
-    } else if (widget.selectedCategory == BarcodeCategory.Code128) {
+    } else if (widget.selectedCategory == BarcodeCategory.Code128.name) {
       return Barcode.code128();
-    } else if (widget.selectedCategory == BarcodeCategory.Code39) {
+    } else if (widget.selectedCategory == BarcodeCategory.Code39.name) {
       return Barcode.code39();
-    } else if (widget.selectedCategory == BarcodeCategory.Code93) {
+    } else if (widget.selectedCategory == BarcodeCategory.Code93.name) {
       return Barcode.code93();
-    } else if (widget.selectedCategory == BarcodeCategory.DataMatrix) {
+    } else if (widget.selectedCategory == BarcodeCategory.DataMatrix.name) {
       return Barcode.dataMatrix();
-    } else if (widget.selectedCategory == BarcodeCategory.EAN13) {
+    } else if (widget.selectedCategory == BarcodeCategory.EAN13.name) {
       return Barcode.ean13();
-    } else if (widget.selectedCategory == BarcodeCategory.EAN8) {
+    } else if (widget.selectedCategory == BarcodeCategory.EAN8.name) {
       return Barcode.ean8();
-    } else if (widget.selectedCategory == BarcodeCategory.EAN5) {
+    } else if (widget.selectedCategory == BarcodeCategory.EAN5.name) {
       return Barcode.ean5();
-    } else if (widget.selectedCategory == BarcodeCategory.EAN2) {
+    } else if (widget.selectedCategory == BarcodeCategory.EAN2.name) {
       return Barcode.ean2();
-    } else if (widget.selectedCategory == BarcodeCategory.ISBN) {
+    } else if (widget.selectedCategory == BarcodeCategory.ISBN.name) {
       return Barcode.isbn();
-    } else if (widget.selectedCategory == BarcodeCategory.ITF) {
+    } else if (widget.selectedCategory == BarcodeCategory.ITF.name) {
       return Barcode.itf();
-    } else if (widget.selectedCategory == BarcodeCategory.PDF417) {
+    } else if (widget.selectedCategory == BarcodeCategory.PDF417.name) {
       return Barcode.pdf417();
-    } else if (widget.selectedCategory == BarcodeCategory.QRCode) {
+    } else if (widget.selectedCategory == BarcodeCategory.QRCode.name) {
       return Barcode.qrCode();
-    } else if (widget.selectedCategory == BarcodeCategory.UPC_A) {
+    } else if (widget.selectedCategory == BarcodeCategory.UPC_A.name) {
       return Barcode.upcA();
-    } else if (widget.selectedCategory == BarcodeCategory.UPC_E) {
+    } else if (widget.selectedCategory == BarcodeCategory.UPC_E.name) {
       return Barcode.upcE();
     } else {
       return null;
@@ -88,12 +89,27 @@ class _ShowBarcodeState extends State<ShowBarcode> {
                   backgroundColor: kScaffoldBgColor(context),
                   titleColor: kSecondaryColor,
                   elevation: 0.0,
+                  // trailing: IconButton(
+                  //   onPressed: () {
+                  //     showDialogBox(
+                  //       context: context, 
+                  //       screen: DeleteDialog(
+                  //         deleteFunction: () {}
+                  //       ),
+                  //     );
+                  //   },
+                  //   icon: Icon(
+                  //     Icons.delete,
+                  //     size: 20.r,
+                  //     color: kRedColor,
+                  //   ),
+                  // ),
                 ),
 
                 Padding(
                   padding: EdgeInsets.only(left: 15.r),
                   child: Text(
-                    'Date Generated: $dateGenerated', 
+                    'Date Generated: ${widget.dateScanned}', 
                     style: kNormalTextStyle(context),
                   ),
                 ),
@@ -126,7 +142,7 @@ class _ShowBarcodeState extends State<ShowBarcode> {
                   children: [
                     Center(
                       child: Text(
-                        widget.selectedCategory.name,
+                        widget.selectedCategory,
                         style: kYellowNormalTextStyle(context).copyWith(
                           fontWeight: FontWeight.bold,
                           fontSize: 20.sp
@@ -241,7 +257,7 @@ class _ShowBarcodeState extends State<ShowBarcode> {
                 SizedBox(height: 20.h),
                 
               ].animate(
-                interval: kAnimationDurationMs(500),
+                interval: kAnimationDurationMs(200),
                 effects: MyEffects.fadeSlide(),
               ),
             ),

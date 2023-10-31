@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:qr_quill/models/create_model.dart';
+import 'package:qr_quill/models/create_code.dart';
 import 'package:qr_quill/screens/create/qr_code/create_qr_results.dart';
+import 'package:qr_quill/services/isar_db.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
@@ -41,6 +42,8 @@ class _WifiFormState extends State<WifiForm> with SingleTickerProviderStateMixin
 
   String qrData = '';
   String stringData = '';
+  final isarDb = IsarDB();
+  final dateGenerated = DateTime.now().toString().substring(0, 16);
 
   String generateWifiUri(String wifiName, String wifiType, String wifiPassword) {
     return 'WIFI:T:$wifiType;S:$wifiName;P:$wifiPassword;;';
@@ -53,8 +56,8 @@ class _WifiFormState extends State<WifiForm> with SingleTickerProviderStateMixin
 
       // Collect all qrData
       selectedType == WifiTypes.Open 
-        ? stringData = 'Wifi Name: $wifiName\nWifi Type:: ${selectedType?.name}'
-        : stringData = 'Wifi Name: $wifiName\nWifi Type:: ${selectedType?.name}\nPassword: $wifiPassword';
+        ? stringData = 'Wifi Name: $wifiName\nWifi Type: ${selectedType?.name}'
+        : stringData = 'Wifi Name: $wifiName\nWifi Type: ${selectedType?.name}\nPassword: $wifiPassword';
 
       showSnackbar(context, 'Generating QR Code...');
       setState(() {
@@ -62,13 +65,26 @@ class _WifiFormState extends State<WifiForm> with SingleTickerProviderStateMixin
       });
 
       await Future.delayed(kAnimationDuration2);
-      navigatorPush(context, ShowQRCode(
+      navigatorPushReplacement(context, ShowQRCode(
           qrData: generateWifiUri(wifiName, selectedType!.name, wifiPassword), 
           // qrData: stringData, 
           stringData: stringData,
           qrCodeName: widget.qrCodeName,
-          selectedCategory: QRCodeCategory.Wifi,
+          selectedCategory: QRCodeCategory.Wifi.name,
+          dateGenerated: dateGenerated,
         )
+      );
+
+      await isarDb.addCreatedCode(
+        context, 
+        CreateCode(
+          type: 'QR Code',
+          codeName: widget.qrCodeName,
+          category: QRCodeCategory.Wifi.name,
+          codeData: generateWifiUri(wifiName, selectedType!.name, wifiPassword),
+          stringData: stringData,
+          datetime: dateGenerated,
+        ),
       );
     } else {
       showSnackbar(context, 'Field validation failed. Ensure all fields are valid.');

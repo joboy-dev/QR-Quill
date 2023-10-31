@@ -3,8 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:qr_quill/models/create_model.dart';
+import 'package:qr_quill/models/create_code.dart';
 import 'package:qr_quill/screens/create/qr_code/create_qr_results.dart';
+import 'package:qr_quill/services/isar_db.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
@@ -29,6 +30,8 @@ class _SMSFormState extends State<SMSForm> with SingleTickerProviderStateMixin {
   String message= '';
 
   String stringData = '';
+  final isarDb = IsarDB();
+  final dateGenerated = DateTime.now().toString().substring(0, 16);
 
   /// Function to handle emailng of message
   String generateMessageQR(String phoneNumber, String message) {
@@ -45,12 +48,25 @@ class _SMSFormState extends State<SMSForm> with SingleTickerProviderStateMixin {
       showSnackbar(context, 'Generating QR Code...');
 
       await Future.delayed(kAnimationDuration2);
-      navigatorPush(context, ShowQRCode(
+      navigatorPushReplacement(context, ShowQRCode(
         qrData: generateMessageQR(phoneNumber, message),
         stringData: stringData,
         qrCodeName: widget.qrCodeName,
-        selectedCategory: QRCodeCategory.SMS,
+        selectedCategory: QRCodeCategory.SMS.name,
+        dateGenerated: dateGenerated,
         )
+      );
+
+      await isarDb.addCreatedCode(
+        context, 
+        CreateCode(
+          type: 'QR Code',
+          codeName: widget.qrCodeName,
+          category: QRCodeCategory.SMS.name,
+          codeData: generateMessageQR(phoneNumber, message),
+          stringData: stringData,
+          datetime: dateGenerated,
+        ),
       );
     } else {
       showSnackbar(context, 'Field validation failed. Ensure all fields are valid.');

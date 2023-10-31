@@ -6,9 +6,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:qr_quill/models/create_model.dart';
+import 'package:qr_quill/models/create_code.dart';
 import 'package:qr_quill/screens/create/qr_code/create_qr_results.dart';
 import 'package:qr_quill/services/cloud_storage.dart';
+import 'package:qr_quill/services/isar_db.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
@@ -37,6 +38,8 @@ class _FileFormState extends State<FileForm> {
   final cloudStorage = CloudStorage();
 
   bool isLoading = false;
+  final isarDb = IsarDB();
+  final dateGenerated = DateTime.now().toString().substring(0, 16);
   
   /// Function to pick a file
   pickFile() async {
@@ -77,12 +80,25 @@ class _FileFormState extends State<FileForm> {
       });
       logger(downloadUrl);
 
-      navigatorPush(context, ShowQRCode(
+      navigatorPushReplacement(context, ShowQRCode(
           qrCodeName: widget.qrCodeName, 
-          selectedCategory: QRCodeCategory.File, 
+          selectedCategory: QRCodeCategory.File.name, 
           qrData: downloadUrl, 
           stringData: downloadUrl,
+          dateGenerated: dateGenerated,
         )
+      );
+
+      await isarDb.addCreatedCode(
+        context, 
+        CreateCode(
+          type: 'QR Code',
+          codeName: widget.qrCodeName,
+          category: QRCodeCategory.URL.name,
+          codeData: downloadUrl,
+          stringData: downloadUrl,
+          datetime: dateGenerated,
+        ),
       );
     } else {
       showSnackbar(context, 'Please select a file');
