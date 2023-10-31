@@ -34,6 +34,7 @@ class NormalTextField extends StatelessWidget {
     this.fillColor,
     this.filled=false,
     this.borderRadius,
+    this.validator,
   });
 
   final String? initialValue;
@@ -42,6 +43,7 @@ class NormalTextField extends StatelessWidget {
   final bool? readonly;
   final Function(String? value) onChanged;
   final Function()? suffixIconOTap;
+  final String? Function(String? value)? validator;
   final Color enabledBorderColor;
   final bool obscureText;
   final Color? textColor;
@@ -130,7 +132,7 @@ class NormalTextField extends StatelessWidget {
         ),
         // onSaved: onSaved,
         onChanged: onChanged,
-        validator: (value) {
+        validator: validator ??  (value) {
           if (value!.isEmpty ) {
             return 'This field cannot be empty';
           } else {
@@ -410,6 +412,7 @@ class TextareaTextField extends StatelessWidget {
     required this.errorTextStyleColor,
     required this.cursorColor,
     this.borderRadius,
+    this.validator,
   });
 
   final String? initialValue;
@@ -417,6 +420,7 @@ class TextareaTextField extends StatelessWidget {
   final String? labelText;
   final bool? readonly;
   final Function(String? value) onChanged;
+  final String? Function(String? value)? validator;
   final Color? enabledBorderColor;
   final Color? focusedBorderColor;
   final Color? errorBorderColor;
@@ -473,9 +477,9 @@ class TextareaTextField extends StatelessWidget {
         ),
         // onSaved: onSaved,
         onChanged: onChanged,
-        validator: (value) {
-          if (value!.isEmpty || value.length < 10) {
-            return 'This field must not be less than 10 characters';
+        validator: validator ?? (value) {
+          if (value!.isEmpty || value.length < 5) {
+            return 'This field must not be less than 5 characters';
           } else {
             return null;
           }

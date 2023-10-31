@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qr_quill/models/create_model.dart';
-import 'package:qr_quill/screens/create/qr_forms/contact.dart';
-import 'package:qr_quill/screens/create/qr_forms/email.dart';
-import 'package:qr_quill/screens/create/qr_forms/event.dart';
-import 'package:qr_quill/screens/create/qr_forms/file.dart';
-import 'package:qr_quill/screens/create/qr_forms/image.dart';
-import 'package:qr_quill/screens/create/qr_forms/sms.dart';
-import 'package:qr_quill/screens/create/qr_forms/socials.dart';
-import 'package:qr_quill/screens/create/qr_forms/text.dart';
-import 'package:qr_quill/screens/create/qr_forms/url.dart';
-import 'package:qr_quill/screens/create/qr_forms/wifi.dart';
+import 'package:qr_quill/screens/create/qr_code/qr_forms/contact.dart';
+import 'package:qr_quill/screens/create/qr_code/qr_forms/email.dart';
+import 'package:qr_quill/screens/create/qr_code/qr_forms/event.dart';
+import 'package:qr_quill/screens/create/qr_code/qr_forms/file.dart';
+import 'package:qr_quill/screens/create/qr_code/qr_forms/image.dart';
+import 'package:qr_quill/screens/create/qr_code/qr_forms/sms.dart';
+import 'package:qr_quill/screens/create/qr_code/qr_forms/socials.dart';
+import 'package:qr_quill/screens/create/qr_code/qr_forms/text.dart';
+import 'package:qr_quill/screens/create/qr_code/qr_forms/url.dart';
+import 'package:qr_quill/screens/create/qr_code/qr_forms/wifi.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/logger.dart';
@@ -40,7 +40,7 @@ class _CreateQRCodeState extends State<CreateQRCode> {
 
   String type = 'QR Code';
   String? qrCodeName;
-  Category? selectedCategory;
+  QRCodeCategory? selectedCategory;
   DateTime created = DateTime.now();
 
   @override
@@ -75,7 +75,8 @@ class _CreateQRCodeState extends State<CreateQRCode> {
                   ),
 
                   NormalTextField(
-                    hintText: 'QR Code Name',
+                    hintText: 'QR Code Name (Optional)',
+                    labelText: 'QR Code Name',
                     textColor: kSecondaryColor,
                     onChanged: (value) {
                       setState(() {
@@ -94,7 +95,7 @@ class _CreateQRCodeState extends State<CreateQRCode> {
 
                   DropDownFormField(
                     value: selectedCategory,
-                    items: Category.values
+                    items: QRCodeCategory.values
                       .map(
                         (category) => DropdownMenuItem(
                           value: category,
@@ -108,7 +109,7 @@ class _CreateQRCodeState extends State<CreateQRCode> {
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 20.r),
                                 child: Icon(
-                                  categoryIcons[category],
+                                  qrCodeCategoryIcons[category],
                                   size: 15.r,
                                   color: kSecondaryColor,
                                 ),

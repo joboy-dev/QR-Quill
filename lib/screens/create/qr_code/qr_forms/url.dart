@@ -1,10 +1,10 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: must_be_immutable, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qr_quill/models/create_model.dart';
-import 'package:qr_quill/screens/create/create_qr_results.dart';
+import 'package:qr_quill/screens/create/qr_code/create_qr_results.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
@@ -13,29 +13,31 @@ import 'package:qr_quill/shared/navigator.dart';
 import 'package:qr_quill/shared/snackbar.dart';
 import 'package:qr_quill/shared/textfield.dart';
 
-class TextForm extends StatefulWidget {
-  const TextForm({super.key, required this.qrCodeName});
+class URLForm extends StatefulWidget {
+  const URLForm({super.key, required this.qrCodeName});
 
   final String qrCodeName;
 
+
   @override
-  State<TextForm> createState() => _TextFormState();
+  State<URLForm> createState() => _URLFormState();
 }
 
-class _TextFormState extends State<TextForm> with SingleTickerProviderStateMixin {
+class _URLFormState extends State<URLForm> {
+  String url = '';
+
   final _formKey = GlobalKey<FormState>();
-
-  String text = '';
-  String stringData = '';
-
   bool obscureText = true;
   bool isLoading = false;
 
+  String stringData = '';
+
   validateForm() async {
     if (_formKey.currentState!.validate()) {
-      logger(text);
+      logger(url);
 
-      stringData = 'Text:\n$text';
+      // Collect all data
+      stringData = 'URL: $url';
 
       showSnackbar(context, 'Generating QR Code...');
       setState(() {
@@ -44,10 +46,10 @@ class _TextFormState extends State<TextForm> with SingleTickerProviderStateMixin
 
       await Future.delayed(kAnimationDuration2);
       navigatorPush(context, ShowQRCode(
-          qrData: text ,
-          stringData: stringData,
-          qrCodeName: widget.qrCodeName,
-          selectedCategory: Category.Text,
+        qrData: url,
+        stringData: stringData,
+        qrCodeName: widget.qrCodeName,
+        selectedCategory: QRCodeCategory.URL,
         )
       );
     } else {
@@ -61,11 +63,13 @@ class _TextFormState extends State<TextForm> with SingleTickerProviderStateMixin
       key: _formKey,
       child: Column(
         children: [
-          TextareaTextField(
-            hintText: 'Enter Text',
+          URLTextField(
+            hintText: 'URL',
+            initialValue: 'https://',
+            textColor: kSecondaryColor,
             onChanged: (value) {
               setState(() {
-                text = value!;
+                url = value!;
               });
             }, 
             enabledBorderColor: kFontTheme(context), 
@@ -73,9 +77,10 @@ class _TextFormState extends State<TextForm> with SingleTickerProviderStateMixin
             errorBorderColor: kRedColor, 
             focusedErrorBorderColor: kRedColor, 
             errorTextStyleColor: kRedColor, 
+            iconColor: kSecondaryColor, 
             cursorColor: kSecondaryColor, 
           ),
-    
+
           Button(
             buttonColor: kSecondaryColor,
             buttonText: 'Generate QR Code',

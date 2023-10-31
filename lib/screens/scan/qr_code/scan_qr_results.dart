@@ -1,4 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -8,12 +13,20 @@ import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
 import 'package:qr_quill/shared/custom_appbar.dart';
 import 'package:qr_quill/shared/logger.dart';
+import 'package:qr_quill/shared/snackbar.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ScanQRResults extends StatefulWidget {
-  const ScanQRResults({super.key, required this.scannedQrData, required this.category});
+  const ScanQRResults({
+    super.key, 
+    required this.scannedQrData, 
+    required this.category, 
+    this.imageFile
+  });
 
   final String scannedQrData;
-  final Category category;
+  final XFile? imageFile;
+  final QRCodeCategory category;
 
   @override
   State<ScanQRResults> createState() => _ScanQRResultsState();
@@ -22,6 +35,8 @@ class ScanQRResults extends StatefulWidget {
 class _ScanQRResultsState extends State<ScanQRResults> {
   final _qrImageKey = GlobalKey();
   final dateScanned = DateTime.now().toString().substring(0, 16);
+
+
 
   Uri sendEmail() {
     Uri uri = Uri.parse(widget.scannedQrData);
@@ -35,9 +50,9 @@ class _ScanQRResultsState extends State<ScanQRResults> {
     );
 
     logger(uri.path);
-    logger(params.toString());
+    logger(params.toString().replaceAll('+', ' '));
 
-    return params;
+    return Uri.parse(params.toString().replaceAll('+', ' '));
   }
   
   @override
@@ -71,7 +86,7 @@ class _ScanQRResultsState extends State<ScanQRResults> {
                     padding: EdgeInsets.symmetric(vertical: 10.r),
                     child: RepaintBoundary(
                       key: _qrImageKey,
-                      child: QrImageView(
+                      child: widget.imageFile == null ? QrImageView(
                         data: widget.scannedQrData,
                         size: 220.r,
                         eyeStyle: QrEyeStyle(
@@ -82,6 +97,11 @@ class _ScanQRResultsState extends State<ScanQRResults> {
                           color: kSecondaryColor,
                           dataModuleShape: QrDataModuleShape.circle
                         ),
+                      ) : Image.file(
+                        File(widget.imageFile!.path),
+                        height: 220.h,
+                        width: 250.w,
+                        fit: BoxFit.fill,
                       ),
                     ),
                   ),
@@ -97,7 +117,7 @@ class _ScanQRResultsState extends State<ScanQRResults> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          categoryIcons[widget.category],
+                          qrCodeCategoryIcons[widget.category],
                           color: kSecondaryColor,
                           size: 35.r,
                         ),
@@ -117,12 +137,34 @@ class _ScanQRResultsState extends State<ScanQRResults> {
                     Divider(thickness: 0.15.r, color: kFontTheme(context)),
 
                     SizedBox(height: 10.h),
-                    Text(
-                      'QR Code Data:',
-                      style: kYellowNormalTextStyle(context).copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 17.sp,
-                      ),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 3,
+                          child: Text(
+                            'QR Code Data:',
+                            style: kYellowNormalTextStyle(context).copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17.sp,
+                            ),
+                          ),
+                        ),
+
+                        Expanded(
+                          flex: 1,
+                          child: IconButton(
+                            onPressed: () async {
+                              await Clipboard.setData(ClipboardData(text: widget.scannedQrData));
+                              showSnackbar(context, 'Copied to clipboard.');
+                            }, 
+                            icon: Icon(
+                              Icons.copy_rounded,
+                              size: 20.r,
+                              color: kSecondaryColor,
+                            ),
+                          )
+                        )
+                      ],
                     ),
 
                     Text(
@@ -138,72 +180,100 @@ class _ScanQRResultsState extends State<ScanQRResults> {
 
                 Row(
                   children: [
+                    Platform.isAndroid ? Expanded(
+                      child: IconTextButton(
+                        text: 'Save QR', 
+                        icon: Icons.save, 
+                        iconColor: kSecondaryColor,
+                        iconsize: 20.r,
+                        fontSize: 15.sp,
+                        gap: 10.w,
+                        onPressed: () {
+                          captureAndSaveCode(context, _qrImageKey, 'QR Code');
+                        },
+                      ),
+                    ) : const SizedBox(),
+
                     Expanded(
                       child: IconTextButton(
                         text: 'Share', 
                         icon: Icons.share, 
-                        iconColor: kSecondaryColor, 
-                        fontSize: 17.sp,
+                        iconColor: kSecondaryColor,
+                        iconsize: 20.r,
+                        fontSize: 15.sp,
+                        gap: 10.w,
                         onPressed: () {
-                          captureAndShareQRCode(_qrImageKey);
+                          // captureAndShareCode(context, _qrImageKey);
+                          Share.share(widget.scannedQrData);
                         },
                       ),
                     ),
 
-                    if(widget.category == Category.Email) Expanded(
+                    if(widget.category == QRCodeCategory.Email) Expanded(
                       child: IconTextButton(
-                        text: 'Send email', 
+                        text: 'Send Email', 
                         icon: Icons.email_rounded, 
-                        iconColor: kSecondaryColor, 
-                        fontSize: 17.sp,
+                        iconColor: kSecondaryColor,
+                        iconsize: 20.r,
+                        fontSize: 15.sp,
+                        gap: 10.w,
                         onPressed: () {
-                          launchUrlFromUri(context, sendEmail());
+                          // launchUrlFromUri(context, sendEmail());
+                          launchUrlFromUri(context, Uri.parse(Uri.encodeFull(widget.scannedQrData)));
                         },
                       ),
                     ),
 
-                    if(widget.category == Category.SMS) Expanded(
+                    if(widget.category == QRCodeCategory.SMS) Expanded(
                       child: IconTextButton(
                         text: 'Send SMS', 
                         icon: FontAwesomeIcons.commentSms, 
-                        iconColor: kSecondaryColor, 
-                        fontSize: 17.sp,
+                        iconColor: kSecondaryColor,
+                        iconsize: 20.r,
+                        fontSize: 15.sp,
+                        gap: 10.w,
                         onPressed: () {
                           // launchUrlFromUri(context, sendEmail());
                         },
                       ),
                     ),
 
-                    if(widget.category == Category.URL) Expanded(
+                    if(widget.category == QRCodeCategory.URL) Expanded(
                       child: IconTextButton(
                         text: 'Open URL', 
                         icon: Icons.open_in_browser, 
-                        iconColor: kSecondaryColor, 
-                        fontSize: 17.sp,
+                        iconColor: kSecondaryColor,
+                        iconsize: 20.r,
+                        fontSize: 15.sp,
+                        gap: 10.w,
                         onPressed: () {
                           launchUrlFromString(context, widget.scannedQrData);
                         },
                       ),
                     ),
 
-                    if(widget.category == Category.Event) Expanded(
+                    if(widget.category == QRCodeCategory.Event) Expanded(
                       child: IconTextButton(
                         text: 'Save in Calendar', 
                         icon: Icons.calendar_month, 
-                        iconColor: kSecondaryColor, 
-                        fontSize: 17.sp,
+                        iconColor: kSecondaryColor,
+                        iconsize: 20.r,
+                        fontSize: 15.sp,
+                        gap: 10.w,
                         onPressed: () {
                           // launchUrlFromString(context, widget.scannedQrData);
                         },
                       ),
                     ),
 
-                    if(widget.category == Category.Wifi) Expanded(
+                    if(widget.category == QRCodeCategory.Wifi) Expanded(
                       child: IconTextButton(
                         text: 'Connect', 
                         icon: Icons.wifi, 
-                        iconColor: kSecondaryColor, 
-                        fontSize: 17.sp,
+                        iconColor: kSecondaryColor,
+                        iconsize: 20.r,
+                        fontSize: 15.sp,
+                        gap: 10.w,
                         onPressed: () {
                           launchUrlFromUri(context, Uri.parse(widget.scannedQrData));
                         },
@@ -211,6 +281,8 @@ class _ScanQRResultsState extends State<ScanQRResults> {
                     ),
                   ],
                 ),
+
+                SizedBox(height: 20.h),
               ],
             ),
           ),

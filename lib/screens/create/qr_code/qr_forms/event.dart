@@ -5,7 +5,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:qr_quill/models/create_model.dart';
-import 'package:qr_quill/screens/create/create_qr_results.dart';
+import 'package:qr_quill/screens/create/qr_code/create_qr_results.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
@@ -160,7 +160,7 @@ End Time: ${endTime.format(context)}
           ),
           stringData: stringData,
           qrCodeName: widget.qrCodeName,
-          selectedCategory: Category.Event,
+          selectedCategory: QRCodeCategory.Event,
           )
         );
       }

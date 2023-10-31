@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:qr_quill/screens/create/create_barcode.dart';
-import 'package:qr_quill/screens/create/create_qrcode.dart';
+import 'package:qr_quill/screens/create/barcode/create_barcode.dart';
+import 'package:qr_quill/screens/create/qr_code/create_qrcode.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
@@ -189,8 +189,8 @@ class _CreateState extends State<Create> {
               )
             )
           ].animate(
-            delay: kAnimationDurationMs(1000),
-            interval: kAnimationDurationMs(500),
+            delay: kAnimationDurationMs(500),
+            interval: kAnimationDurationMs(200),
             effects: MyEffects.fadeSlide(offset: const Offset(0.0, -0.1))
           ),
         ),

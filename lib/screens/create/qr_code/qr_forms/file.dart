@@ -1,11 +1,13 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:qr_quill/models/create_model.dart';
-import 'package:qr_quill/screens/create/create_qr_results.dart';
+import 'package:qr_quill/screens/create/qr_code/create_qr_results.dart';
 import 'package:qr_quill/services/cloud_storage.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
@@ -16,72 +18,76 @@ import 'package:qr_quill/shared/navigator.dart';
 import 'package:qr_quill/shared/snackbar.dart';
 import 'package:qr_quill/shared/textfield.dart';
 
-class ImageForm extends StatefulWidget {
-  const ImageForm({super.key, required this.qrCodeName});
+class FileForm extends StatefulWidget {
+  const FileForm({super.key, required this.qrCodeName});
 
   final String qrCodeName;
 
   @override
-  State<ImageForm> createState() => _ImageFormState();
+  State<FileForm> createState() => _FileFormState();
 }
 
-class _ImageFormState extends State<ImageForm> {
+class _FileFormState extends State<FileForm> {
   final _formKey = GlobalKey<FormState>();
 
-  // Image
-  String? mediaPath;
-  XFile? pickedMedia;
+  // File
+  String? filePath;
+  FilePickerResult? pickedFile;
 
   final cloudStorage = CloudStorage();
 
   bool isLoading = false;
+  
+  /// Function to pick a file
+  pickFile() async {
+    final filePicker = FilePicker.platform;
 
-  /// Function to pick an image
-  pickImage(ImageSource source) async {
-    final imagePicker = ImagePicker();
-                                              
     setState(() {
-      pickedMedia = null;
+      pickedFile = null;
     });
 
     // pick image from file system
-    pickedMedia = await imagePicker.pickImage(source: source);
+    pickedFile = await filePicker.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf', 'doc', 'docx', 'ppt', 'pptx', 'svg', 'xlsx', 'xls', 'zip', 'rar', 'txt'],
+    );
 
-    if (pickedMedia != null) {
+    if (pickedFile != null) {
+      File file = File(pickedFile!.files.single.path!);
       setState(() {
-        mediaPath = pickedMedia!.path;
+        filePath = file.path;
       });
-      logger('Selected Image Path: $mediaPath');
-      logger('Picked Media: $pickedMedia');
+
+      logger('Selected File Path: $filePath');
+      logger('Selected File: $pickedFile');
     }
   }
 
   validateForm() async {
-    if (pickedMedia != null) {
+    if (pickedFile != null) {
       setState(() {
         isLoading = true;
       });
 
       showSnackbar(context, 'Generating Qr Code...');
-      String downloadUrl = await cloudStorage.uploadImage(pickedMedia);
-
+      String downloadUrl = await cloudStorage.uploadFile(pickedFile);
+      
       setState(() {
         isLoading = false;
       });
       logger(downloadUrl);
 
       navigatorPush(context, ShowQRCode(
-          qrCodeName: widget.qrCodeName ,
-          selectedCategory: Category.Image, 
+          qrCodeName: widget.qrCodeName, 
+          selectedCategory: QRCodeCategory.File, 
           qrData: downloadUrl, 
           stringData: downloadUrl,
         )
       );
     } else {
-      showSnackbar(context, 'Please select an image');
+      showSnackbar(context, 'Please select a file');
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -95,39 +101,18 @@ class _ImageFormState extends State<ImageForm> {
             )
           ),
           SizedBox(height: 10.h),
-
-          MediaUploadField(
-            mediaPath: mediaPath, 
-            pickImage: () {
-              pickImage(ImageSource.gallery);
-            }
+          FileUploadField(
+            filePath: filePath,
+            pickFile: pickFile,
           ),
-
-          Row(
-            children: [
-              Expanded(
-                child: Button(
-                  buttonColor: kSecondaryColor,
-                  buttonText: 'Take Photo',
-                  onPressed: () {
-                    pickImage(ImageSource.camera);
-                  },
-                  inactive: false,
-                )
-              ),
-              SizedBox(width: 10.w),
-              Expanded(
-                child: Button(
-                  buttonColor: kSecondaryColor,
-                  buttonText: 'Generate QR',
-                  onPressed: validateForm,
-                  inactive: false,
-                ),
-              ),
-            ],
+          Button(
+            buttonColor: kSecondaryColor,
+            buttonText: 'Generate QR Code',
+            onPressed: validateForm,
+            inactive: false,
           ),
-
           SizedBox(height:10.h),
+
           isLoading ? Padding(
             padding: EdgeInsets.only(bottom: 20.h),
             child: const Loader(),

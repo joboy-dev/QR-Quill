@@ -49,21 +49,21 @@ class _ScanQRFromImageState extends State<ScanQRFromImage> {
   }
 
   /// Function to generate category based on qr code data 
-  Category generateCategory() {
+  QRCodeCategory generateCategory() {
     if (qrData.contains('mailto:')) {
-      return Category.Email;
+      return QRCodeCategory.Email;
     } else if (qrData.contains('WIFI:')) {
-      return Category.Wifi;
+      return QRCodeCategory.Wifi;
     } else if(qrData.contains('https://') || qrData.contains('http://')) {
-      return Category.URL;
+      return QRCodeCategory.URL;
     } else if(qrData.contains('sms:')) {
-      return Category.SMS;
+      return QRCodeCategory.SMS;
     } else if(qrData.contains('BEGIN:VCARD')) {
-      return Category.Contact;
+      return QRCodeCategory.Contact;
     } else if(qrData.contains('BEGIN:VCALENDAR') || qrData.contains('BEGIN:VEVENT')) {
-      return Category.Event;
+      return QRCodeCategory.Event;
     } else {
-      return Category.Text;
+      return QRCodeCategory.Text;
     }
   }
 
@@ -100,7 +100,7 @@ class _ScanQRFromImageState extends State<ScanQRFromImage> {
 
                         navigatorPushReplacement(
                           context, 
-                          ScanQRResults(scannedQrData: qrData, category: generateCategory())
+                          ScanQRResults(scannedQrData: qrData, category: generateCategory(), imageFile: pickedMedia)
                         );
                       } else {
                         showSnackbar(context, 'No data detected from this image.');

@@ -134,8 +134,8 @@ class _ScanState extends State<Scan> {
               )
             )
           ].animate(
-            delay: kAnimationDurationMs(1000),
-            interval: kAnimationDurationMs(500),
+            delay: kAnimationDurationMs(500),
+            interval: kAnimationDurationMs(200),
             effects: MyEffects.fadeSlide(offset: const Offset(0.0, -0.1))
           ),
         ),

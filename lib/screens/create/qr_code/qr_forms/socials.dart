@@ -5,7 +5,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:qr_quill/models/create_model.dart';
-import 'package:qr_quill/screens/create/create_qr_results.dart';
+import 'package:qr_quill/screens/create/qr_code/create_qr_results.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
@@ -64,7 +64,7 @@ class _SocialsFormState extends State<SocialsForm> with SingleTickerProviderStat
         qrData: link,
         stringData: stringData,
         qrCodeName: widget.qrCodeName,
-        selectedCategory: Category.Socials,
+        selectedCategory: QRCodeCategory.Socials,
         )
       );
     } else {
@@ -141,7 +141,7 @@ class _SocialsFormState extends State<SocialsForm> with SingleTickerProviderStat
             cursorColor: kSecondaryColor, 
             validator: (value) {
               Uri? uri = Uri.tryParse(value!);
-              return (uri?.host == 'www.whatsapp.com' || uri?.host == 'whatsapp.com')
+              return (uri?.host == 'www.whatsapp.com' || uri?.host == 'whatsapp.com' || uri?.host == 'wa.me')
                 ? null 
                 : 'Enter a valid WhatsApp URL';
             },

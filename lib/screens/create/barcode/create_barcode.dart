@@ -5,10 +5,9 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:qr_quill/models/create_model.dart';
+import 'package:qr_quill/screens/create/barcode/barcode_forms.dart';
 import 'package:qr_quill/shared/animations.dart';
-import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
-import 'package:qr_quill/shared/snackbar.dart';
 import 'package:qr_quill/shared/textfield.dart';
 
 class CreateBarcode extends StatefulWidget {
@@ -24,29 +23,10 @@ class _CreateBarcodeState extends State<CreateBarcode> {
   double extraFieldsHeight = 0.0;
 
   final _formKey = GlobalKey<FormState>();
-  bool isLoading = false;
-  String message = '';
 
   String type = 'Barcode';
-  String barcodeName = '';
-  Category? selectedCategory;
-  DateTime created = DateTime.now();
-
-  validateForm() {
-    if (_formKey.currentState!.validate()) {
-      setState(() {
-        isLoading = true;
-        message = 'Generating Barcode...';
-      });
-
-    } else {
-      setState(() {
-        message = 'Field validation check failed.';
-      });
-
-    }
-    showSnackbar(context, message);
-  }
+  String? barcodeName;
+  BarcodeCategory? selectedCategory;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +60,8 @@ class _CreateBarcodeState extends State<CreateBarcode> {
                   ),
 
                   NormalTextField(
-                    hintText: 'Barcode Name',
+                    hintText: 'Barcode Name (Optional)',
+                    labelText: 'Barcode Name',
                     textColor: kSecondaryColor,
                     onChanged: (value) {
                       setState(() {
@@ -99,29 +80,15 @@ class _CreateBarcodeState extends State<CreateBarcode> {
 
                   DropDownFormField(
                     value: selectedCategory,
-                    items: Category.values
+                    items: BarcodeCategory.values
                       .map(
                         (category) => DropdownMenuItem(
                           value: category,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                category.name,
-                                style: kYellowNormalTextStyle(context).copyWith(fontSize: 15.sp),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                                child: Icon(
-                                  categoryIcons[category],
-                                  size: 15.r,
-                                  color: kSecondaryColor,
-                                ),
-                              ),
-                            ].animate(
-                              interval: kAnimationDurationMs(1000),
+                          child: Text(
+                            category.name,
+                            style: kYellowNormalTextStyle(context).copyWith(fontSize: 15.sp),
+                          ).animate(
                               effects: MyEffects.slideShake(),
-                            ),
                           ),
                         ),
                       )
@@ -146,23 +113,13 @@ class _CreateBarcodeState extends State<CreateBarcode> {
                     children: [
                       Divider(color: kTertiaryColor, thickness: 0.2.sp),
                       SizedBox(height: 20.h),
-                      
-                      SizedBox(height: 10.h),
-                  
-                      Button(
-                        buttonColor: kSecondaryColor,
-                        buttonText: 'Generate Barcode',
-                        onPressed: () {
-                          validateForm();
-                        },
-                        inactive: false,
-                      ),
-                      SizedBox(height: 20.h),
+                      BarcodeForms(barcodeCategory: selectedCategory!, barcodeName: barcodeName ?? selectedCategory!.name,),
                     ].animate(
                       interval: kAnimationDurationMs(100),
                       effects: MyEffects.fadeSlide(),
                     ),
                   ) : const SizedBox(height: 0),
+
                 ].animate(
                   interval: kAnimationDurationMs(100),
                   effects: MyEffects.fadeSlide(),

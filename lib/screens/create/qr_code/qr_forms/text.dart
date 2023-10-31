@@ -1,55 +1,53 @@
-// ignore_for_file: must_be_immutable, use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qr_quill/models/create_model.dart';
-import 'package:qr_quill/screens/create/create_qr_results.dart';
+import 'package:qr_quill/screens/create/qr_code/create_qr_results.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
+import 'package:qr_quill/shared/logger.dart';
 import 'package:qr_quill/shared/navigator.dart';
 import 'package:qr_quill/shared/snackbar.dart';
 import 'package:qr_quill/shared/textfield.dart';
 
-class SMSForm extends StatefulWidget {
-  SMSForm({super.key, required this.qrCodeName});
+class TextForm extends StatefulWidget {
+  const TextForm({super.key, required this.qrCodeName});
 
-  String qrCodeName;
+  final String qrCodeName;
 
   @override
-  State<SMSForm> createState() => _SMSFormState();
+  State<TextForm> createState() => _TextFormState();
 }
 
-class _SMSFormState extends State<SMSForm> with SingleTickerProviderStateMixin {
+class _TextFormState extends State<TextForm> with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
 
-  String phoneNumber = '';
-  String subject = '';
-  String message= '';
-
+  String text = '';
   String stringData = '';
 
-  /// Function to handle emailng of message
-  String generateMessageQR(String phoneNumber, String message) {
-    final String smsUri = 'sms:$phoneNumber?body=$message';
-    return smsUri;  
-  }
+  bool obscureText = true;
+  bool isLoading = false;
 
   validateForm() async {
     if (_formKey.currentState!.validate()) {
+      logger(text);
 
-      // Collect all data
-      stringData = 'To: $phoneNumber\n\nMessage:\n$message';
+      stringData = 'Text:\n$text';
 
       showSnackbar(context, 'Generating QR Code...');
+      setState(() {
+        isLoading = true;
+      });
 
       await Future.delayed(kAnimationDuration2);
       navigatorPush(context, ShowQRCode(
-        qrData: generateMessageQR(phoneNumber, message),
-        stringData: stringData,
-        qrCodeName: widget.qrCodeName,
-        selectedCategory: Category.SMS,
+          qrData: text ,
+          stringData: stringData,
+          qrCodeName: widget.qrCodeName,
+          selectedCategory: QRCodeCategory.Text,
         )
       );
     } else {
@@ -63,14 +61,11 @@ class _SMSFormState extends State<SMSForm> with SingleTickerProviderStateMixin {
       key: _formKey,
       child: Column(
         children: [
-          NormalTextField(
-            hintText: 'Receiver Phone Number',
-            labelText: 'Phone Number',
-            textColor: kSecondaryColor,
-            textInputType: TextInputType.phone,
+          TextareaTextField(
+            hintText: 'Enter Text',
             onChanged: (value) {
               setState(() {
-                phoneNumber = value!;
+                text = value!;
               });
             }, 
             enabledBorderColor: kFontTheme(context), 
@@ -78,26 +73,9 @@ class _SMSFormState extends State<SMSForm> with SingleTickerProviderStateMixin {
             errorBorderColor: kRedColor, 
             focusedErrorBorderColor: kRedColor, 
             errorTextStyleColor: kRedColor, 
-            iconColor: kSecondaryColor, 
             cursorColor: kSecondaryColor, 
-            prefixIcon: Icons.phone,
           ),
-
-          TextareaTextField(
-          hintText: 'Enter Message',
-          onChanged: (value) {
-            setState(() {
-              message = value!;
-            });
-          }, 
-          enabledBorderColor: kFontTheme(context), 
-          focusedBorderColor: kSecondaryColor, 
-          errorBorderColor: kRedColor, 
-          focusedErrorBorderColor: kRedColor, 
-          errorTextStyleColor: kRedColor, 
-          cursorColor: kSecondaryColor, 
-        ),
-
+    
           Button(
             buttonColor: kSecondaryColor,
             buttonText: 'Generate QR Code',

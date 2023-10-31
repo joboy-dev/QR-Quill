@@ -5,7 +5,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:qr_quill/models/create_model.dart';
-import 'package:qr_quill/screens/create/create_qr_results.dart';
+import 'package:qr_quill/screens/create/qr_code/create_qr_results.dart';
 import 'package:qr_quill/shared/animations.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
@@ -67,7 +67,7 @@ class _WifiFormState extends State<WifiForm> with SingleTickerProviderStateMixin
           // qrData: stringData, 
           stringData: stringData,
           qrCodeName: widget.qrCodeName,
-          selectedCategory: Category.Wifi,
+          selectedCategory: QRCodeCategory.Wifi,
         )
       );
     } else {

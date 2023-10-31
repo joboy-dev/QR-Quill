@@ -4,34 +4,34 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 /// Enumerator to hold qrcode categories
-enum Category {Wifi, Text, Email, URL, Contact, Event, Image, File, Socials, SMS}
+enum QRCodeCategory {Wifi, Text, Email, URL, Contact, Event, Image, File, Socials, SMS}
 
-/// Map from Category enum to Icons
-const categoryIcons = {
-  Category.Wifi: Icons.wifi,
-  Category.Text: Icons.text_snippet_rounded,
-  Category.Email: Icons.email_rounded,
-  Category.URL: Icons.link_rounded,
-  Category.Contact: Icons.person_2_sharp,
-  Category.Socials: FontAwesomeIcons.link,
-  Category.Event: Icons.event,
-  Category.Image: Icons.image,
-  Category.File: Icons.file_present,
-  Category.SMS: FontAwesomeIcons.commentSms,
+/// Map from QRCodeCategory enum to Icons
+const qrCodeCategoryIcons = {
+  QRCodeCategory.Wifi: Icons.wifi,
+  QRCodeCategory.Text: Icons.text_snippet_rounded,
+  QRCodeCategory.Email: Icons.email_rounded,
+  QRCodeCategory.URL: Icons.link_rounded,
+  QRCodeCategory.Contact: Icons.person_2_sharp,
+  QRCodeCategory.Socials: FontAwesomeIcons.link,
+  QRCodeCategory.Event: Icons.event,
+  QRCodeCategory.Image: Icons.image,
+  QRCodeCategory.File: Icons.file_present,
+  QRCodeCategory.SMS: FontAwesomeIcons.commentSms,
 };
 
-/// Map from Category string data to Icons
-Map<String, dynamic> categoryStringDataIcons = {
-  Category.Wifi.name: Icons.wifi,
-  Category.Text.name: Icons.text_snippet_rounded,
-  Category.Email.name: Icons.email_rounded,
-  Category.URL.name: Icons.link_rounded,
-  Category.Contact.name: Icons.person_2_sharp,
-  Category.Socials.name: FontAwesomeIcons.link,
-  Category.Event.name: Icons.event,
-  Category.Image.name: Icons.image,
-  Category.File.name: Icons.file_present,
-  Category.SMS.name: FontAwesomeIcons.commentSms,
+/// Map from QRCodeCategory string data to Icons
+Map<String, dynamic> qrCodeCategoryStringDataIcons = {
+  QRCodeCategory.Wifi.name: Icons.wifi,
+  QRCodeCategory.Text.name: Icons.text_snippet_rounded,
+  QRCodeCategory.Email.name: Icons.email_rounded,
+  QRCodeCategory.URL.name: Icons.link_rounded,
+  QRCodeCategory.Contact.name: Icons.person_2_sharp,
+  QRCodeCategory.Socials.name: FontAwesomeIcons.link,
+  QRCodeCategory.Event.name: Icons.event,
+  QRCodeCategory.Image.name: Icons.image,
+  QRCodeCategory.File.name: Icons.file_present,
+  QRCodeCategory.SMS.name: FontAwesomeIcons.commentSms,
 };
 
 /// Model to be used to add created qrcodes to isar db
@@ -51,6 +51,8 @@ class QRCodeModel {
   });
 }
 
+
+enum BarcodeCategory {QRCode, DataMatrix, PDF417, Aztec, EAN13, EAN8, EAN5, EAN2, UPC_E, UPC_A, Code128, Code93, Code39, Codabar, ITF, ISBN}
 
 /// Model to add created barcodes to isar db
 class BarcodeModel {
