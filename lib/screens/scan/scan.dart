@@ -40,7 +40,6 @@ class _ScanState extends State<Scan> {
     final scannedCodes = context.watch<ScanCodeProvider>().scannedCodes;
     final isarDb = IsarDB();
 
-
     return Scaffold(
       body: Padding(
         padding: kAppPadding(),
@@ -116,7 +115,8 @@ class _ScanState extends State<Scan> {
                       child: ListView.builder(
                         itemCount: scannedCodes.length,
                         itemBuilder: (context, index)  {
-                          final code = scannedCodes[index];
+                          final reversedIndex = scannedCodes.length - 1 - index;
+                          final code = scannedCodes[reversedIndex];
                           return GestureDetector(
                             onTap: () {
                               navigatorPush(
@@ -157,9 +157,28 @@ class _ScanState extends State<Scan> {
                                 ),
                               ),
                               onDismissed: (direction) async {
-                                // delete code
+                                final codeToDelete = await isarDb.getSingleScannedCode(code.id);
+                                // delete the code from isar db
                                 await isarDb.deleteScannedCode(context, code.id);
-                                showSnackbar(context, 'Code deleted.');
+
+                                showSnackbar(
+                                    context, 
+                                    'Code deleted.', 
+                                    action: SnackBarAction(
+                                      label: 'Undo', 
+                                      onPressed: () async {
+                                        if (codeToDelete != null) {
+                                          await isarDb.addScannedCode(context, codeToDelete);
+                                          await isarDb.getScannedCodes(context);
+                                          showSnackbar(context, 'Undo successful');
+                                        } else {
+                                          showSnackbar(context, 'The deleted code could not be brought back.');
+                                        }
+                                      },
+                                      backgroundColor: kSecondaryColor,
+                                      textColor: kPrimaryColor,
+                                  ),
+                                );
                               },
                               child: Card(
                                 color: kScaffoldBgColor(context),
@@ -217,9 +236,9 @@ class _ScanState extends State<Scan> {
                                             ),
                                                       
                                             Text(
-                                              code.codeData!.length <= 30 
+                                              code.codeData!.length <= 25
                                               ? code.codeData!.replaceAll('\n', ' ')
-                                              :'${code.codeData!.replaceAll('\n', ' ').substring(0, 30)}...',
+                                              :'${code.codeData!.replaceAll('\n', ' ').substring(0, 25)}...',
                                               style: kNormalTextStyle(context),
                                             ),
                                           ],

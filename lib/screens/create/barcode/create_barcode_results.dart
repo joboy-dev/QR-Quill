@@ -89,21 +89,6 @@ class _ShowBarcodeState extends State<ShowBarcode> {
                   backgroundColor: kScaffoldBgColor(context),
                   titleColor: kSecondaryColor,
                   elevation: 0.0,
-                  // trailing: IconButton(
-                  //   onPressed: () {
-                  //     showDialogBox(
-                  //       context: context, 
-                  //       screen: DeleteDialog(
-                  //         deleteFunction: () {}
-                  //       ),
-                  //     );
-                  //   },
-                  //   icon: Icon(
-                  //     Icons.delete,
-                  //     size: 20.r,
-                  //     color: kRedColor,
-                  //   ),
-                  // ),
                 ),
 
                 Padding(
@@ -126,8 +111,8 @@ class _ShowBarcodeState extends State<ShowBarcode> {
                         backgroundColor: kScaffoldBgColor(context),
                         color: kSecondaryColor, 
                         style: kNormalTextStyle(context),
-                        height: 150.h,
-                        width: 200.w,
+                        height: 100.h,
+                        width: 250.w,
                       )
                     ),
                   ),
@@ -188,7 +173,7 @@ class _ShowBarcodeState extends State<ShowBarcode> {
                               showSnackbar(context, 'Copied to clipboard.');
                             }, 
                             icon: Icon(
-                              Icons.copy_rounded,
+                              Icons.copy,
                               size: 20.r,
                               color: kSecondaryColor,
                             ),

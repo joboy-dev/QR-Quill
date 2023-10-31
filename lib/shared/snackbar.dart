@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qr_quill/shared/constants.dart';
 
-showSnackbar(BuildContext context, String text) {
+showSnackbar(BuildContext context, String text, {SnackBarAction? action}) {
   ScaffoldMessenger.of(context).clearSnackBars();
 
   ScaffoldMessenger.of(context).showSnackBar(
@@ -21,6 +21,7 @@ showSnackbar(BuildContext context, String text) {
       duration: const Duration(seconds: 5),
       behavior: SnackBarBehavior.floating,
       dismissDirection: DismissDirection.startToEnd,
+      action: action,
     ),
   );
 }

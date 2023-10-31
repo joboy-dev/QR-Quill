@@ -153,7 +153,7 @@ class _ShowQRCodeState extends State<ShowQRCode> {
                               showSnackbar(context, 'Copied to clipboard.');
                             }, 
                             icon: Icon(
-                              Icons.copy_rounded,
+                              Icons.copy,
                               size: 20.r,
                               color: kSecondaryColor,
                             ),

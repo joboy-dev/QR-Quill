@@ -54,21 +54,6 @@ class _ScanBarcodeFromImageState extends State<ScanBarcodeFromImage> {
 
   /// Function to generate category based on qr code data 
   BarcodeCategory generateCategory() {
-    // if (qrData.contains('mailto:')) {
-    //   return QRCodeCategory.Email;
-    // } else if (qrData.contains('WIFI:')) {
-    //   return QRCodeCategory.Wifi;
-    // } else if(qrData.contains('https://') || qrData.contains('http://')) {
-    //   return QRCodeCategory.URL;
-    // } else if(qrData.contains('sms:') || qrData.contains('SMSTO:')) {
-    //   return QRCodeCategory.SMS;
-    // } else if(qrData.contains('BEGIN:VCARD')) {
-    //   return QRCodeCategory.Contact;
-    // } else if(qrData.contains('BEGIN:VCALENDAR') || qrData.contains('BEGIN:VEVENT')) {
-    //   return QRCodeCategory.Event;
-    // } else {
-    //   return QRCodeCategory.Text;
-    // }
     return BarcodeCategory.Aztec;
   }
 

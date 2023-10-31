@@ -70,6 +70,16 @@ class IsarDB {
     return createdCodeDoc;
   }
 
+  /// Function to get a single created code from isar db
+  Future<CreateCode?> getSingleCreatedCode(int id) async {
+    final isar = await db;
+
+    // get created codes from isar by creating a read transaction
+    final codeDoc = await isar.txn(() => isar.createCodes.where().idEqualTo(id).findFirst());
+
+    return codeDoc;
+  }
+
   /// Function to delete a created code from isar
   Future deleteCreatedCode(BuildContext context, int id) async {
     final isar = await db;
@@ -124,6 +134,16 @@ class IsarDB {
     context.read<ScanCodeProvider>().setScannedCodes(scannedCodeDoc);
 
     return scannedCodeDoc;
+  }
+
+  /// Function to get a single created code from isar db
+  Future<ScanCode?> getSingleScannedCode(int id) async {
+    final isar = await db;
+
+    // get created codes from isar by creating a read transaction
+    final codeDoc = await isar.txn(() => isar.scanCodes.where().idEqualTo(id).findFirst());
+
+    return codeDoc;
   }
 
   /// Function to delete a scanned code from isar

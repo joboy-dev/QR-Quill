@@ -175,7 +175,8 @@ class _CreateState extends State<Create> {
                       child: ListView.builder(
                         itemCount: createdCodes.length,
                         itemBuilder: (context, index)  {
-                          final code = createdCodes[index];
+                          final reversedIndex = createdCodes.length - 1 - index;
+                          final code = createdCodes[reversedIndex];
                           return GestureDetector(
                             onTap: () {
                               navigatorPush(
@@ -216,9 +217,28 @@ class _CreateState extends State<Create> {
                                 ),
                               ),
                               onDismissed: (direction) async {
+                                final codeToDelete = await isarDb.getSingleCreatedCode(code.id);
                                 // delete the code from isar db
                                 await isarDb.deleteCreatedCode(context, code.id);
-                                showSnackbar(context, 'Code deleted.');
+                                showSnackbar(
+                                    context, 
+                                    'Code deleted.', 
+                                    action: SnackBarAction(
+                                      label: 'Undo', 
+                                      onPressed: () async {
+                                        if (codeToDelete != null) {
+                                          await isarDb.addCreatedCode(context, codeToDelete);
+                                          await isarDb.getCreatedCodes(context);
+                                          // createdCodes.insert(index, codeToDelete);
+                                          showSnackbar(context, 'Undo successful');
+                                        } else {
+                                          showSnackbar(context, 'The deleted code could not be brought back.');
+                                        }
+                                      },
+                                      backgroundColor: kSecondaryColor,
+                                      textColor: kPrimaryColor,
+                                  ),
+                                );
                               },
                               child: Card(
                                 color: kScaffoldBgColor(context),

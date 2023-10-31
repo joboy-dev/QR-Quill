@@ -160,7 +160,7 @@ class _ScanQRResultsState extends State<ScanQRResults> {
                               showSnackbar(context, 'Copied to clipboard.');
                             }, 
                             icon: Icon(
-                              Icons.copy_rounded,
+                              Icons.copy,
                               size: 20.r,
                               color: kSecondaryColor,
                             ),

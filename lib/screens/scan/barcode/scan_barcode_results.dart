@@ -2,10 +2,11 @@
 
 import 'dart:io';
 
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:qr_flutter/qr_flutter.dart';
+import 'package:qr_quill/models/create_code.dart';
 import 'package:qr_quill/services/qr_barcode_utility_functions.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_quill/shared/constants.dart';
@@ -33,6 +34,44 @@ class ScanBarcodeResults extends StatefulWidget {
 
 class _ScanBarcodeResultsState extends State<ScanBarcodeResults> {
   final _barcodeImageKey = GlobalKey();
+
+  Barcode? generateBarcode() {
+    if (widget.category == BarcodeCategory.Aztec.name) {
+      return Barcode.aztec();
+    } else if (widget.category == BarcodeCategory.Codabar.name) {
+      return Barcode.codabar();
+    } else if (widget.category == BarcodeCategory.Code128.name) {
+      return Barcode.code128();
+    } else if (widget.category == BarcodeCategory.Code39.name) {
+      return Barcode.code39();
+    } else if (widget.category == BarcodeCategory.Code93.name) {
+      return Barcode.code93();
+    } else if (widget.category == BarcodeCategory.DataMatrix.name) {
+      return Barcode.dataMatrix();
+    } else if (widget.category == BarcodeCategory.EAN13.name) {
+      return Barcode.ean13();
+    } else if (widget.category == BarcodeCategory.EAN8.name) {
+      return Barcode.ean8();
+    } else if (widget.category == BarcodeCategory.EAN5.name) {
+      return Barcode.ean5();
+    } else if (widget.category == BarcodeCategory.EAN2.name) {
+      return Barcode.ean2();
+    } else if (widget.category == BarcodeCategory.ISBN.name) {
+      return Barcode.isbn();
+    } else if (widget.category == BarcodeCategory.ITF.name) {
+      return Barcode.itf();
+    } else if (widget.category == BarcodeCategory.PDF417.name) {
+      return Barcode.pdf417();
+    } else if (widget.category == BarcodeCategory.QRCode.name) {
+      return Barcode.qrCode();
+    } else if (widget.category == BarcodeCategory.UPC_A.name) {
+      return Barcode.upcA();
+    } else if (widget.category == BarcodeCategory.UPC_E.name) {
+      return Barcode.upcE();
+    } else {
+      return null;
+    }
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -65,17 +104,14 @@ class _ScanBarcodeResultsState extends State<ScanBarcodeResults> {
                     padding: EdgeInsets.symmetric(vertical: 10.r),
                     child: RepaintBoundary(
                       key: _barcodeImageKey,
-                      child: widget.imagePath == null ? QrImageView(
-                        data: widget.scannedBarcodeData,
-                        size: 220.r,
-                        eyeStyle: QrEyeStyle(
-                          color: kSecondaryColor,
-                          eyeShape: QrEyeShape.circle,
-                        ),
-                        dataModuleStyle: QrDataModuleStyle(
-                          color: kSecondaryColor,
-                          dataModuleShape: QrDataModuleShape.circle
-                        ),
+                      child: widget.imagePath == null ? BarcodeWidget(
+                        data: widget.scannedBarcodeData, 
+                        barcode: generateBarcode()!,
+                        backgroundColor: kScaffoldBgColor(context),
+                        color: kSecondaryColor, 
+                        style: kNormalTextStyle(context),
+                        height: 100.h,
+                        width: 250.w,
                       ) : Image.file(
                         File(widget.imagePath!),
                         height: 220.h,
@@ -110,7 +146,7 @@ class _ScanBarcodeResultsState extends State<ScanBarcodeResults> {
                         Expanded(
                           flex: 3,
                           child: Text(
-                            'QR Code Data:',
+                            'Barcode Data:',
                             style: kYellowNormalTextStyle(context).copyWith(
                               fontWeight: FontWeight.bold,
                               fontSize: 17.sp,
@@ -126,7 +162,7 @@ class _ScanBarcodeResultsState extends State<ScanBarcodeResults> {
                               showSnackbar(context, 'Copied to clipboard.');
                             }, 
                             icon: Icon(
-                              Icons.copy_rounded,
+                              Icons.copy,
                               size: 20.r,
                               color: kSecondaryColor,
                             ),

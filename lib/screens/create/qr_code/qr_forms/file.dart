@@ -94,7 +94,7 @@ class _FileFormState extends State<FileForm> {
         CreateCode(
           type: 'QR Code',
           codeName: widget.qrCodeName,
-          category: QRCodeCategory.URL.name,
+          category: QRCodeCategory.File.name,
           codeData: downloadUrl,
           stringData: downloadUrl,
           datetime: dateGenerated,
