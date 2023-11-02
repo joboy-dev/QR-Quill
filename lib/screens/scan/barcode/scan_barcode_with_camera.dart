@@ -27,8 +27,38 @@ class _ScanBarcodeWithCameraState extends State<ScanBarcodeWithCamera> {
   final dateGenerated = DateTime.now().toString().substring(0, 16);
 
   /// Function to generate category based on qr code data 
-  BarcodeCategory generateCategory() {
-    return BarcodeCategory.EAN13;
+  BarcodeCategory generateCategory(String data) {
+    if(RegExp(r'^(978|979)\d{10}$').hasMatch(data)) {
+      return BarcodeCategory.ISBN;
+    } else if (RegExp(r'^[A-Z0-9]+$').hasMatch(data)) {
+      return BarcodeCategory.DataMatrix;
+    } else if(RegExp(r'^[A-Za-z0-9]+$').hasMatch(data)) {
+      return BarcodeCategory.Aztec;
+    } else if(RegExp(r'^[0-9]{13}$').hasMatch(data)) {
+      return BarcodeCategory.EAN13;
+    } else if(RegExp(r'^[0-9]{8}$').hasMatch(data)) {
+      return BarcodeCategory.EAN8;
+    } else if(RegExp(r'^[0-9]{5}$').hasMatch(data)) {
+      return BarcodeCategory.EAN5;
+    } else if(RegExp(r'^[0-9]{13}$').hasMatch(data)) {
+      return BarcodeCategory.EAN2;
+    } else if(RegExp(r'^[0-9]{8}$').hasMatch(data)) {
+      return BarcodeCategory.UPC_E;
+    } else if(RegExp(r'^[0-9]{12}$').hasMatch(data)) {
+      return BarcodeCategory.UPC_A;
+    } else if(RegExp(r'^[A-Z0-9]+$').hasMatch(data)) {
+      return BarcodeCategory.Code128;
+    } else if(RegExp(r'^[A-Z0-9]+$').hasMatch(data)) {
+      return BarcodeCategory.Code93;
+    } else if(RegExp(r'^[A-Z0-9]+$').hasMatch(data)) {
+      return BarcodeCategory.Code39;
+    } else if(RegExp(r'^[A-D0-9$/.+\-:]+$').hasMatch(data)) {
+      return BarcodeCategory.Codabar;
+    } else if(RegExp(r'^[0-9]$').hasMatch(data) && data.length % 2 == 0) {
+      return BarcodeCategory.ITF;
+    } else {
+      return BarcodeCategory.PDF417;
+    }
   }
 
   @override
@@ -38,13 +68,13 @@ class _ScanBarcodeWithCameraState extends State<ScanBarcodeWithCamera> {
         child: SingleChildScrollView(
           child: SafeArea(
             child: Padding(
-              padding: kAppPadding(),
+              padding: kAppPadding().copyWith(top: 0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    height: 400.h,
+                    height: 0.65.sh,
                     width:  double.infinity,
                     decoration: BoxDecoration(
                       border: Border.all(
@@ -60,10 +90,16 @@ class _ScanBarcodeWithCameraState extends State<ScanBarcodeWithCamera> {
                       scanLineColor: kSecondaryColor,
                       scanAreaScale: 0.7,
                       onCapture: (data) {
-                        barcodeData = data;
+                        setState(() {
+                          barcodeData = data;
+                        });
                         navigatorPushReplacement(
                           context, 
-                          ScanBarcodeResults(scannedBarcodeData: barcodeData, category: generateCategory().name, dateScanned: dateGenerated,)
+                          ScanBarcodeResults(
+                            scannedBarcodeData: barcodeData, 
+                            category: generateCategory(barcodeData).name, 
+                            dateScanned: dateGenerated,
+                          )
                         );
 
                         // add scanned code to isar db
@@ -71,8 +107,8 @@ class _ScanBarcodeWithCameraState extends State<ScanBarcodeWithCamera> {
                           context, 
                           ScanCode(
                             type: 'Barcode',
-                            codeName: generateCategory().name,
-                            category: generateCategory().name,
+                            codeName: generateCategory(barcodeData).name,
+                            category: generateCategory(barcodeData).name,
                             codeData: barcodeData,
                             datetime: dateGenerated,
                           ),

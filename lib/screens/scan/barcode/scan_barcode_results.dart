@@ -62,8 +62,6 @@ class _ScanBarcodeResultsState extends State<ScanBarcodeResults> {
       return Barcode.itf();
     } else if (widget.category == BarcodeCategory.PDF417.name) {
       return Barcode.pdf417();
-    } else if (widget.category == BarcodeCategory.QRCode.name) {
-      return Barcode.qrCode();
     } else if (widget.category == BarcodeCategory.UPC_A.name) {
       return Barcode.upcA();
     } else if (widget.category == BarcodeCategory.UPC_E.name) {

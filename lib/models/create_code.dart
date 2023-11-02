@@ -9,7 +9,7 @@ part 'create_code.g.dart';
 /// Enumerator to hold qrcode categories
 enum QRCodeCategory {Wifi, Text, Email, URL, Contact, Event, Image, File, Socials, SMS}
 /// Enumerator to hold barcode categories
-enum BarcodeCategory {QRCode, DataMatrix, PDF417, Aztec, EAN13, EAN8, EAN5, EAN2, UPC_E, UPC_A, Code128, Code93, Code39, Codabar, ITF, ISBN}
+enum BarcodeCategory {DataMatrix, PDF417, Aztec, EAN13, EAN8, EAN5, EAN2, UPC_E, UPC_A, Code128, Code93, Code39, Codabar, ITF, ISBN}
 
 /// Map from QRCodeCategory string data to Icons
 Map<String, dynamic> qrCodeCategoryStringDataIcons = {

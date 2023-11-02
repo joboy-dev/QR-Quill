@@ -102,7 +102,7 @@ class _ScanBarcodeFromImageState extends State<ScanBarcodeFromImage> {
                         IsarDB().addScannedCode(
                           context, 
                           ScanCode(
-                            type: 'Barcoode',
+                            type: 'Barcode',
                             codeName: generateCategory().name,
                             category: generateCategory().name,
                             codeData: barcodeData,

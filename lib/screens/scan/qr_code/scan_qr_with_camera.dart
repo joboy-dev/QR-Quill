@@ -35,7 +35,7 @@ class _ScanQRWithCameraState extends State<ScanQRWithCamera> {
       return QRCodeCategory.Wifi;
     } else if(qrData.contains('https://') || qrData.contains('http://')) {
       return QRCodeCategory.URL;
-    } else if(qrData.contains('sms:')) {
+    } else if(qrData.contains('sms:') || qrData.contains('SMSTO:')) {
       return QRCodeCategory.SMS;
     } else if(qrData.contains('BEGIN:VCARD')) {
       return QRCodeCategory.Contact;
@@ -53,13 +53,13 @@ class _ScanQRWithCameraState extends State<ScanQRWithCamera> {
         child: SingleChildScrollView(
           child: SafeArea(
             child: Padding(
-              padding: kAppPadding(),
+              padding: kAppPadding().copyWith(top: 0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    height: 400.h,
+                    height: 0.65.sh,
                     width:  double.infinity,
                     decoration: BoxDecoration(
                       border: Border.all(
@@ -75,10 +75,16 @@ class _ScanQRWithCameraState extends State<ScanQRWithCamera> {
                       scanLineColor: kSecondaryColor,
                       scanAreaScale: 0.7,
                       onCapture: (data) {
-                        qrData = data;
+                        setState(() {
+                          qrData = data;
+                        });
                         navigatorPushReplacement(
                           context, 
-                          ScanQRResults(scannedQrData: qrData, category: generateCategory().name, dateScanned: dateGenerated,)
+                          ScanQRResults(
+                            scannedQrData: qrData, 
+                            category: generateCategory().name, 
+                            dateScanned: dateGenerated,
+                          )
                         );
 
                         // add scanned code to isar db

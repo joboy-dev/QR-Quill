@@ -80,8 +80,7 @@ class _BarcodeFormsState extends State<BarcodeForms> {
       key: _formKey,
       child: Column(
         children: [
-          if (widget.barcodeCategory == BarcodeCategory.QRCode || 
-          widget.barcodeCategory == BarcodeCategory.PDF417) TextareaTextField(
+          if (widget.barcodeCategory == BarcodeCategory.PDF417) TextareaTextField(
             hintText: 'Enter Text', 
             onChanged: (value) {
               setState(() {
@@ -93,7 +92,7 @@ class _BarcodeFormsState extends State<BarcodeForms> {
             errorBorderColor: kRedColor, 
             focusedErrorBorderColor: kRedColor, 
             errorTextStyleColor: kRedColor, 
-            cursorColor: kSecondaryColor, 
+            cursorColor: kSecondaryColor,
           ),
 
           if (widget.barcodeCategory == BarcodeCategory.DataMatrix || 
@@ -273,7 +272,7 @@ class _BarcodeFormsState extends State<BarcodeForms> {
             cursorColor: kSecondaryColor, 
             prefixIcon: FontAwesomeIcons.barcode,
             validator: (value) {
-              return digitValidator(value, 12);
+              return RegExp(r'^(978|979)\d{9}$').hasMatch(value!.replaceAll('-', '')) ? null : 'Enter a valid ISBN number';
             },
           ),
 
@@ -296,8 +295,8 @@ class _BarcodeFormsState extends State<BarcodeForms> {
             prefixIcon: FontAwesomeIcons.barcode,
             validator: (value) {
               // check against special characters
-              if (RegExp(r'[^\w\d\s]').hasMatch(value!)) {
-                return 'No special characters allowed';
+              if (RegExp(r'^[A-Z0-9]+$').hasMatch(value!)) {
+                return null;
               } else if(value.isEmpty) {
                 return 'This field cannot be empty';
               } else {
@@ -323,6 +322,9 @@ class _BarcodeFormsState extends State<BarcodeForms> {
             iconColor: kSecondaryColor, 
             cursorColor: kSecondaryColor, 
             prefixIcon: FontAwesomeIcons.barcode,
+            // validator: (value) {
+            //   return RegExp(r'^[A-D0-9$/.+\-:]+$').hasMatch(value!) ? null : 'Enter a valid Codabar';
+            // },
           ),
 
           if (widget.barcodeCategory == BarcodeCategory.ITF) NormalTextField(

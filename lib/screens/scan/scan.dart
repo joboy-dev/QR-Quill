@@ -6,9 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_quill/models/create_code.dart';
-import 'package:qr_quill/screens/scan/barcode/scan_barcode_from_image.dart';
 import 'package:qr_quill/screens/scan/barcode/scan_barcode_results.dart';
-import 'package:qr_quill/screens/scan/barcode/scan_barcode_with_camera.dart';
+// import 'package:qr_quill/screens/scan/barcode/scan_barcode_from_image.dart';
+// import 'package:qr_quill/screens/scan/barcode/scan_barcode_with_camera.dart';
 import 'package:qr_quill/screens/scan/qr_code/scan_qr_from_image.dart';
 import 'package:qr_quill/screens/scan/qr_code/scan_qr_results.dart';
 import 'package:qr_quill/screens/scan/qr_code/scan_qr_with_camera.dart';
@@ -69,31 +69,37 @@ class _ScanState extends State<Scan> {
                     ),
                   ),
 
-                  SizedBox(width: 20.w),
+                  // SizedBox(width: 20.w),
 
-                  Expanded(
-                    child: ColumnButtonIcon(
-                      buttonText: 'Scan Barcode',
-                      onPressed: () {
-                        navigatorPush(context, ScanCodeMenu(
-                          scanWithCameraNavTo: () {
-                            navigatorPush(context, const ScanBarcodeWithCamera());
-                            // scanBarcode();
-                          },
+                  // Expanded(
+                  //   child: ColumnButtonIcon(
+                  //     buttonText: 'Scan Barcode',
+                  //     onPressed: () {
+                  //       navigatorPush(context, ScanCodeMenu(
+                  //         scanWithCameraNavTo: () {
+                  //           navigatorPush(context, const ScanBarcodeWithCamera());
+                  //           // scanBarcode();
+                  //         },
 
-                          scanFromImageNavTo: () {
-                            navigatorPush(context, const ScanBarcodeFromImage());
-                          },
-                        ));
-                      },
-                      buttonColor: kSecondaryColor,
-                      icon: Icons.barcode_reader,
-                    ),
-                  )
+                  //         scanFromImageNavTo: () {
+                  //           navigatorPush(context, const ScanBarcodeFromImage());
+                  //         },
+                  //       ));
+                  //     },
+                  //     buttonColor: kSecondaryColor,
+                  //     icon: Icons.barcode_reader,
+                  //   ),
+                  // )
                 ]
               )
             ),
-
+            SizedBox(height: 15.h),
+            Center(
+              child: Text(
+                'Scan barcode feature coming later.', 
+                style: kYellowNormalTextStyle(context),
+              )
+            ),
             SizedBox(height: 15.h),
 
             Expanded(
@@ -109,7 +115,7 @@ class _ScanState extends State<Scan> {
                   SizedBox(height: 5.h),
 
                   SizedBox(
-                    height: kHeightWidth(context).height * 0.5,
+                    height: kHeightWidth(context).height * 0.46,
                     child: scannedCodes.isNotEmpty ? Padding(
                       padding: kAppPadding().copyWith(top: 0.0),
                       child: ListView.builder(
@@ -225,13 +231,13 @@ class _ScanState extends State<Scan> {
                                                   ),
                                                 ),
                                                       
-                                                Text(
-                                                  '- ${code.category!}',
-                                                  style: kNormalTextStyle(context).copyWith(
-                                                    fontSize: 17.sp,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
+                                                // Text(
+                                                //   '- ${code.category!}',
+                                                //   style: kNormalTextStyle(context).copyWith(
+                                                //     fontSize: 17.sp,
+                                                //     fontWeight: FontWeight.bold,
+                                                //   ),
+                                                // ),
                                               ],
                                             ),
                                                       
