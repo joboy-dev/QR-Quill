@@ -30,11 +30,11 @@ void main() async {
         ChangeNotifierProvider(create: (_) => CreateCodeProvider()),
         ChangeNotifierProvider(create: (_) => ScanCodeProvider()),
       ],
-      child: DevicePreview(
-        enabled: !kReleaseMode,
-        builder: (context) => const QRQuill(),
-      ),
-      // child: const QRQuill(),
+      // child: DevicePreview(
+      //   enabled: !kReleaseMode,
+      //   builder: (context) => const QRQuill(),
+      // ),
+      child: const QRQuill(),
     ),
   );
 }
@@ -61,12 +61,14 @@ class QRQuill extends StatelessWidget {
               scaffoldBackgroundColor: kBgColorLight,
               splashColor: kSecondaryColor.withOpacity(0.5),
               datePickerTheme: datePickerTheme(context),
+              timePickerTheme: timePickerTheme(context),
             ),
             darkTheme: ThemeData(
               useMaterial3: true,
               scaffoldBackgroundColor: kBgColorDark,
               splashColor: kSecondaryColor.withOpacity(0.5),
               datePickerTheme: datePickerTheme(context),
+              timePickerTheme: timePickerTheme(context),
             ),
             themeMode: context.read<ThemeSwitch>().isDarkMode ? ThemeMode.dark : ThemeMode.light,
             debugShowCheckedModeBanner: false,
