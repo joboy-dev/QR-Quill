@@ -37,14 +37,15 @@ dependencies:
   scan: ^1.6.0
   share_plus: ^7.2.1
   shared_preferences: ^2.2.2
+  transparent_image: ^2.0.1
   url_launcher: ^6.2.1
 
 dev_dependencies:
+  build_runner: any
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
   isar_generator: ^3.1.0+1
-  build_runner: any
 
 flutter:
   uses-material-design: true

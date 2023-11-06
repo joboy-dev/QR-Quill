@@ -7,6 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:transparent_image/transparent_image.dart';
+
 import 'package:qr_quill/services/qr_barcode_utility_functions.dart';
 import 'package:qr_quill/shared/button.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -166,11 +168,13 @@ class _ShowQRCodeState extends State<ShowQRCode> {
                     if (widget.selectedCategory == QRCodeCategory.Image.name)  Padding(
                       padding: const EdgeInsets.symmetric(vertical: 18.0),
                       child: Center(
-                        child:  Image(
+                        child:  FadeInImage(
+                          placeholder: MemoryImage(kTransparentImage),
                           image: NetworkImage(widget.qrData),
                           height: 300.h,
                           width: 300.w,
                           fit: BoxFit.fill,
+                          placeholderFit: BoxFit.fill,
                         ),
                       ),
                     ),

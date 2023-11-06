@@ -96,10 +96,10 @@ class _ScanQRFromImageState extends State<ScanQRFromImage> {
                   Button(
                     buttonText: 'Scan Image', 
                     onPressed: () async {
-                      String? image = await Scan.parse(mediaPath!);
-                      if (image != null) {    
+                      String? imageData = await Scan.parse(mediaPath!);
+                      if (imageData != null) {    
                         setState(() {
-                          qrData = image;
+                          qrData = imageData;
                         });
 
                         navigatorPushReplacement(
