@@ -34,6 +34,7 @@ class _FileFormState extends State<FileForm> {
   // File
   String? filePath;
   FilePickerResult? pickedFile;
+  List<String> allowedExtensions = ['pdf', 'doc', 'docx', 'ppt', 'pptx', 'svg', 'xlsx', 'xls', 'zip', 'rar', 'txt'];
 
   final cloudStorage = CloudStorage();
 
@@ -52,17 +53,33 @@ class _FileFormState extends State<FileForm> {
     // pick image from file system
     pickedFile = await filePicker.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['pdf', 'doc', 'docx', 'ppt', 'pptx', 'svg', 'xlsx', 'xls', 'zip', 'rar', 'txt'],
+      allowedExtensions: allowedExtensions,
     );
 
     if (pickedFile != null) {
       File file = File(pickedFile!.files.single.path!);
-      setState(() {
-        filePath = file.path;
-      });
 
-      logger('Selected File Path: $filePath');
-      logger('Selected File: $pickedFile');
+      // get the file extension of the selected file
+      String fileExtension = file.path.split('.').last;
+      logger('Extension - $fileExtension');
+
+      // check if file extension is in the list of available extensions
+      if (allowedExtensions.contains(fileExtension)) {
+        setState(() {
+          filePath = file.path;
+        });
+
+        showSnackbar(context, 'File selected');
+
+        logger('Selected File Path: $filePath');
+        logger('Selected File: $pickedFile');
+      } else {
+        setState(() {
+          filePath = null;
+        });
+        showSnackbar(context, 'File format not supported.');
+      }
+
     }
   }
 
@@ -89,6 +106,7 @@ class _FileFormState extends State<FileForm> {
         )
       );
 
+      // add to isar db
       await isarDb.addCreatedCode(
         context, 
         CreateCode(

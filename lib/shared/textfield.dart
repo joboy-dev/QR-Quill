@@ -667,6 +667,7 @@ class DateField extends StatelessWidget {
               ),
             ),
             child: InkWell(
+              splashColor: kSecondaryColor.withOpacity(0.1),
               onTap: () async {
                 final DateTime? pickedDate = await showDatePicker(
                 // selectedDate = await showDatePicker(
@@ -794,6 +795,7 @@ class TimeField extends StatelessWidget {
               ),
             ),
             child: InkWell(
+              splashColor: kSecondaryColor.withOpacity(0.1),
               onTap: () async {
                 final TimeOfDay? pickedTime = await showTimePicker(
                   context: context,
@@ -897,8 +899,9 @@ class _MediaUploadFieldState extends State<MediaUploadField> {
 
             SizedBox(height: 10.h),
 
-            GestureDetector(
+            InkWell(
               onTap: widget.pickImage,
+              splashColor: kSecondaryColor.withOpacity(0.1),
               child: Container(
                 width: double.infinity,
                 height: 300.h,
@@ -1001,8 +1004,9 @@ class _FileUploadFieldState extends State<FileUploadField> {
 
           SizedBox(height: 10.h),
 
-          GestureDetector(
+          InkWell(
             onTap: widget.pickFile,
+            splashColor: kSecondaryColor.withOpacity(0.1),
             child: Container(
               width: double.infinity,
               height: 300.h,

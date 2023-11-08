@@ -136,8 +136,9 @@ class IconTextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: onPressed,
+      splashColor: kSecondaryColor.withOpacity(0.1),
       child: Padding(
         padding: EdgeInsets.only(left: 10.r),
         child: Row(
@@ -218,8 +219,9 @@ class ButtonText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
+      splashColor: kSecondaryColor.withOpacity(0.1),
       child: RichText(
         text: TextSpan(
           text: firstText,
